@@ -1,0 +1,182 @@
+/*------------- Admin CSS ------------------------*/
+body{
+	font-family: 'Iceland', cursive;
+	color:#ABD17D;
+}
+
+a{
+	text-decoration: none;
+}
+
+#wrapper{
+	width:81%;
+	height:80%;
+	margin:5% auto;
+	float:none;
+	border:solid 1px #ABD17D;
+	border-radius:0.3em;
+	background:#111;
+}
+
+#menu{
+	width:20%;
+	height:auto;
+	float:left;
+}
+
+#content{
+	width:80%;
+	height:auto;
+	float:right;
+}
+
+#head{
+	color:#ABD17D;
+}
+
+h1{
+	width:100%;
+	padding:10px;
+	font-size:x-large;
+	text-align:center;
+	color:#ABD17D;
+}
+
+span{
+	display:block;
+	padding:10px;
+	font-size: large;
+	text-align:center;
+	border:solid 1px #ABD17D;
+	color:#ABD17D;
+	margin-top:1.5%;
+	border-radius:2em;
+	cursor: pointer;
+}
+
+span:hover{
+	background:#ABD17D;
+	color:#000000;
+}
+
+input, select{
+	font-family: 'Iceland', cursive;
+	outline: none;
+}
+
+textarea{
+	width:80%;
+	margin-left:10%;
+	padding:2%;
+	color:#ABD17D;
+	font-size: large;
+	font-family: 'Iceland', cursive;
+	background:inherit;
+	border:solid 1px #ABD17D;
+	border-radius: 0.7em;
+	outline: none;
+}
+
+#ann_submit{
+	margin-right:6%;
+	width:10%;
+	height:10%;
+	padding:10px;
+	background:inherit;
+	border-radius:2em;
+	float:right;
+	margin-top:2%;
+	color:#ABD17D;
+	font-size:medium;
+	border:solid 1px #ABD17D;
+}
+
+#ann_submit:hover{
+	background:#ABD17D;
+	color:#000000;
+	cursor: pointer;
+}
+/*--------team----------------*/
+table{
+	color:#ABD17D;
+	width:80%;
+	margin:0px auto;
+}
+
+table tr th, td{
+	width:33.33%;
+
+}
+
+table, th, td {
+    border: 1px solid #435e21;
+    border-collapse: collapse;
+}
+
+.table_heading{
+	background:#111;
+}
+
+th, td {
+    padding: 15px;
+}
+
+#team-div{
+	width:80%;
+	margin:0px auto;
+}
+
+#token-div-add{
+	width:80%;
+	margin:0px auto 2% auto;;
+}
+
+select{
+	width:100%;
+	height:10%;
+	line-height:10%;
+	padding:0px;
+	margin:0px;
+	background:inherit;
+	color:#ABD17D;
+	border:solid 1px #ABD17D;
+	padding:3%;
+}
+
+select option{
+	width:100%;
+	height:10%;
+	background:#111;
+}
+
+#token-div-add input{
+	width:100%;
+	height:10%;
+	padding-top:3%;
+	padding-bottom:3%;
+	background:inherit;
+	font-size: large;
+	color:#ABD17D;
+	border:solid 1px #ABD17D;
+}
+
+#token-input-1{
+	padding-left:1%;
+	text-align:center;
+}
+
+#token-input-2{
+	border-radius: 1em;
+	cursor: pointer;
+}
+
+#token-input-2:hover{
+	background:#ABD17D;
+	color:#000000;
+}
+
+#team-submit-btn input:hover{
+	background:#ABD17D;
+	color:#000000;
+	cursor:pointer;
+}

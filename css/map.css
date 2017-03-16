@@ -1,0 +1,540 @@
+body{
+	/*background:#33373d;*/
+	width:100%;
+    height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+    font-family: 'Iceland', cursive;
+}
+
+.map__image{
+	width:100%;
+	height:auto;
+
+	
+}
+.map__image path{
+	stroke:gray;
+	stroke-width:0.2px;
+	transition: fill 0.3s;
+}
+
+.map__image path:hover{
+	fill:#ced187;
+}
+
+/*-----------------------------------Inner Left Panel -------------------------------------*/
+#info_menu{
+	width:auto;
+	float:left;
+	position:absolute;
+	top:20px;
+	margin-left:0%;
+	z-index: 1;
+	color:white;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    text-decoration:none;
+    color:white;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+#div1, #div2, #div3{
+	width:100%;
+	height:30%;
+	color:#abd17d;
+}
+
+#div1_inner, #div2_inner, #div3_inner{
+	margin:0px auto;
+	width:90%;
+	height:90%;
+	border:solid 1px #abd17d;
+	padding:10px;
+}
+
+#div1_inner_heading{
+	width:100%;
+	height:20%;
+	border:solid 1px #abd17d;
+	display:inline-block;
+	line-height:20%;
+	position:relative;
+	text-align:center;
+}
+
+.div1_inner_body{
+	width:100%;
+	height:80%;
+	border:solid 1px #abd17d;
+}
+
+.div1_inner_team{
+	width:100%;
+	height:50%;
+	background:#354b1b;
+	border:solid 1px #ABD17D;
+}
+
+.div1_inner_team_logo{
+	width:29%;
+	height:100%;
+	border-right:solid 1px #abd17d;
+	float:left;
+}
+
+.div1_inner_team_logo img{
+	width:100%;
+	height:100%;
+}
+
+.div1_inner_other_team{
+	width:100%;
+	height:50%;
+	overflow-x: hidden;
+	overflow-y:scroll;
+}
+
+.div1_inner_team_content{
+	width:69.8%;
+	height:100%;
+	float:right;
+}
+/* -------------------------- */
+.div1_inner_team_content_subs{
+	width:100%;
+	height:25%;
+	line-height:28%;
+}
+
+.div1_inner_team_content_subs h3{
+	text-align:center;
+}
+
+.div1_inner_team_content_subs_key{
+	height:80%;
+	width:49%;
+	float:left;
+	line-height:80%;
+	text-align:left;
+}
+
+.div1_inner_team_content_subs_value{
+	height:80%;
+	width:49%;
+	float:right;
+	line-height:80%;	
+	text-align:center;
+	padding:0px;
+}
+
+.tg{
+	width:100%;
+}
+
+.tg-yw4l{
+	width:50%;
+	text-align:left;
+	font-size:medium;
+	padding-left:20%;
+}
+/* -------------------------- */
+#main_logout{
+	width:100px;
+	height:50px;
+	line-height:50px;
+	float:right;
+	position:absolute;
+	top:5px;
+	margin-left: 11px;
+	background-color:inherit;
+	border:1px solid #ABD17D;
+	text-align:center;
+	text-decoration:none;
+	color:#ABD17D;
+	border-radius:1em;
+}
+
+#main_logout:hover{
+	background:#ABD17D;
+	color:#000000;
+}
+
+/* -------------------------- */
+#div2_inner_border{
+	width:100%;
+	height:100%;
+	border:1px solid #abd17d;
+	margin:0px auto;
+	overflow-y:scroll;
+	background:#354b1b;
+	overflow-x:hidden;
+}
+
+#div2_inner_border > p{
+	color:#ABD17D;
+	padding-left:10px;
+}
+
+#div3_inner_chat_history > p{
+	padding-left:10px;
+}
+
+#div4{
+	width:100%;
+	height:90%;
+}
+
+#div4_inner{
+	margin:0px auto;
+	width:90%;
+	height:90%;
+	border:solid 1px #abd17d;
+	padding:10px;
+}
+
+#div4_heading{
+	width:100%;
+	height:10%;
+	line-height:20%;
+	border:solid 1px #ABD17D;
+	text-align:center;
+	color:#ABD17D;
+	font-size: x-large;
+}
+
+#div4_heading img{
+	margin:0px auto;
+}
+
+#div4_login_logo{
+	width:90%;
+	height:50%;
+	margin:0px auto;
+}
+
+#div4_login_logo img{
+	width:100%;
+	height:100%;
+}
+
+#div4_login_form{
+	width:100%;
+	height:40%;
+	margin-top:5%;
+}
+
+#div4_login_form input{
+	background:inherit;
+	border:solid 1px #ABD17D;
+	color:#ABD17D;
+	font-family: 'Iceland', cursive;
+	font-size: large;
+}
+
+#div4_login_form h5{
+	font-size: x-large;
+	text-align:center;
+}
+
+#div3_inner_chat_history{
+	width:100%;
+	height:85%;
+	border:1px solid #abd17d;
+	overflow-y:auto;
+	margin:0px auto;
+}
+
+#div3_inner_chat_input input{
+	width:100%;
+	border: solid 1px #ABD17D;
+	margin:0px;
+	background-color:inherit;
+	color:#ABD17D;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+}
+
+#div3_inner_chat_input input:focus{
+	outline-width: 0;
+}
+/*---------------------------------- Center Info Panel   ----------------------------------*/
+#center_panel{
+	width:auto;
+	height:5%;
+	position:absolute;
+	top:20px;
+	margin-left:40%;
+	display:inline;
+	justify:center;
+}
+
+#center_panel_div{
+	 alignment-adjust:auto;
+}
+
+.center_panel_count{
+	width:50px;
+	height:50px;
+	line-height:50px;
+	background-color:inherit;
+	border:solid 1px #ABD17D;
+	color:#ABD17D;
+	border-radius:5em;
+	text-align:center;
+	text-decoration: none;
+	float:left;
+	margin-left:30px;
+}
+
+.center_panel_count:hover{
+	background-color:white;
+}
+/*---------------------------------- Left Info Panel   ----------------------------------*/
+#left_panel{
+	width:20%;
+	height:18%;
+	float:left;
+	border:solid 1px #abd17d;
+	border-radius:1em;
+	position:absolute;
+	top:20px;
+	z-index: 1;
+	margin-left:2%;
+}
+
+#left_panel_background{
+	width:20%;
+	height:18%;
+	float:left;
+	background-color: #000000;
+	position:absolute;
+	border-radius:1em;
+	opacity:0.5;
+	top:20px;
+	margin-left:2%;
+}
+
+#left_panel_div_heading{
+	width:100%;
+	height:30%;
+	border-bottom:solid 1px #abd17d;
+	padding:0px;
+	line-height:20%;
+	text-align:center;
+	font-size:large;
+	float:left;
+	color:#abd17d;
+}
+
+#left_panel_div_input{
+	width:100%;
+	height:50%;
+	border-bottom:solid 1px #abd17d;
+	padding:0px;
+	float:left;
+	color:#abd17d;
+	font-family: 'Orbitron', sans-serif;
+}
+
+#left_panel_div_input input{
+	background:#354b1b;
+	border:solid 1px #ABD17D;
+	border-radius:1em;
+	color:white;
+	font-family: 'Orbitron', sans-serif;
+}
+
+#left_panel_div_input input:focus{
+	outline-width: 0;
+}
+
+#left_panel_div_input_inner{
+	width:90%;
+	margin:auto;
+}
+
+#left_panel_div_input_container{
+	width:90%;
+	margin:auto;
+	display:inline-block;
+}
+
+#left_panel_div_status{
+	width:100%;
+	height:20%;
+	line-height:20%;
+	padding:0px;
+	float:left;
+	color:#abd17d;
+}
+/*---------------------------------- Right Info Panel   ----------------------------------*/
+#right_panel{
+	width:20%;
+	height:18%;
+	float:right;
+	border:solid 1px #abd17d;
+	border-radius:1em;
+	position:absolute;
+	top:20px;
+	margin-left:75%;
+	vertical-align:top;
+	color:#abd17d;
+	z-index: 1;
+}
+
+#right_panel_background{
+	width:20%;
+	height:18%;
+	float:right;
+	background-color: #000000;
+	position:absolute;
+	border-radius:1em;
+	top:20px;
+	opacity:0.5;
+	margin-left:75%;
+}
+#right_panel_div_heading{
+	width:100%;
+	height:30%;
+	border-bottom:solid 1px #abd17d;
+	padding:0px;
+	line-height:20%;
+	font-size:large;
+	text-align:center;
+	float:left;
+	color:#abd17d;
+}
+#right_panel_div_timer{
+	width:100%;
+	height:50%;
+	border-bottom:solid 1px #abd17d;
+	padding:0px;
+	font-size:large;
+	float:left;
+	line-height:50%;
+	text-align:center;
+	color:#abd17d;
+	font-family: 'Orbitron', sans-serif;
+}
+
+#right_panel_div_announce{
+	width:100%;
+	height:20%;
+	line-height:20%;
+	padding:0px;
+	float:left;
+	color:#abd17d;
+}
+/* --------------------------- dialog css ------------------------------------ */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    float:left;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    height:auto;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 16px 16px;
+    background-color: #33373d;
+    color: white;
+}
+
+.modal-body {padding: 2px 16px 80px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #33373d;
+    color: white;
+}
+
+.modal_info{
+	display:inline;
+}
+.modal-body h3{
+	margin-left:2%;
+}
+
+#dialog_flag_button button{
+	float:left;
+	margin-left:1%;
+}
+
+.modal_flag_hint{
+	width:100%;
+	height:150px;
+}
+/*-------------------- Scroll Bar --------------------------------- */
