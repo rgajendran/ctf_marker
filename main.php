@@ -1,13 +1,17 @@
 <?php 
 session_start();
-if(!isset($_GET['team']) || empty($_GET['team'])){
-	
+if(!isset($_SESSION['USERNAME']) && !isset($_SESSION['TEAM'])){
+	header('location:index.php');
+	session_destroy();
+}else{
+	if(!isset($_GET['team']) || empty($_GET['team'])){	
 		if(!isset($_SESSION['USERNAME'])){
-			header('location:main.php?team=1');
+			header('location:index.php');
 		}else{
 			$no = $_SESSION['TEAM'];
 			header('location:main.php?team='.$no);
 		}	
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -25,12 +29,13 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 		<link rel="stylesheet" href="css/score.css" type="text/css"/>
 	 	<script src="noti/notify.js"></script>
 		<script src="noti/notify.min.js"></script>
-		<script src="js/dialog.js"></script>
 </head>
 	<script>
-	var user = '<?php echo $_SESSION['USERNAME'];?>';
-	var tm1 = '<?php echo $_SESSION['TEAM'];?>';
+		var user = '<?php echo $_SESSION['USERNAME'];?>';
+		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
+		window.chatscroll();
 	</script>
+	<script src="js/dialog.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/divcheck.js"></script>
 	<script src="js/jquery_form.js"></script>
@@ -191,141 +196,22 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 				<h1>Score Board</h1>
 			</div>
 			<div class="div1_inner_body">				
-				<span id="div1_inner_body_1">
-					<!--User Score Start-->
-					<?php
-					$score_sql = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
-					$score_result = mysqli_query($connection, $score_sql);
-					$rank = 0;
-					while($score_row = mysqli_fetch_assoc($score_result))
-					{
-						$score_team = $score_row['TEAM'];
-						$score_score = $score_row['SCORE'];
-						$score_penalty = $score_row['PENALTY'];
-						$score_team_session = $_COOKIE['TEAMCOOK'];
-						$rank+=1;
-						
-						if($score_team_session == $score_team){
-							
-					?>
-							<div class="div1_inner_team">
-								<div class="div1_inner_team_logo">
-									<img src="images/anon1.png"/>
-								</div>
-								<div class="div1_inner_team_content">
-									<div class="div1_inner_team_content_subs">
-										<h3>#Rank <?php echo $rank;?></h3>
-									</div>
-									<div class="div1_inner_team_content_subs">
-										<table class="tg">
-											  <tr>
-											    <th class="tg-yw4l">Points</th>
-											    <th class="tg-yw4l"><?php echo $score_score; ?></th>
-											  </tr>
-										</table>
-									</div>
-									<div class="div1_inner_team_content_subs">
-										<table class="tg">
-											  <tr>
-											    <th class="tg-yw4l">Penalty</th>
-											    <th class="tg-yw4l"><?php echo $score_penalty; ?></th>
-											  </tr>
-										</table>
-									</div>												
-								</div>
-							</div>
-	
-					<?php
-						}
-					}
-					?>
-					<!--User Score End-->
-				</span>
-				<span id="div1_inner_body_2">
-					<!--Team Score Start-->
-					<div class="div1_inner_other_team">
-						<?php
-						$connection = mysqli_connect('localhost', 'root', '', 'ctff');
-						$score_sql_1 = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
-							$score_result_1 = mysqli_query($connection, $score_sql_1);
-							$ranks = 0;
-							while($score_row_1 = mysqli_fetch_assoc($score_result_1)){
-								$score_team_1 = $score_row_1['TEAM'];
-								$score_score_1 = $score_row_1['SCORE'];
-								$score_penalty_1 = $score_row_1['PENALTY'];
-								$score_team_session_1 = $_COOKIE['TEAMCOOK'];
-								$ranks+=1;
-								
-								if($score_team_session_1 != $score_team_1){
-							?>
-							<!-- -->
-							<div class="div1_inner_team_logo">
-								<img src="images/anon1.png"/>
-							</div>
-							<div class="div1_inner_team_content">
-								<div class="div1_inner_team_content_subs">
-									<h3>#Rank <?php echo $ranks;?></h3>
-								</div>
-								<div class="div1_inner_team_content_subs">
-									<table class="tg">
-										  <tr>
-										    <th class="tg-yw4l">Points</th>
-										    <th class="tg-yw4l"><?php echo $score_score_1; ?></th>
-										  </tr>
-									</table>
-								</div>
-								<div class="div1_inner_team_content_subs">
-									<table class="tg">
-										  <tr>
-										    <th class="tg-yw4l">Penalty</th>
-										    <th class="tg-yw4l"><?php echo $score_penalty_1; ?></th>
-										  </tr>
-									</table>
-								</div>												
-							</div>
-							<?php
-								}
-							}
-							?>
-					</div>
-					<!--Team Score End-->
-				</span>				
+				<span id="div1_inner_body_1"><?php include 'template/userscoreboard.php'; ?></span>
+				<span id="div1_inner_body_2"><?php include 'template/teamscoreboard.php'; ?></span>				
 			</div>
 		</div>	  
 	</div>
 	<div id="div2">
 	  <div id="div2_inner">
 			<div id="div2_inner_border">
-				<!--LOG INNER START -->
-				<?php
-				$viewlog_team = $_SESSION['TEAM'];	
-				$viewlog_sql = "SELECT LOG FROM `logger` WHERE TEAM=$viewlog_team ORDER BY DATE ASC";
-				$viewlog_result = mysqli_query($connection, $viewlog_sql);
-				while($viewlog_row = mysqli_fetch_assoc($viewlog_result)){
-					$viewlog_log = $viewlog_row['LOG'];
-					echo "<p>=> $viewlog_log</p>";
-				}
-				?>
-				<!--LOG INNER START -->
+				<?php include 'template/viewlog.php'; ?>
 			</div>
 	  </div>	
 	</div>
 	<div id="div3">
 	  <div id="div3_inner">
 			<div id="div3_inner_chat_history">
-				<!--CHAT INNER START -->
-				<?php
-					$chatlog_team = $_SESSION['TEAM'];
-					$chatlog_sql = "SELECT * FROM `chat` WHERE TEAM=$chatlog_team ORDER BY DATE ASC";
-					$chatlog_result = mysqli_query($connection, $chatlog_sql);
-					while($chatlog_row = mysqli_fetch_assoc($chatlog_result)){
-						$chatlog_user = $chatlog_row['USERNAME'];
-						$chatlog_log = $chatlog_row['CHAT'];
-						echo "<p>$chatlog_user => $chatlog_log</p>";
-					}
-				
-					?>
-				<!--CHAT INNER END -->	
+				<?php include 'template/viewchat.php'; ?>
 			</div>
 			<div id="div3_inner_chat_input">
 				<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />

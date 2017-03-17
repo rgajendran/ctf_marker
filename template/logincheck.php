@@ -5,16 +5,17 @@
 	if(isset($_POST['uname']) && isset($_POST['psw']))
 	{
 		session_start();
-		$username = stripslashes(htmlspecialchars(htmlentities(trim(filter_var($_POST['uname']),FILTER_SANITIZE_STRING))));
+		$username = md5(stripslashes(htmlspecialchars(htmlentities(trim(filter_var($_POST['uname']),FILTER_SANITIZE_STRING)))));
 		$password = stripslashes(htmlspecialchars(htmlentities(trim(filter_var(($_POST['psw']),FILTER_SANITIZE_STRING)))));
 		
 		$hash = md5($password."CTF");
 		
-		include 'connection.php';
-		$query = "SELECT * FROM users WHERE USERNAME='$username' AND PASSWORD='$hash'";
+		include 'connection.php';		
+
+		$query = "SELECT * FROM users WHERE USERHASH='$username' AND PASSWORD='$hash'";
 		$result = mysqli_query($connection, $query);
 		$num = mysqli_num_rows($result);
-		if($num == 1)
+		if($num === 1)
 		{
 			while($row = mysqli_fetch_assoc($result))
 			{
@@ -34,7 +35,8 @@
 			}	
 		}else{
 			echo "<h3 style='color:orange;'>Login Fail</h3>";
-		}		
+		}
+		
 	}
 //}						
 ?>

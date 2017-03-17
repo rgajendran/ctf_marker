@@ -58,42 +58,54 @@ var checkS = function(){
 		success: function(status){
 			var statC = status.split(";");
 			var ln = statC.length;
-			var tm1 = "1";
 			for(var i=0; i < ln; i++){
 				var ch = statC[i];
 				if(ch == "CHAT"){
-					$("#div3_inner_chat_history").load("./template/viewchat.php").click(chatscroll());
+					$("#div3_inner_chat_history").load("template/viewchat.php").click(chatscroll());
 					$.ajax({
 						method: "POST",
 						url: "template/SideStatusUpdate.php",
 						data: {update:"CHAT", team:tm1, username:user},
 						success: function(status){
-						  $("#div3_inner_chat_history").click(chatscroll());
-						  $.notify("New Message Received",{position:"bottom center", className:"info"});
+							if(status == "Success"){
+								$("#div3_inner_chat_history").click(chatscroll());
+						 	 	$.notify("New Message Received",{position:"bottom center", className:"success"});
+							}else{
+								$.notify("Report Admin [ERROR 001]",{position:"bottom center", className:"error"});
+							}
+
 						}	
 					});
 				}
 				else if(ch == "ACTIVITY"){
-					$("#div2_inner_border").load("./template/viewlog.php").click(actiscroll());
+					$("#div2_inner_border").load("template/viewlog.php").click(actiscroll());
 					$.ajax({
 						method: "POST",
 						url: "template/SideStatusUpdate.php",
 						data: {update:"ACTIVITY", team:tm1, username:user},
 						success: function(status){
-						  $("#div2_inner_border").click(actiscroll());	
-						   $.notify("New Activity Update",{position:"bottom center", className:"info"});
+							  if(status == "Success"){
+								  $("#div2_inner_border").click(actiscroll());	
+								  $.notify("New Activity Update",{position:"bottom center", className:"info"});
+							  }else{
+								  $.notify("Report Admin [ERROR 002]",{position:"bottom center", className:"error"});
+							  }   
 						}	
 					});
 				}
 				else if(ch == "SCORE"){
 					$("#div1_inner_body_1").load("template/userscoreboard.php");
-					$("#div1_inner_body_2").load("./template/teamscoreboard.php");
+					$("#div1_inner_body_2").load("template/teamscoreboard.php");
 					$.ajax({
 						method: "POST",
 						url: "template/SideStatusUpdate.php",
 						data: {update:"SCORE", team:tm1, username:user},
 						success: function(status){
-						  $.notify("Score Board Updated",{position:"bottom center", className:"info"});				
+							if(status == "Success"){
+						  		$.notify("Score Board Updated",{position:"bottom center", className:"info"});		
+						  	}else{
+								  $.notify("Report Admin [ERROR 003]",{position:"bottom center", className:"error"});
+						    }		
 						}	
 					});
 				}
@@ -104,8 +116,12 @@ var checkS = function(){
 						url: "template/SideStatusUpdate.php",
 						data: {update:"ANNOUNCE", team:tm1, username:user},
 						success: function(status){
-						  $("#fg_marker").text(status);	
-						  $.notify("New Announcement",{position:"bottom center", className:"warn"});					
+							if(status == "Success"){
+						  		$.notify("New Announcement",{position:"bottom center", className:"warn"});	
+						  	}else{
+								  $.notify("Report Admin [ERROR 004]",{position:"bottom center", className:"error"});
+						    }
+					
 						}	
 					});
 				}
@@ -115,7 +131,11 @@ var checkS = function(){
 						url: "template/SideStatusUpdate.php",
 						data: {update:"FLAG", team:tm1, username:user},
 						success: function(status){
-						  $.notify("Flag Captured",{position:"bottom center", className:"success"});		
+							if(status == "Success"){
+						  		$.notify("Flag Captured",{position:"bottom center", className:"success"});	
+						  	}else{
+								  $.notify("Report Admin [ERROR 005]",{position:"bottom center", className:"error"});
+						    }	
 						}	
 					});
 				}

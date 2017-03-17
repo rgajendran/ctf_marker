@@ -51,6 +51,11 @@ echo "<br>".md5("gaju"."CTF");
 		<input type="submit" name="sus" value="Submit"/>
 	</form>
 	<?php
+	echo md5("gaju")."<br>";
+	echo md5("normal")."<br>";
+	echo md5("user")."<br>";
+	echo md5("user_check")."<br>";
+	echo md5("user2")."<br>";
 	if(isset($_POST['sus'])){
 		$connection = mysqli_connect("localhost", "root", "", "ctff");
 		$r = mysqli_query($connection, "UPDATE updater SET ACTIVITY='1', FLAG='1' WHERE TEAM='1'");

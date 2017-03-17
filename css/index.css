@@ -36,7 +36,7 @@ body{
 }
 
 .index-heading-3{
-	width:50%;
+	width:60%;
 	height:5%;
 	margin:0px auto;
 	background:url('images/bg.png');
@@ -47,7 +47,7 @@ body{
 
 .index-heading-3 h1{
 	padding-top:25px;
-	font-size:60px;
+	font-size:xx-large;
 
 }
 

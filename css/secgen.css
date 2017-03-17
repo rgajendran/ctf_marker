@@ -62,3 +62,27 @@
 	color:orange;
 	margin-left:10px;
 }
+
+#div3_inner_chat_history table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#div3_inner_chat_history td, th {
+    border: 1px solid #ABD17D;
+    text-align: left;
+    padding: 8px;
+}
+
+#div3_inner_chat_history tr:nth-child(even) {
+    background-color: #354b1b;
+}
+
+.cha_user{
+	width:25%;
+}
+
+.cha_val{
+	width:75%;
+	text-align:justify;
+}
