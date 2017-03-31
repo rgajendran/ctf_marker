@@ -1,6 +1,6 @@
 <div class="div1_inner_other_team">
 	<?php
-	$connection = mysqli_connect('localhost', 'root', '', 'ctff');
+	include 'connection.php';
 	$score_sql_1 = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
 		$score_result_1 = mysqli_query($connection, $score_sql_1);
 		$ranks = 0;
@@ -8,6 +8,7 @@
 			$score_team_1 = $score_row_1['TEAM'];
 			$score_score_1 = $score_row_1['SCORE'];
 			$score_penalty_1 = $score_row_1['PENALTY'];
+			$score_teamname_1 = $score_row_1['TEAMNAME'];
 			$score_team_session_1 = $_COOKIE['TEAMCOOK'];
 			$ranks+=1;
 			
@@ -19,7 +20,7 @@
 		</div>
 		<div class="div1_inner_team_content">
 			<div class="div1_inner_team_content_subs">
-				<h3>#Rank <?php echo $ranks;?></h3>
+				<h3>#Rank <?php echo $ranks." ($score_teamname_1)"?> </h3>
 			</div>
 			<div class="div1_inner_team_content_subs">
 				<table class="tg">

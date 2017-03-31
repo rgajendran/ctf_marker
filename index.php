@@ -19,7 +19,7 @@
 			}
 		</style>
 </head>
-<script src="js/dialog.js"></script>
+<script src="js/dialogindex.js"></script>
 <body id="main" style="background:url('images/bg.png');">
 	<div id="side_menu_index">
 		<div id="mySidenav" class="sidenav">
@@ -27,7 +27,7 @@
 			<div id="div4">
 			  <div id="div4_inner">
 			  		<div id="div4_heading">
-			  			<h3>Catch the Flag</h3>
+			  			<h3>Capture the Flag</h3>
 			  		</div>
 			  		<div id="div4_login_logo">
 						<img src="images/anon1.png"/>
@@ -42,11 +42,36 @@
 			  </div>	
 			</div>	
 		</div>
+		<div id="mySidenav1" class="sidenav">
+		  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
+			<div id="div4">
+			  <div class="container">
+			  		<h1>Registration</h1><br>
+			      <label><b>Username</b></label>
+			      <input type="text" placeholder="Username" id="usr" required>
+			
+			      <label><b>Password</b></label>
+			      <input type="password" placeholder="Enter Password" id="psw" required>
+			
+			      <label><b>Repeat Password</b></label>
+			      <input type="password" placeholder="Repeat Password" id="psw-repeat" required>
+			      
+			      <label><b>Token</b></label>
+			      <input type="text" placeholder="Registration Token" id="tkn" required>
+			
+					<h3 id="reg_status"></h3>
+			      <div class="clearfix">     
+			        <button id="signup" class="signupbtn">Sign Up</button>
+			      </div>
+	   		 </div>
+	   		 <script src="js/register.js"></script>
+			</div>	
+		</div>
 	</div>
 	<!-- Main Content -->
 	<div id="indxContent">
 		<div class="index-heading-1">
-			<h1>Catch the Flag</h1>
+			<h1>Capture the Flag</h1>
 		</div>
 		<div class="index-heading-2">
 			<h1>Leeds Beckett University</h1>
@@ -64,47 +89,26 @@
 				</div>
 			</div>
 			<div class="index-option-div">
-				<div class="index-option-div-inner" onclick="document.getElementById('id01').style.display='block'">
-					<span>Registration</span>
+				<div class="index-option-div-inner" id="index-option-div-inner-remove">
+					
 				</div>
 			</div>
 			<div class="index-option-div">
-				<div class="index-option-div-inner">
-					<span>FAQ</span>
+				<div class="index-option-div-inner" onclick="openNav1()"> <!-- document.getElementById('id01').style.display='block' -->
+					<span>Registration</span>
 				</div>
 			</div>						
 		</div>
 	</div>
-	<!--Registration Start -->
-	<div id="id01" class="modal">
-	  <form class="modal-content animate" action="/action_page.php">
-	    <div class="container">
-		      <label><b>Email</b></label>
-		      <input type="text" placeholder="Enter Email" name="email" required>
-		
-		      <label><b>Password</b></label>
-		      <input type="password" placeholder="Enter Password" name="psw" required>
-		
-		      <label><b>Repeat Password</b></label>
-		      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-		      <input type="checkbox" checked="checked"> Remember me
-		      <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-		
-		      <div class="clearfix">
-		        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-		        <button type="submit" class="signupbtn">Sign Up</button>
-		      </div>
-	    </div>
-	  </form>
-	</div>
-	<!--Registration End -->
 	<?php 
 	include 'template/connection.php';
 	$tRs = mysqli_query($connection, "SELECT value FROM options WHERE name='HOME_TIME'");
+	if($tRs){
 	while($tRs_row = mysqli_fetch_assoc($tRs)){
 		?>
 	<input type="hidden" id="sttimer" value="<?php echo $tRs_row['value'];?>"  />	
 		<?php
+	}
 	}
 	?>
 	<script src="js/hometimer.js"></script>

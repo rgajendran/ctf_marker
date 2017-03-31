@@ -22,19 +22,19 @@ if(isset($_POST['status'])){
 	while($row = mysqli_fetch_assoc($result)){
 		if($row['CHAT'] == 1){
 			echo "CHAT".";";
-		}
-		if($row['ACTIVITY'] == 1){
+		}else if($row['ACTIVITY'] == 1){
 			echo "ACTIVITY".";";
-		}
-		if($row['SCORE'] == 1){
+		}else if($row['SCORE'] == 1){
 			echo "SCORE".";";
-		}
-		if($row['ANNOUNCE'] == 1){
+		}else if($row['ANNOUNCE'] == 1){
 			echo "ANNOUNCE".";";
-		}
-		if($row['FLAG'] == 1){
+		}else if($row['FLAG'] == 1){
 			echo "FLAG".";";
-		}
+		}else if($row['TIME'] == 1){
+			echo "TIME".";";
+		}else if($row['HINT'] == 1){
+			echo "HINT".";";
+		}		
 	}
 }
 

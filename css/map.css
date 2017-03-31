@@ -7,6 +7,11 @@ body{
     font-family: 'Iceland', cursive;
 }
 
+#dialog_flag_button button{
+	font-family: 'Iceland', cursive;
+	font-size:large;
+}
+
 .map__image{
 	width:100%;
 	height:auto;
@@ -123,15 +128,20 @@ body{
 	height:100%;
 	float:right;
 }
+
+#div1 th, td{
+	border:inherit;
+} 
 /* -------------------------- */
 .div1_inner_team_content_subs{
 	width:100%;
 	height:25%;
-	line-height:28%;
+	line-height:25%;
 }
 
 .div1_inner_team_content_subs h3{
 	text-align:center;
+	font-size:large;
 }
 
 .div1_inner_team_content_subs_key{
@@ -153,12 +163,13 @@ body{
 
 .tg{
 	width:100%;
+	margin-top:-3%;
 }
 
 .tg-yw4l{
 	width:50%;
 	text-align:left;
-	font-size:medium;
+	font-size:15px;
 	padding-left:20%;
 }
 /* -------------------------- */
@@ -281,9 +292,33 @@ body{
 #div3_inner_chat_input input:focus{
 	outline-width: 0;
 }
+
+#div3_inner_chat_history table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#div3_inner_chat_history td, th {
+    border: 1px solid #ABD17D;
+    text-align: left;
+    padding: 8px;
+}
+
+#div3_inner_chat_history tr:nth-child(even) {
+    background-color: #354b1b;
+}
+
+.cha_user{
+	width:25%;
+}
+
+.cha_val{
+	width:75%;
+	text-align:justify;
+}
 /*---------------------------------- Center Info Panel   ----------------------------------*/
 #center_panel{
-	width:auto;
+	width:25%;
 	height:5%;
 	position:absolute;
 	top:20px;
@@ -323,7 +358,7 @@ body{
 	position:absolute;
 	top:20px;
 	z-index: 1;
-	margin-left:2%;
+	margin-left:3%;
 }
 
 #left_panel_background{
@@ -343,11 +378,14 @@ body{
 	height:30%;
 	border-bottom:solid 1px #abd17d;
 	padding:0px;
-	line-height:20%;
 	text-align:center;
-	font-size:large;
+	font-size:medium;
 	float:left;
 	color:#abd17d;
+}
+
+#left_panel_div_heading #fg_marker{
+		line-height:30%;
 }
 
 #left_panel_div_input{
@@ -387,9 +425,14 @@ body{
 	width:100%;
 	height:20%;
 	line-height:20%;
+	font-size:medium;
 	padding:0px;
 	float:left;
 	color:#abd17d;
+}
+
+#left_panel_div_status #flag-status-p{
+	line-height:20%;
 }
 /*---------------------------------- Right Info Panel   ----------------------------------*/
 #right_panel{
@@ -513,7 +556,7 @@ body{
     color: white;
 }
 
-.modal-body {padding: 2px 16px 80px 16px;}
+.modal-body {padding: 2px 16px 30px 16px;}
 
 .modal-footer {
     padding: 2px 16px;
@@ -537,4 +580,51 @@ body{
 	width:100%;
 	height:150px;
 }
-/*-------------------- Scroll Bar --------------------------------- */
+/*-------------------- dropdown --------------------------------- */
+.dropbtn {
+    background-color: inherit;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border:solid 1px #ABD17D;
+    border-radius:1em;
+}
+
+.dropdown {
+    position: absolute;
+    display: inline-block;
+    top:20px;
+    width:10%;
+	margin-left:45%;
+}
+
+.dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #111111;
+    min-width: 160px;
+    margin:0px auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color:#ABD17D;
+}
+
+.dropdown-content a:hover {background-color: #ABD17D;color:#000000;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #ABD17D;
+    color:#000000;
+}

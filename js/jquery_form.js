@@ -12,33 +12,53 @@
 			$('#fsubmit').click(function(){
 				gethint();
 			});
-			
-			//$('#fhint').click(function(){
-			//	var coun_id1 = $('#dialog-id').text();
-			//	var team1 = $('#SSteam').val();
-			//	$.ajax({
-			//	method: "POST",
-			//	url: "template/flagcheck.php",
-			//	data: {type: "hint", cid: coun_id1, team: team1},
-			//	success: function(status){
-			//		$('#flag_hint').html(status);
-			//		$('#modal-country-flag').val('');
-			//	}
-			//});
-			//});
 		});
 		var gethint = function(){
 			var coun_id = $('#dialog-id').text();
+			var system = $('#dialog-title').text();
 			$.ajax({
 				method: "POST",
 				url: "template/gethint.php",
-				data: {cid: coun_id, team: tm1},
-				success: function(status){
-					var data = status;
-					var arr = data.split('?');
-					$('#hint1').html(arr[0]);
-					$('#hint2').html(arr[1]);
-					$('#hint3').html(arr[2]);
+				data: {cid: coun_id, team: tm1, vm: system},
+				success: function(status){			
+					$('#moBody').empty();
+					$('#moBodyLocked').empty();
+					var OCSplit = status.split("#~#");
+					for(var i=0; i<OCSplit.length;i++){
+						var split = OCSplit[i].split("~#~");
+						var cn = 0;
+						for(var e=0; e<split.length;e++){
+							if(i == OCSplit.length-1){		
+								if(e == 0){
+									var str = split[0];
+									if(str == ""){
+										document.getElementById("fsubmit").innerHTML = "No Further Hints";
+									}else{
+										var res = str.replace("HINT LOCKED","");
+										document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+									}
+
+								}
+								var addh3 = document.createElement("h3");
+								var text = document.createTextNode(split[e]);
+								addh3.appendChild(text);				
+								addh3.setAttribute("class","hintclose");
+								document.getElementById("moBodyLocked").appendChild(addh3);		
+							}else{
+								cn++;
+								var addh3 = document.createElement("h3");
+								if(split[e] == ""){
+									var text = document.createTextNode(split[e]);	
+								}else{
+									var text = document.createTextNode(cn+") "+split[e]);	
+								}
+								addh3.appendChild(text);
+								addh3.setAttribute("class","hintok");
+								document.getElementById("moBody").appendChild(addh3);	
+							}			
+								
+						}
+					}
 				}
 			});
 		};	

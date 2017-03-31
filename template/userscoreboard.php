@@ -1,5 +1,5 @@
 <?php
-$connection = mysqli_connect('localhost', 'root', '', 'ctff');
+include 'connection.php';
 if(isset($_COOKIE['TEAMCOOK'])){
 	$score_sql = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
 	$score_result = mysqli_query($connection, $score_sql);
@@ -21,7 +21,7 @@ if(isset($_COOKIE['TEAMCOOK'])){
 		</div>
 		<div class="div1_inner_team_content">
 			<div class="div1_inner_team_content_subs">
-				<h3>#Rank <?php echo $rank;?></h3>
+				<h3>#Rank <?php echo $rank;?> ( <?php echo "My Team"; ?> )</h3>
 			</div>
 			<div class="div1_inner_team_content_subs">
 				<table class="tg">

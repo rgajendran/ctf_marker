@@ -1,13 +1,8 @@
 <?php 
 session_start();
-if(!isset($_GET['team']) || empty($_GET['team'])){
-	
-		if(!isset($_SESSION['USERNAME'])){
-			header('location:main.php?team=1');
-		}else{
-			$no = $_SESSION['TEAM'];
-			header('location:main.php?team='.$no);
-		}	
+include 'template/connection.php';
+if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE['TEAMCOOK'])){
+	header('location:index.php');
 }
 ?>
 <!DOCTYPE html>
@@ -23,15 +18,13 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 		<link href="css/map.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="css/login.css" type="text/css"/>
 		<link rel="stylesheet" href="css/score.css" type="text/css"/>
-	 	<script src="noti/notify.js"></script>
-		<script src="noti/notify.min.js"></script>
-		<script src="js/dialog.js"></script>
 </head>
 	<script>
-	var user = '<?php echo $_SESSION['USERNAME'];?>';
-	var tm1 = '<?php echo $_SESSION['TEAM'];?>';
+		var user = '<?php echo $_SESSION['USERNAME'];?>';
+		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
+		window.chatscroll();
 	</script>
-	<script src="js/main.js"></script>
+	<script src="js/dialog.js"></script>
 	<script src="js/divcheck.js"></script>
 	<script src="js/jquery_form.js"></script>
 	<style>
@@ -73,6 +66,13 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 		::-webkit-scrollbar-corner {
 		  background: transparent;
 		}
+		.hintok{
+			color:green;
+		}
+		
+		.hintclose{
+			color:red;
+		}
 
 	</style>
 <body id="main" style="background:url('images/bgadmin.png');">
@@ -80,97 +80,92 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 		<?php
 		include 'template/connection.php';
 		if(isset($_GET['team'])){
-			$initTeamResult = mysqli_query($connection, "SELECT DISTINCT TEAM FROM secgenflag WHERE TEAM='".$_GET['team']."'");
-			if(mysqli_num_rows($initTeamResult) == 1){
-				$initTeam = $_GET['team'];
+			$getTeam= preg_replace('[^0-9]', '', urldecode(stripslashes(htmlspecialchars(htmlentities(trim($_GET['team']))))));
+			$initTeamResult = mysqli_query($connection, "SELECT DISTINCT TEAM FROM secgenflag WHERE TEAM='".$getTeam."'");
+			if(mysqli_num_rows($initTeamResult) != 0){
+				if(mysqli_num_rows($initTeamResult) == 1){
+					$initTeam = $getTeam;
+				}else{
+					header('location:main.php?team='.$_SESSION['TEAM']);
+				}
 			}else{
-				header('location:main.php?team='.$_SESSION['TEAM']);
-			}
+				header('location:html/initialise.php');	
+			}	
+					
 		}else{
-			$initTeam = $_GET['team'];
+			header('location:main.php?team='.$_SESSION['TEAM']);
 		}
 		$ssql = "SELECT DISTINCT VM, IP FROM secgenflag WHERE TEAM='$initTeam'";
 		$sresult = mysqli_query($connection, $ssql);
 		$ii = 0;
-		while($srow = mysqli_fetch_assoc($sresult)){
-			$vm = $srow['VM'];
-			$ip = $srow['IP'];	
-			$ii+=1;
-		?>
-		<div class="grouper">
-			<div class="grouper_heading">
-				<p class="vm"><?php echo $vm; ?></p>
-				<p class="ip"><?php echo $ip; ?></p>
-			</div>
-			<div class="grouper_map" id="<?php echo "grouperId".$ii; ?>">
-				<?php
-					include 'template/connection.php';
-					$sChooseMapCountSql = "SELECT * FROM secgenflag WHERE VM='$vm'";
-					$sChooseMapCountResult = mysqli_query($connection, $sChooseMapCountSql);
-					$sChooseMapCount = mysqli_num_rows($sChooseMapCountResult);
-					if($sChooseMapCount > 3 && $sChooseMapCount < 13){
-						$sSelectMapDistinct = "SELECT DISTINCT W, H FROM secgen WHERE C_NO='$sChooseMapCount'";
-						$sSelectMapDistinctResult = mysqli_query($connection, $sSelectMapDistinct);
-						while($sSelectMRow = mysqli_fetch_assoc($sSelectMapDistinctResult)){
-							$w = $sSelectMRow['W'];
-							$h = $sSelectMRow['H'];
-							?>
-					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" viewBox="0 0 <?php echo $w." ".$h?>">
-						<g>
-							<?php
-							$sSelectMapSql = "SELECT * FROM secgen WHERE C_NO='$sChooseMapCount'";
-							$sSelectMapResult = mysqli_query($connection, $sSelectMapSql);
-							while($sChooseRow = mysqli_fetch_assoc($sSelectMapResult)){
-								$sC_ID = $sChooseRow['C_ID'];
-								$sC_COUNTRY= $sChooseRow['C_COUNTRY'];
-								$sC_TITLE = $sChooseRow['C_TITLE'];
-								$sC_D = $sChooseRow['C_D'];
-								$sSelectStatus = "SELECT * FROM secgenflag WHERE C_ID='$sC_ID'";
-								$sSelectStatusResult = mysqli_query($connection, $sSelectStatus);
-								while($sSelectStatusRow = mysqli_fetch_assoc($sSelectStatusResult)){
-									$sSelectSCode = $sSelectStatusRow['STATUS'];
-									$hint1 = $sSelectStatusRow['HINT_1'];
-									$hint1stat = $sSelectStatusRow['HINT_1_STATUS'];
-									$hint2 = $sSelectStatusRow['HINT_2'];
-									$hint2stat = $sSelectStatusRow['HINT_2_STATUS'];
-									$hint3 = $sSelectStatusRow['HINT_3'];
-									$hint3stat = $sSelectStatusRow['HINT_3_STATUS'];
-									if($sSelectSCode == 1){
-										echo "<path fill='#abd17d' id='$sC_ID' title='$sC_COUNTRY' d='$sC_D'/>";
-									}else {
-										if($hint1stat == 0){
-											$hint1_msg = "Hint 1 (Not Disclosed)";
+			while($srow = mysqli_fetch_assoc($sresult)){
+				$vm = $srow['VM'];
+				$ip = $srow['IP'];	
+				$ii+=1;
+				
+				
+			?>
+			<div class="grouper">
+				<div class="grouper_heading">
+					<p class="vm"><?php echo $vm; ?></p>
+					<p class="ip"><?php echo $ip; ?></p>
+				</div>
+				<div class="grouper_map" id="<?php echo "grouperId".$ii; ?>">
+					<?php
+						include 'template/connection.php';
+						$sChooseMapCountSql = "SELECT FLAG_POINTS FROM secgenflag WHERE VM='$vm' AND TEAM='$initTeam'";
+						$sChooseMapCountResult = mysqli_query($connection, $sChooseMapCountSql);
+						$sChooseMapCount = mysqli_num_rows($sChooseMapCountResult);
+						if($sChooseMapCount < 10){
+							$sSelectMapDistinct = "SELECT DISTINCT W, H FROM secgen WHERE C_NO='$sChooseMapCount'";
+							$sSelectMapDistinctResult = mysqli_query($connection, $sSelectMapDistinct);
+							while($sSelectMRow = mysqli_fetch_assoc($sSelectMapDistinctResult)){
+								$w = $sSelectMRow['W'];
+								$h = $sSelectMRow['H'];
+								?>
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" viewBox="0 0 <?php echo $w." ".$h?>">
+							<g>
+								<?php
+	
+								$sSelectMapSql = "SELECT * FROM secgen WHERE C_NO='$sChooseMapCount'";
+								$sSelectMapResult = mysqli_query($connection, $sSelectMapSql);
+								while($sChooseRow = mysqli_fetch_assoc($sSelectMapResult)){
+									$sC_ID = $sChooseRow['C_ID'];
+									$sC_COUNTRY= $sChooseRow['C_COUNTRY'];
+									$sC_TITLE = $sChooseRow['C_TITLE'];
+									$sC_D = $sChooseRow['C_D'];
+									$secgenQuery = mysqli_query($connection, "SELECT STATUS FROM secgenflag WHERE C_ID='$sC_ID' AND TEAM='$initTeam' AND VM='$vm'");
+									while($secgenStatusRow = mysqli_fetch_assoc($secgenQuery)){
+										$secgenStatus = $secgenStatusRow['STATUS'];		
+										$session_team = $_SESSION['TEAM'];								
+										if($secgenStatus == 0){
+											if($session_team == $initTeam){
+												echo "<path id='$sC_ID' title='$sC_COUNTRY' d='$sC_D' onclick='Alert.menu(\"$sC_ID\",\"$vm\",\"$session_team\");'/>";
+											}else{
+												echo "<path id='$sC_ID' title='$sC_COUNTRY' d='$sC_D'/>";
+											}
+											
 										}else{
-											$hint1_msg = "Hint 1 (Disclosed) : $hint1";
-										}
-										if($hint2stat == 0){
-											$hint2_msg = "Hint 2 (Not Disclosed)";
-										}else{
-											$hint2_msg = "Hint 2 (Disclosed) : $hint2";
-										}
-										if($hint3stat == 0){
-											$hint3_msg = "Hint 3 (Not Disclosed)";
-										}else{
-											$hint3_msg = "Hint 3 (Disclosed) : $hint3";
-										}
-										echo "<path id='$sC_ID' title='$sC_COUNTRY' d='$sC_D' onclick='Alert.menu(\"$sC_ID\",\"$sC_TITLE\",\"$hint1_msg\",\"$hint2_msg\",\"$hint3_msg\");'/>";
-									}
+											echo "<path fill='#abd17d' id='$sC_ID' title='$sC_COUNTRY' d='$sC_D'/>";										
+										}	
+									}	
 								}
-							}
-							?>
-						</g>
-					 </svg>
-							<?php																			
-						}									
-					}else{
-						echo "<p class='map_init' id='tssst'>Map Not Initialised</p>";
-					}
-
-				?>	
+								
+								?>
+							</g>
+						 </svg>
+								<?php	
+								}	
+								mysqli_close($connection);	 																
+																
+						}else{
+							echo "<p class='map_init' id='tssst'>Map Not Initialised</p>";
+						}
+					?>	
+				</div>
 			</div>
-		</div>
-		<?php
-		}
+			<?php
+			}
 		?>
 	</div>
 <!--Dialog Code -->
@@ -191,141 +186,22 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 				<h1>Score Board</h1>
 			</div>
 			<div class="div1_inner_body">				
-				<span id="div1_inner_body_1">
-					<!--User Score Start-->
-					<?php
-					$score_sql = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
-					$score_result = mysqli_query($connection, $score_sql);
-					$rank = 0;
-					while($score_row = mysqli_fetch_assoc($score_result))
-					{
-						$score_team = $score_row['TEAM'];
-						$score_score = $score_row['SCORE'];
-						$score_penalty = $score_row['PENALTY'];
-						$score_team_session = $_COOKIE['TEAMCOOK'];
-						$rank+=1;
-						
-						if($score_team_session == $score_team){
-							
-					?>
-							<div class="div1_inner_team">
-								<div class="div1_inner_team_logo">
-									<img src="images/anon1.png"/>
-								</div>
-								<div class="div1_inner_team_content">
-									<div class="div1_inner_team_content_subs">
-										<h3>#Rank <?php echo $rank;?></h3>
-									</div>
-									<div class="div1_inner_team_content_subs">
-										<table class="tg">
-											  <tr>
-											    <th class="tg-yw4l">Points</th>
-											    <th class="tg-yw4l"><?php echo $score_score; ?></th>
-											  </tr>
-										</table>
-									</div>
-									<div class="div1_inner_team_content_subs">
-										<table class="tg">
-											  <tr>
-											    <th class="tg-yw4l">Penalty</th>
-											    <th class="tg-yw4l"><?php echo $score_penalty; ?></th>
-											  </tr>
-										</table>
-									</div>												
-								</div>
-							</div>
-	
-					<?php
-						}
-					}
-					?>
-					<!--User Score End-->
-				</span>
-				<span id="div1_inner_body_2">
-					<!--Team Score Start-->
-					<div class="div1_inner_other_team">
-						<?php
-						$connection = mysqli_connect('localhost', 'root', '', 'ctff');
-						$score_sql_1 = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
-							$score_result_1 = mysqli_query($connection, $score_sql_1);
-							$ranks = 0;
-							while($score_row_1 = mysqli_fetch_assoc($score_result_1)){
-								$score_team_1 = $score_row_1['TEAM'];
-								$score_score_1 = $score_row_1['SCORE'];
-								$score_penalty_1 = $score_row_1['PENALTY'];
-								$score_team_session_1 = $_COOKIE['TEAMCOOK'];
-								$ranks+=1;
-								
-								if($score_team_session_1 != $score_team_1){
-							?>
-							<!-- -->
-							<div class="div1_inner_team_logo">
-								<img src="images/anon1.png"/>
-							</div>
-							<div class="div1_inner_team_content">
-								<div class="div1_inner_team_content_subs">
-									<h3>#Rank <?php echo $ranks;?></h3>
-								</div>
-								<div class="div1_inner_team_content_subs">
-									<table class="tg">
-										  <tr>
-										    <th class="tg-yw4l">Points</th>
-										    <th class="tg-yw4l"><?php echo $score_score_1; ?></th>
-										  </tr>
-									</table>
-								</div>
-								<div class="div1_inner_team_content_subs">
-									<table class="tg">
-										  <tr>
-										    <th class="tg-yw4l">Penalty</th>
-										    <th class="tg-yw4l"><?php echo $score_penalty_1; ?></th>
-										  </tr>
-									</table>
-								</div>												
-							</div>
-							<?php
-								}
-							}
-							?>
-					</div>
-					<!--Team Score End-->
-				</span>				
+				<span id="div1_inner_body_1"><?php include 'template/userscoreboard.php'; ?></span>
+				<span id="div1_inner_body_2"><?php include 'template/teamscoreboard.php'; ?></span>				
 			</div>
 		</div>	  
 	</div>
 	<div id="div2">
 	  <div id="div2_inner">
 			<div id="div2_inner_border">
-				<!--LOG INNER START -->
-				<?php
-				$viewlog_team = $_SESSION['TEAM'];	
-				$viewlog_sql = "SELECT LOG FROM `logger` WHERE TEAM=$viewlog_team ORDER BY DATE ASC";
-				$viewlog_result = mysqli_query($connection, $viewlog_sql);
-				while($viewlog_row = mysqli_fetch_assoc($viewlog_result)){
-					$viewlog_log = $viewlog_row['LOG'];
-					echo "<p>=> $viewlog_log</p>";
-				}
-				?>
-				<!--LOG INNER START -->
+				<?php include 'template/viewlog.php'; ?>
 			</div>
 	  </div>	
 	</div>
 	<div id="div3">
 	  <div id="div3_inner">
 			<div id="div3_inner_chat_history">
-				<!--CHAT INNER START -->
-				<?php
-					$chatlog_team = $_SESSION['TEAM'];
-					$chatlog_sql = "SELECT * FROM `chat` WHERE TEAM=$chatlog_team ORDER BY DATE ASC";
-					$chatlog_result = mysqli_query($connection, $chatlog_sql);
-					while($chatlog_row = mysqli_fetch_assoc($chatlog_result)){
-						$chatlog_user = $chatlog_row['USERNAME'];
-						$chatlog_log = $chatlog_row['CHAT'];
-						echo "<p>$chatlog_user => $chatlog_log</p>";
-					}
-				
-					?>
-				<!--CHAT INNER END -->	
+				<?php include 'template/viewchat.php'; ?>
 			</div>
 			<div id="div3_inner_chat_input">
 				<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
@@ -352,10 +228,11 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 	</div>
 </div>
 
+
 <div id="left_panel_background">
 
 </div>
-<!-- Center Menu---->
+<!-- Center Menu
 <div id="center_panel">
 	<div id="center_panel_div">
 		<?php
@@ -379,7 +256,36 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 		
 		?>
 	</div>
+</div>---->
+
+<div class="dropdown">
+  <button class="dropbtn">Teams</button>
+  <div class="dropdown-content">
+  	<?php
+		include 'template/connection.php';
+		$center_panel_sql = "SELECT * FROM team";
+		$center_panel_result = mysqli_query($connection, $center_panel_sql);
+		while($center_row = mysqli_fetch_assoc($center_panel_result)){
+			$team = $center_row['TEAMNAME'];
+			$teamno = $center_row['TEAM'];
+			if(isset($_SESSION['TEAM'])){
+				$sess_team = $_SESSION['TEAM'];
+				if($teamno == $sess_team){
+					echo "<a href='main.php?team=$sess_team'>$team</a>";
+				}else{
+					echo "<a href='main.php?team=$teamno'>$team</a>";
+				}
+			}else{
+				
+			}		
+		}
+	?>
+  </div>
 </div>
+
+
+
+
 <div id="noooo"></div>
 <!-- Right Menu---->
 <div id="right_panel">
@@ -387,16 +293,7 @@ if(!isset($_GET['team']) || empty($_GET['team'])){
 </div>
 <div id="right_panel_background">
 </div>
-<div class="notti"></div>
-<?php 
-$tRs = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
-while($tRs_row = mysqli_fetch_assoc($tRs)){
-	$_SESSION['ENDTIME'] = $tRs_row['value'];
 
-}
-?>
-<script>var endtime = '<?php echo $_SESSION['ENDTIME'];?>';	</script>
-<script src="js/timer.js"></script>
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
@@ -408,19 +305,110 @@ while($tRs_row = mysqli_fetch_assoc($tRs)){
       <h3 id="dialog-title" class="modal_info"></h3>
     </div>
     <div class="modal-body">
-	   <h3 id="hint1">Hint 1 (Not Disclosed)</h3>
-	   <h3 id="hint2">Hint 2 (Not Disclosed)</h3>
-	   <h3 id="hint3">Hint 3 (Not Disclosed)</h3>
+		<div id="moBody">
+			
+		</div>
 	   <div id="dialog_flag_button">
 	   		<button type="fsubmit" id="fsubmit">Get Hint</button>
+	   </div></br>
+	   <div id="moBodyLocked">
+	   	
 	   </div>
     </div>
     <div class="modal-footer">
-      <h3 id="flag_hint">Status</h3>
+      <h3 id="flag_hint">--</h3>
     </div>
   </div>
 
 </div>
 <script src="js/dialog.js"></script>
+<script>
+	function alert(){
+	var modal = document.getElementById('myModal');
+	
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+	
+	// When the user clicks the button, open the modal 
+	this.menu = function(cid,vm,teams) {
+	    modal.style.display = "block";
+	    document.getElementById('dialog-title').innerHTML = vm;
+	    document.getElementById('dialog-id').innerHTML = cid;
+	    //-------------------------------------------------------------------		
+		$.ajax({
+			method: "POST",
+			url: "template/viewhint.php",
+			data: {cids: cid,team:teams,vms:vm},
+			success: function(status){
+				$('#moBody').empty();
+				$('#moBodyLocked').empty();
+				var OCSplit = status.split("#~#");
+				for(var i=0; i<OCSplit.length;i++){
+					var split = OCSplit[i].split("~#~");
+					var coun=0;
+					for(var e=0; e<split.length;e++){
+						if(i == OCSplit.length-1){						
+							if(e == 0){
+								var str = split[0];
+								if(str == ""){
+									document.getElementById("fsubmit").innerHTML = "No Further Hints";
+								}else{
+									var res = str.replace("HINT LOCKED","");
+									document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+								}
+							}	
+							var addh3 = document.createElement("h3");
+							var text = document.createTextNode(split[e]);
+							addh3.appendChild(text);
+							addh3.setAttribute("class","hintclose");
+						
+							document.getElementById("moBodyLocked").appendChild(addh3);	
+						}else{
+							coun++;
+							var addh3 = document.createElement("h3");
+							if(split[e] == ""){
+								var text = document.createTextNode(split[e]);	
+							}else{
+								var text = document.createTextNode(cn+") "+split[e]);	
+							}
+							addh3.appendChild(text);
+							addh3.setAttribute("class","hintok");
+							document.getElementById("moBody").appendChild(addh3);	
+						}			
+							
+					}
+				}				
+			}	
+		});
+		
+	};
+	
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	    modal.style.display = "none";
+    	var text = document.getElementById('flag_hint').innerText;
+        //refresh();
+	    document.getElementById('flag_hint').innerHTML = "Status";
+	    //$('#moBody').empty();
+	};
+	
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	        var text = document.getElementById('flag_hint').innerText;
+	       // refresh();
+	        document.getElementById('flag_hint').innerHTML = "Status";
+	        //$('#moBody').empty();
+	     
+	    }
+	};
+}
+
+var Alert = new alert();
+</script>
+<script src="js/main.js"></script>
+<script src="noti/notify.js"></script>
+<script src="noti/notify.min.js"></script>
 </body>
 </html>	

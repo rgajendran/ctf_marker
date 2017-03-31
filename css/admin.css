@@ -34,6 +34,11 @@ a{
 	color:#ABD17D;
 }
 
+#browse input{
+	background:inherit;
+	color:#ABD17D;
+}
+
 h1{
 	width:100%;
 	padding:10px;

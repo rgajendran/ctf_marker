@@ -10,11 +10,12 @@
 		
 		$hash = md5($password."CTF");
 		
-		include 'connection.php';
+		include 'connection.php';		
+
 		$query = "SELECT * FROM users WHERE USERNAME='$username' AND PASSWORD='$hash'";
 		$result = mysqli_query($connection, $query);
 		$num = mysqli_num_rows($result);
-		if($num == 1)
+		if($num === 1)
 		{
 			while($row = mysqli_fetch_assoc($result))
 			{
@@ -34,7 +35,8 @@
 			}	
 		}else{
 			echo "<h3 style='color:orange;'>Login Fail</h3>";
-		}		
+		}
+		
 	}
 //}						
 ?>
