@@ -11,6 +11,10 @@ body{
 	background:url('images/bg.png');	
 }
 
+.logo{
+        filter: invert(100%);
+}
+
 #indxContent{
 	width:80%;
 	height:80%;
