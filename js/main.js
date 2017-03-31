@@ -10,7 +10,6 @@ setInterval(function () {
 //setInterval(function(){
 //	$("#div1_inner_body_2").load("./template/teamscoreboard.php");
 //},10000);
-
 function chatscroll() {
   var a_chat    = $('#div3_inner_chat_history');		  
   var cheight = a_chat[0].scrollHeight;
@@ -34,7 +33,6 @@ $(document).ready(function(){
 
 var flagCheck = function(){
 	var fg = $('#flag-check').val();
-//	var tm = $('#SSteam').val();
 	$.ajax({
 		method: "POST",
 		url: "template/flagcheck.php",
@@ -48,9 +46,7 @@ var flagCheck = function(){
 		}	
 	});
 };
-
 var checkS = function(){
-	//var user = "normal";
 	$.ajax({
 		method: "POST",
 		url: "template/sidestatus.php",
@@ -73,7 +69,6 @@ var checkS = function(){
 							}else{
 								$.notify("Report Admin [ERROR 001]",{position:"bottom center", className:"error"});
 							}
-
 						}	
 					});
 				}
@@ -89,7 +84,7 @@ var checkS = function(){
 								  $.notify("New Activity Update",{position:"bottom center", className:"info"});
 							  }else{
 								  $.notify("Report Admin [ERROR 002]",{position:"bottom center", className:"error"});
-							  }   
+							  }  
 						}	
 					});
 				}
@@ -105,7 +100,7 @@ var checkS = function(){
 						  		$.notify("Score Board Updated",{position:"bottom center", className:"info"});		
 						  	}else{
 								  $.notify("Report Admin [ERROR 003]",{position:"bottom center", className:"error"});
-						    }		
+						    }	
 						}	
 					});
 				}
@@ -121,7 +116,6 @@ var checkS = function(){
 						  	}else{
 								  $.notify("Report Admin [ERROR 004]",{position:"bottom center", className:"error"});
 						    }
-					
 						}	
 					});
 				}
@@ -139,8 +133,37 @@ var checkS = function(){
 						}	
 					});
 				}
+				else if(ch == "TIME"){
+					$("#right_panel").load("template/announce.php");
+					$.ajax({
+						method: "POST",
+						url: "template/SideStatusUpdate.php",
+						data: {update:"TIME", team:tm1, username:user},
+						success: function(status){
+							if(status == "Success"){
+						  		$.notify("Timer Updated",{position:"bottom center", className:"success"});	
+						  	}else{
+								  $.notify("Report Admin [ERROR 006]",{position:"bottom center", className:"error"});
+						    }	
+						}	
+					});
+				}
+				else if(ch == "HINT"){
+					$.ajax({
+						method: "POST",
+						url: "template/SideStatusUpdate.php",
+						data: {update:"HINT", team:tm1, username:user},
+						success: function(status){
+							if(status == "Success"){
+						  		$.notify("HINT Disclosed",{position:"bottom center", className:"success"});	
+						  	}else{
+								  $.notify("Report Admin [ERROR 007]",{position:"bottom center", className:"error"});
+						    }
+						}	
+					});
+				}
 				
-			}					
+			}				
 		}	
 	});
 };

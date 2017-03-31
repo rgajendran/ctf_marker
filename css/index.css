@@ -47,7 +47,7 @@ body{
 
 .index-heading-3 h1{
 	padding-top:25px;
-	font-size:xx-large;
+	font-size:50px;
 
 }
 
@@ -82,9 +82,66 @@ body{
 	color:black;
 }
 
+#index-option-div-inner-remove{
+	background:inherit;	
+	cursor:inherit;
+}
+
 .timer_words{
 	font-size:30px;
 	font-family: 'Iceland', cursive;
+}
+
+#index-option-div-inner-remove{
+	border:inherit;
+}
+
+#modal-container{
+	width:50%;
+	border:solid 2px #ABD17D;
+	border-radius:1em;
+	background:#1a260d;
+}
+
+.clearfix{
+	width:100%;
+	height:auto;
+}
+
+#modal-container a{
+	font-size: xx-large;
+	float:right;
+	margin:15px;
+	color:#ABD17D;
+}
+
+#modal-container a:hover{
+	color:orange;
+}
+#modal-container a:focus{
+	outline: none;	
+}
+
+.container{
+	width:80%;
+	margin:0px auto;
+	border:solid 1px #ABD17D;
+}
+
+.container h1{
+	text-align:center;
+}
+
+.container input{
+	background:inherit;
+	color:#ABD17D;
+	border:1px solid #ABD17D;
+	font-family: 'Iceland', cursive;
+	font-size:large;
+}
+
+.container input:focus{
+	outline-width: 0;
 }
 
 
