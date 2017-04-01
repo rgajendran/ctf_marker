@@ -74,7 +74,7 @@ if(isset($_POST['cid']) && isset($_POST['team']) && isset($_POST['vm'])){
 						}
 					}
 				}else{
-					$hintClose[] = "HINT LOCKED (- $points)";
+					$hintClose[] = "Hint Locked (- $points)";
 				}
 				
 			}

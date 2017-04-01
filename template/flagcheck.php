@@ -43,7 +43,7 @@ if(isset($_POST['tm']) && isset($_POST['fg'])){
 									$points+= $singlePay;
 								}
 							}
-							$finalPoints = 200 - round($points,0,PHP_ROUND_HALF_DOWN);
+							$finalPoints = 250 - round($points,0,PHP_ROUND_HALF_DOWN);
 							$flag_marker_scb_sql = mysqli_query($connection,"SELECT SCORE FROM scoreboard WHERE TEAM='$team'");
 							while($flag_marker_scb_row = mysqli_fetch_assoc($flag_marker_scb_sql)){
 								$flag_scoreboard_points = $flag_marker_scb_row['SCORE'];

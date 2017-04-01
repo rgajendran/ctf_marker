@@ -317,7 +317,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
     </div>
     <div class="modal-body">
 		<div id="moBody">
-			
+			<h3 class="hintclose">Please wait...</h3>
 		</div>
 	   <div id="dialog_flag_button">
 	   		<button type="fsubmit" id="fsubmit">Get Hint</button>
@@ -351,44 +351,44 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 			url: "template/viewhint.php",
 			data: {cids: cid,team:teams,vms:vm},
 			success: function(status){
-				$('#moBody').empty();
-				$('#moBodyLocked').empty();
-				var OCSplit = status.split("#~#");
-				for(var i=0; i<OCSplit.length;i++){
-					var split = OCSplit[i].split("~#~");
-					var coun=0;
-					for(var e=0; e<split.length;e++){
-						if(i == OCSplit.length-1){						
-							if(e == 0){
-								var str = split[0];
-								if(str == ""){
-									document.getElementById("fsubmit").innerHTML = "No Further Hints";
-								}else{
-									var res = str.replace("HINT LOCKED","");
-									document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+					$('#moBody').empty();
+					$('#moBodyLocked').empty();
+					var OCSplit = status.split("#~#");
+					for(var i=0; i<OCSplit.length;i++){
+						var split = OCSplit[i].split("~#~");
+						var cn = 0;
+						for(var e=0; e<split.length;e++){
+							if(i == OCSplit.length-1){		
+								if(e == 0){
+									var str = split[0];
+									if(str == ""){
+										document.getElementById("fsubmit").innerHTML = "No Further Hints";
+									}else{
+										var res = str.replace("Hint Locked","");
+										document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+									}
+
 								}
-							}	
-							var addh3 = document.createElement("h3");
-							var text = document.createTextNode(split[e]);
-							addh3.appendChild(text);
-							addh3.setAttribute("class","hintclose");
-						
-							document.getElementById("moBodyLocked").appendChild(addh3);	
-						}else{
-							coun++;
-							var addh3 = document.createElement("h3");
-							if(split[e] == ""){
-								var text = document.createTextNode(split[e]);	
+								var addh3 = document.createElement("h3");
+								var text = document.createTextNode(split[e]);
+								addh3.appendChild(text);				
+								addh3.setAttribute("class","hintclose");
+								document.getElementById("moBodyLocked").appendChild(addh3);		
 							}else{
-								var text = document.createTextNode(cn+") "+split[e]);	
-							}
-							addh3.appendChild(text);
-							addh3.setAttribute("class","hintok");
-							document.getElementById("moBody").appendChild(addh3);	
-						}			
-							
-					}
-				}				
+								cn++;
+								var addh3 = document.createElement("h3");
+								if(split[e] == ""){
+									var text = document.createTextNode(split[e]);	
+								}else{
+									var text = document.createTextNode(cn+") "+split[e]);	
+								}
+								addh3.appendChild(text);
+								addh3.setAttribute("class","hintok");
+								document.getElementById("moBody").appendChild(addh3);	
+							}			
+								
+						}
+					}				
 			}	
 		});
 		

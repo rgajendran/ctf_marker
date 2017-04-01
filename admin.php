@@ -241,7 +241,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									$token_teamd = $_POST['token_gen_team'];
 									if($token_counter > 0 && $token_counter < 10){
 										for($int = 0; $int <$token_counter; $int++){
-											$randomKey = randomPassword();
+											$randomKey = randomToken();
 											$h = md5($randomKey);
 											$insertToken = mysqli_query($connection, "INSERT INTO users (TEAM, TYPE, TOKEN, TOKEN_HASH, TOKEN_ACT) VALUES ('$token_teamd','N','$randomKey','$h',0)");
 											if($insertToken){
@@ -898,7 +898,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 			
 			?>
 			<?php
-				function randomPassword() {
+				function randomToken() {
 				    $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 				    $password = array(); 
 				    $letterLength = strlen($letters) - 1; 
