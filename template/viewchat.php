@@ -1,8 +1,11 @@
 <?php
 	include 'connection.php'; 
+	if(!isset($_SESSION)){
+		session_start();
+	}
 	echo "<table>";
-	if(isset($_COOKIE['TEAMCOOK'])){
-		$chatlog_team = $_COOKIE['TEAMCOOK'];
+	if(isset($_SESSION['TEAM'])){
+		$chatlog_team = $_SESSION['TEAM'];
 		//$chatlog_sql = "SELECT * FROM `chat` WHERE TEAM=$chatlog_team ORDER BY DATE DESC LIMIT 10";
 		$chatlog_sql = "SELECT * FROM (SELECT * FROM `chat` WHERE TEAM='$chatlog_team' ORDER BY DATE DESC LIMIT 10) chat ORDER BY DATE ASC";
 		$chatlog_result = mysqli_query($connection, $chatlog_sql);

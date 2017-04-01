@@ -1,7 +1,10 @@
 <?php
 	include 'connection.php'; 
-	if(isset($_COOKIE['TEAMCOOK'])){
-		$viewlog_team = $_COOKIE['TEAMCOOK'];	
+	if(!isset($_SESSION)){
+		session_start();
+	}
+	if(isset($_SESSION['TEAM'])){
+		$viewlog_team = $_SESSION['TEAM'];	
 		$viewlog_sql = "SELECT * FROM (SELECT * FROM logger WHERE TEAM=$viewlog_team ORDER BY DATE DESC LIMIT 10) logger ORDER BY DATE ASC";
 		$viewlog_result = mysqli_query($connection, $viewlog_sql);
 		while($viewlog_row = mysqli_fetch_assoc($viewlog_result)){
