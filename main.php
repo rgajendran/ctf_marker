@@ -275,33 +275,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 <div id="left_panel_background">
 
 </div>
-<!-- Center Menu
-<div id="center_panel">
-	<div id="center_panel_div">
-		<?php
-		include 'template/connection.php';
-		$center_panel_sql = "SELECT * FROM team";
-		$center_panel_result = mysqli_query($connection, $center_panel_sql);
-		while($center_row = mysqli_fetch_assoc($center_panel_result)){
-			$team = $center_row['TEAMNAME'];
-			$teamno = $center_row['TEAM'];
-			if(isset($_SESSION['TEAM'])){
-				$sess_team = $_SESSION['TEAM'];
-				if($teamno == $sess_team){
-					echo "<a href='main.php?team=$teamno' class='center_panel_count' style='background-color:#ABD17D;color:black;'>$team</a>";
-				}else{
-					echo "<a href='main.php?team=$teamno' class='center_panel_count'>$team</a>";
-				}
-			}else{
-				//dont show team list
-			}		
-		}
-		
-		?>
-	</div>
-</div>---->
-
-
 
 <div id="noooo"></div>
 
@@ -337,10 +310,8 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	function alert(){
 	var modal = document.getElementById('myModal');
 	
-	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 	
-	// When the user clicks the button, open the modal 
 	this.menu = function(cid,vm,teams) {
 	    modal.style.display = "block";
 	    document.getElementById('dialog-title').innerHTML = vm;
@@ -394,24 +365,18 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		
 	};
 	
-	// When the user clicks on <span> (x), close the modal
+
 	span.onclick = function() {
 	    modal.style.display = "none";
     	var text = document.getElementById('flag_hint').innerText;
-        //refresh();
 	    document.getElementById('flag_hint').innerHTML = "Status";
-	    //$('#moBody').empty();
 	};
 	
-	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 	    if (event.target == modal) {
 	        modal.style.display = "none";
 	        var text = document.getElementById('flag_hint').innerText;
-	       // refresh();
-	        document.getElementById('flag_hint').innerHTML = "Status";
-	        //$('#moBody').empty();
-	     
+	        document.getElementById('flag_hint').innerHTML = "Status";   
 	    }
 	};
 }

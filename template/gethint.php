@@ -65,7 +65,6 @@ if(isset($_POST['cid']) && isset($_POST['team']) && isset($_POST['vm'])){
 								}else{
 									echo "<h4>Hint : Error</h4>";
 								}
-								//echo "<h4 style='color:green;'>Hint 1 (Disclosed) : $hint1 <span style='color:orange'>-$hint1points</span></h4>?<h4>Hint 2 (Not Disclosed)</h4>?<h4>Hint 3 (Not Disclosed)</h4>";
 							}else{
 								echo "<h4>Hint : Error</h4>";
 							}
