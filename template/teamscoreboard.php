@@ -16,7 +16,7 @@
 		?>
 		<!-- -->
 		<div class="div1_inner_team_logo">
-			<img src="images/anon1.png"/>
+			<img src="images/red_flag.svg"/>
 		</div>
 		<div class="div1_inner_team_content">
 			<div class="div1_inner_team_content_subs">
@@ -30,14 +30,6 @@
 					  </tr>
 				</table>
 			</div>
-			<div class="div1_inner_team_content_subs">
-				<table class="tg">
-					  <tr>
-					    <th class="tg-yw4l">Penalty</th>
-					    <th class="tg-yw4l"><?php echo $score_penalty_1; ?></th>
-					  </tr>
-				</table>
-			</div>												
 		</div>
 		<?php
 			}

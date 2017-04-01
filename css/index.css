@@ -11,18 +11,17 @@ body{
 	background:url('images/bg.png');	
 }
 
-.logo{
-        filter: invert(100%);
+.logo {
+        filter: hue-rotate(100deg);
 }
 
 #indxContent{
 	width:80%;
 	height:80%;
 	border:#ABD17D solid 2px;
-	border-radius:1em;
 	margin:5% auto;	
 	padding-bottom:5%;
-	background:#1a260d;
+	background: rgba(26, 38, 0, .85);
 	box-shadow: 0 20px 40px 20px rgba(0, 0, 0, 0.2), 0 20px 40px 20px rgba(0, 0, 0, 0.19);
 }
 

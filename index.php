@@ -30,12 +30,12 @@
 			  			<h3>Capture the Flag</h3>
 			  		</div>
 			  		<div id="div4_login_logo">
-						<img src="images/anon1.png"/>
+						<img class="logo" src="images/flag.svg"/>
 			  		</div>
 			  		<div id="div4_login_form">
 			  			<input type="text" placeholder="Username" id="login_usr"/>
 			  			<input type="password" placeholder="Password" id="login_psw"/>
-			  			<button id="login_submit">Log In</button>
+			  			<button id="login_submit">Login</button>
 			  			<h5 id="login_status"></h5>
 			  		</div>
 			  		<script src="js/loginpopup.js"></script>
@@ -71,10 +71,7 @@
 	<!-- Main Content -->
 	<div id="indxContent">
 		<div class="index-heading-1">
-			<h1>Capture the Flag</h1>
-		</div>
-		<div class="index-heading-2">
-			<h1>Leeds Beckett University</h1>
+			<h1>Flawed Fortress</h1>
 		</div>
 		<div class="index-heading-2">
 			
