@@ -77,6 +77,58 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	</style>
 <body id="main" style="background:url('images/bgadmin.png');">
 		<div id="wrapper">
+		
+		<!-- Left Menu--->
+		<div id="left_panel">
+			<div id="left_panel_div_heading">
+				<h1 id="fg_marker">Submit Flags</h1>
+			</div>
+			<div id="left_panel_div_input">
+				<div id="left_panel_div_input_inner">
+					<input type="text" id="flag-check" placeholder="Enter Flag and Press Enter" />
+				</div>
+				<script src="js/loginpopup.js"></script>
+			</div>
+			<div id="left_panel_div_status">
+				<p style="margin-left: 10px;" id="flag-status-p">Status</p>
+			</div>
+		</div>
+		
+		
+		
+		<!-- Right Menu---->
+		<div id="right_panel">
+			<?php include 'template/announce.php';?>
+		</div>
+		<div id="right_panel_background">
+		</div>
+
+		<div class="dropdown">
+			<button class="dropbtn">View Teams</button>
+			<div class="dropdown-content">
+	<?php
+		include 'template/connection.php';
+		$center_panel_sql = "SELECT * FROM team";
+		$center_panel_result = mysqli_query($connection, $center_panel_sql);
+		while($center_row = mysqli_fetch_assoc($center_panel_result)){
+			$team = $center_row['TEAMNAME'];
+			$teamno = $center_row['TEAM'];
+			if(isset($_SESSION['TEAM'])){
+				$sess_team = $_SESSION['TEAM'];
+				if($teamno == $sess_team){
+					echo "<a href='main.php?team=$sess_team'>$team</a>";
+				}else{
+					echo "<a href='main.php?team=$teamno'>$team</a>";
+				}
+			}else{
+				
+			}		
+		}
+	?>
+			</div>
+		</div>
+
+		
 		<?php
 		include 'template/connection.php';
 		if(isset($_GET['team'])){
@@ -182,7 +234,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
     <a href="template/logout.php" id="main_logout">Logout</a>
 	<div id="div1">
 		<div id="div1_inner">
-			<div id="div1_inner_heading">
+			<div id="inner_heading">
 				<h1>Score Board</h1>
 			</div>
 			<div class="div1_inner_body">				
@@ -193,6 +245,9 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	</div>
 	<div id="div2">
 	  <div id="div2_inner">
+			<div id="inner_heading">
+				<h1>Team Activity</h1>
+			</div>
 			<div id="div2_inner_border">
 				<?php include 'template/viewlog.php'; ?>
 			</div>
@@ -200,6 +255,9 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	</div>
 	<div id="div3">
 	  <div id="div3_inner">
+			<div id="inner_heading">
+				<h1>Team Chat</h1>
+			</div>
 			<div id="div3_inner_chat_history">
 				<?php include 'template/viewchat.php'; ?>
 			</div>
@@ -211,21 +269,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	<?php
 	}
 	?>
-</div>
-<!-- Left Menu--->
-<div id="left_panel">
-	<div id="left_panel_div_heading">
-		<h1 id="fg_marker">Marker</h1>
-	</div>
-	<div id="left_panel_div_input">
-		<div id="left_panel_div_input_inner">
-			<input type="text" id="flag-check" placeholder="Enter Flag and Press Enter" />
-		</div>
-		<script src="js/loginpopup.js"></script>
-	</div>
-	<div id="left_panel_div_status">
-		<p style="margin-left: 10px;" id="flag-status-p">Status</p>
-	</div>
 </div>
 
 
@@ -258,41 +301,9 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	</div>
 </div>---->
 
-<div class="dropdown">
-  <button class="dropbtn">Teams</button>
-  <div class="dropdown-content">
-  	<?php
-		include 'template/connection.php';
-		$center_panel_sql = "SELECT * FROM team";
-		$center_panel_result = mysqli_query($connection, $center_panel_sql);
-		while($center_row = mysqli_fetch_assoc($center_panel_result)){
-			$team = $center_row['TEAMNAME'];
-			$teamno = $center_row['TEAM'];
-			if(isset($_SESSION['TEAM'])){
-				$sess_team = $_SESSION['TEAM'];
-				if($teamno == $sess_team){
-					echo "<a href='main.php?team=$sess_team'>$team</a>";
-				}else{
-					echo "<a href='main.php?team=$teamno'>$team</a>";
-				}
-			}else{
-				
-			}		
-		}
-	?>
-  </div>
-</div>
-
-
 
 
 <div id="noooo"></div>
-<!-- Right Menu---->
-<div id="right_panel">
-<?php include 'template/announce.php';?>
-</div>
-<div id="right_panel_background">
-</div>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">

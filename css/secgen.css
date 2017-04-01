@@ -1,7 +1,7 @@
 #wrapper{
 	width:90%;
 	height:auto;
-	margin:13% auto auto auto;
+	margin:auto auto auto auto;
 }
 
 .vm{
@@ -17,8 +17,9 @@
 	height:40%;
 	margin:auto;
 	float:left;
-	margin-left: 1%;
-	background:#111;
+	margin-right: 1%;
+	margin-top: 1%;
+	background: rgba(26, 38, 0, .75);
 }
 
 .grouper_heading{
@@ -44,12 +45,13 @@
 .grouper_map svg {
 	float: none;
 	margin:0px auto;
+        max-height: 500px;
 }
 
 .grouper_map path{
 	margin-left:100px;
 	stroke:gray;
-	stroke-width:0.3px;
+	stroke-width:0.5px;
 	transition: fill 0.3s;
 
 }
