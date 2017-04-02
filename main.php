@@ -16,7 +16,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 		<link href="https://fonts.googleapis.com/css?family=Iceland|Orbitron" rel="stylesheet"> 	
 		<link href="css/secgen.css" rel="stylesheet" type="text/css">
 		<link href="css/map.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="css/login.css" type="text/css"/>
 		<link rel="stylesheet" href="css/score.css" type="text/css"/>
 	<script>
 		var user = '<?php echo $_SESSION['USERNAME'];?>';
@@ -79,29 +78,19 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 
 		<div id="wrapper">
 		
-		<!-- Left Menu--->
-		<div id="left_panel">
-			<div id="left_panel_div_heading">
-				<h1 id="fg_marker">Submit Flags</h1>
-			</div>
-			<div id="left_panel_div_input">
-				<div id="left_panel_div_input_inner">
-					<input type="text" id="flag-check" placeholder="Enter Flag and Press Enter" />
-				</div>
-				<script src="js/loginpopup.js"></script>
-			</div>
-			<div id="left_panel_div_status">
-				<p style="margin-left: 10px;" id="flag-status-p">&ensp;</p>
+		<!-- Left Panel--->
+		<div class="floating_panel left_panel">
+			<h1>Submit Flags</h1>
+			<input type="text" id="flag-check" placeholder="Enter Flag and Press Enter" />
+			<script src="js/loginpopup.js"></script>
+			<div class="status">
+				<marquee><p id="flag-status-p">&ensp;</p></marquee>
 			</div>
 		</div>
 		
-		
-		
-		<!-- Right Menu---->
-		<div id="right_panel">
+		<!-- Right Panel-->
+		<div class="floating_panel right_panel">
 			<?php include 'template/announce.php';?>
-		</div>
-		<div id="right_panel_background">
 		</div>
 
 		<div class="dropdown">
@@ -129,7 +118,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 			</div>
 		</div>
 
-		
+		<div class="systems">
 		<?php
 		include 'template/connection.php';
 		if(isset($_GET['team'])){
@@ -220,6 +209,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 			<?php
 			}
 		?>
+		</div>
 	</div>
 <!--Dialog Code -->
 <!-- Left Menu -->
@@ -270,10 +260,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 	<?php
 	}
 	?>
-</div>
-
-<div id="left_panel_background">
-
 </div>
 
 <div id="noooo"></div>

@@ -1,9 +1,5 @@
-<div id="right_panel_div_heading">
-	<h1>Timer</h1>
-</div>
-<div id="right_panel_div_timer">
-	<h1 id="timer"></h1>
-</div>
+<h1>Timer</h1>
+<h1 id="timer"></h1>
 <?php 
 	include 'connection.php';
 	$tRs = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
@@ -12,7 +8,7 @@
 	
 	}
 ?>
-<div id="right_panel_div_announce">
+<div class="status">
 	<marquee><p><?php
 	include 'connection.php';
 	$ann_res = mysqli_query($connection,"SELECT value FROM options WHERE name='ANNOUNCE'");
