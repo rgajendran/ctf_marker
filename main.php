@@ -18,7 +18,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		<link href="css/map.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="css/login.css" type="text/css"/>
 		<link rel="stylesheet" href="css/score.css" type="text/css"/>
-</head>
 	<script>
 		var user = '<?php echo $_SESSION['USERNAME'];?>';
 		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
@@ -75,7 +74,10 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		}
 
 	</style>
+</head>
 <body id="main" style="background:url('images/bgadmin.png');">
+
+
 		<div id="wrapper">
 		
 		<!-- Left Menu--->
@@ -90,7 +92,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 				<script src="js/loginpopup.js"></script>
 			</div>
 			<div id="left_panel_div_status">
-				<p style="margin-left: 10px;" id="flag-status-p">Status</p>
+				<p style="margin-left: 10px;" id="flag-status-p">&ensp;</p>
 			</div>
 		</div>
 		
@@ -152,11 +154,11 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		$ii = 0;
 			while($srow = mysqli_fetch_assoc($sresult)){
 				$vm = $srow['VM'];
-				$ip = $srow['IP'];	
+				$ip = $srow['IP'];
 				$ii+=1;
 				
-				
 			?>
+			
 			<div class="grouper">
 				<div class="grouper_heading">
 					<p class="vm"><?php echo $vm; ?></p>
@@ -220,6 +222,35 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 			}
 		?>
 	</div>
+<<<<<<< master
+=======
+<!-- Center Menu
+<div id="center_panel">
+	<div id="center_panel_div">
+		<?php
+		include 'template/connection.php';
+		$center_panel_sql = "SELECT * FROM team";
+		$center_panel_result = mysqli_query($connection, $center_panel_sql);
+		while($center_row = mysqli_fetch_assoc($center_panel_result)){
+			$team = $center_row['TEAMNAME'];
+			$teamno = $center_row['TEAM'];
+			if(isset($_SESSION['TEAM'])){
+				$sess_team = $_SESSION['TEAM'];
+				if($teamno == $sess_team){
+					echo "<a href='main.php?team=$teamno' class='center_panel_count' style='background-color:#ABD17D;color:black;'>$team</a>";
+				}else{
+					echo "<a href='main.php?team=$teamno' class='center_panel_count'>$team</a>";
+				}
+			}else{
+				//dont show team list
+			}		
+		}
+		
+		?>
+	</div>
+</div>---->
+
+>>>>>>> master
 <!--Dialog Code -->
 <!-- Left Menu -->
 <div id="info_menu" onclick="openNav()">
@@ -232,6 +263,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
   	{
   	?>
     <a href="template/logout.php" id="main_logout">Logout</a>
+<<<<<<< master
 	<div id="div1">
 		<div id="div1_inner">
 			<div id="inner_heading">
@@ -265,12 +297,46 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 				<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
 			</div>
 	  </div>
+=======
+	<div class="scores side_item">
+		<div class="side_heading">
+			<h1>Score Board</h1>
+		</div>
+		<?php include 'template/userscoreboard.php'; ?>
+		<?php include 'template/teamscoreboard.php'; ?>
+	</div>
+	<div class="logs side_item">
+		<div class="side_heading">
+			<h1>Team Activity</h1>
+		</div>
+		<div class="team_logs">
+			<?php include 'template/viewlog.php'; ?>
+		</div>
+	</div>
+	<div class="chat side_item">
+		<div class="side_heading">
+			<h1>Team Chat</h1>
+		</div>
+		<div class="chat_history">
+			<?php include 'template/viewchat.php'; ?>
+		</div>
+		<div class="chat_input">
+			<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
+		</div>
+>>>>>>> master
 	</div>
 	<?php
 	}
 	?>
 </div>
 
+<<<<<<< master
+
+<div id="left_panel_background">
+
+</div>
+=======
+>>>>>>> master
 
 <div id="left_panel_background">
 
@@ -369,14 +435,27 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	span.onclick = function() {
 	    modal.style.display = "none";
     	var text = document.getElementById('flag_hint').innerText;
+<<<<<<< master
 	    document.getElementById('flag_hint').innerHTML = "Status";
+=======
+        //refresh();
+	    document.getElementById('flag_hint').innerHTML = " ";
+	    //$('#moBody').empty();
+>>>>>>> master
 	};
 	
 	window.onclick = function(event) {
 	    if (event.target == modal) {
 	        modal.style.display = "none";
 	        var text = document.getElementById('flag_hint').innerText;
+<<<<<<< master
 	        document.getElementById('flag_hint').innerHTML = "Status";   
+=======
+	       // refresh();
+	        document.getElementById('flag_hint').innerHTML = " ";
+	        //$('#moBody').empty();
+	     
+>>>>>>> master
 	    }
 	};
 }
