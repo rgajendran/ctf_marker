@@ -18,7 +18,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		<link href="css/map.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="css/login.css" type="text/css"/>
 		<link rel="stylesheet" href="css/score.css" type="text/css"/>
-</head>
 	<script>
 		var user = '<?php echo $_SESSION['USERNAME'];?>';
 		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
@@ -75,7 +74,58 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		}
 
 	</style>
+</head>
 <body id="main" style="background:url('images/bgadmin.png');">
+
+<!--Dialog Code -->
+<!-- Left Menu -->
+<div id="info_menu" onclick="openNav()">
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+</div>
+<div id="mySidenav" class="sidenav">
+  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  	<?php
+  	if(isset($_SESSION['USERNAME']) && isset($_SESSION['TEAM']))
+  	{
+  	?>
+    <a href="template/logout.php" id="main_logout">Logout</a>
+	<div class="scores side_item">
+		<div class="side_heading">
+			<h1>Score Board</h1>
+		</div>
+		<?php include 'template/userscoreboard.php'; ?>
+		<?php include 'template/teamscoreboard.php'; ?>
+	</div>
+	<div class="logs side_item">
+		<div class="side_heading">
+			<h1>Team Activity</h1>
+		</div>
+		<div class="team_logs">
+			<?php include 'template/viewlog.php'; ?>
+		</div>
+	</div>
+	<div class="chat side_item">
+		<div class="side_heading">
+			<h1>Team Chat</h1>
+		</div>
+		<div class="chat_history">
+			<?php include 'template/viewchat.php'; ?>
+		</div>
+		<div class="chat_input">
+			<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
+		</div>
+	</div>
+	<?php
+	}
+	?>
+</div>
+
+
+<div id="left_panel_background">
+
+</div>
+
+
 		<div id="wrapper">
 		
 		<!-- Left Menu--->
@@ -90,7 +140,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 				<script src="js/loginpopup.js"></script>
 			</div>
 			<div id="left_panel_div_status">
-				<p style="margin-left: 10px;" id="flag-status-p">Status</p>
+				<p style="margin-left: 10px;" id="flag-status-p">&ensp;</p>
 			</div>
 		</div>
 		
@@ -152,11 +202,11 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		$ii = 0;
 			while($srow = mysqli_fetch_assoc($sresult)){
 				$vm = $srow['VM'];
-				$ip = $srow['IP'];	
+				$ip = $srow['IP'];
 				$ii+=1;
 				
-				
 			?>
+			
 			<div class="grouper">
 				<div class="grouper_heading">
 					<p class="vm"><?php echo $vm; ?></p>
@@ -220,61 +270,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 			}
 		?>
 	</div>
-<!--Dialog Code -->
-<!-- Left Menu -->
-<div id="info_menu" onclick="openNav()">
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-</div>
-<div id="mySidenav" class="sidenav">
-  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  	<?php
-  	if(isset($_SESSION['USERNAME']) && isset($_SESSION['TEAM']))
-  	{
-  	?>
-    <a href="template/logout.php" id="main_logout">Logout</a>
-	<div id="div1">
-		<div id="div1_inner">
-			<div id="inner_heading">
-				<h1>Score Board</h1>
-			</div>
-			<div class="div1_inner_body">				
-				<span id="div1_inner_body_1"><?php include 'template/userscoreboard.php'; ?></span>
-				<span id="div1_inner_body_2"><?php include 'template/teamscoreboard.php'; ?></span>				
-			</div>
-		</div>	  
-	</div>
-	<div id="div2">
-	  <div id="div2_inner">
-			<div id="inner_heading">
-				<h1>Team Activity</h1>
-			</div>
-			<div id="div2_inner_border">
-				<?php include 'template/viewlog.php'; ?>
-			</div>
-	  </div>	
-	</div>
-	<div id="div3">
-	  <div id="div3_inner">
-			<div id="inner_heading">
-				<h1>Team Chat</h1>
-			</div>
-			<div id="div3_inner_chat_history">
-				<?php include 'template/viewchat.php'; ?>
-			</div>
-			<div id="div3_inner_chat_input">
-				<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
-			</div>
-	  </div>
-	</div>
-	<?php
-	}
-	?>
-</div>
-
-
-<div id="left_panel_background">
-
-</div>
 <!-- Center Menu
 <div id="center_panel">
 	<div id="center_panel_div">
@@ -399,7 +394,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	    modal.style.display = "none";
     	var text = document.getElementById('flag_hint').innerText;
         //refresh();
-	    document.getElementById('flag_hint').innerHTML = "Status";
+	    document.getElementById('flag_hint').innerHTML = " ";
 	    //$('#moBody').empty();
 	};
 	
@@ -409,7 +404,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	        modal.style.display = "none";
 	        var text = document.getElementById('flag_hint').innerText;
 	       // refresh();
-	        document.getElementById('flag_hint').innerHTML = "Status";
+	        document.getElementById('flag_hint').innerHTML = " ";
 	        //$('#moBody').empty();
 	     
 	    }

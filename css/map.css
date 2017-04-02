@@ -50,6 +50,8 @@ body{
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 50px;
+    color:#abd17d;
+    margin:0px auto;
 }
 
 .sidenav .closebtn {
@@ -66,74 +68,118 @@ body{
     padding: 16px;
 }
 
-#div1, #div2, #div3{
+.side_item {
 	width:100%;
-	height:30%;
+	height:auto;
 	color:#abd17d;
-}
-
-#div1_inner, #div2_inner, #div3_inner{
 	margin:0px auto;
-	width:90%;
-	height:90%;
 }
 
-#inner_heading{
+.side_heading{
 	width:100%;
 	height:20px;
 	display:inline-block;
-	line-height:20%;
+	line-height:10px;
 	position:relative;
 	text-align:center;
         font-size:smaller;
 }
 
-.div1_inner_body{
+/*.div1_inner_body{
 	width:100%;
 	height:80%;
-	border:solid 1px #abd17d;
-}
+}*/
 
-.div1_inner_team{
+/*.div1_inner_team{
 	width:100%;
 	height:70px;
 	background:#354b1b;
-}
+}*/
 
-.div1_inner_team_logo{
+/*.team_logo{
 	width:70px;
 	height:70px;
-	float:left;
-}
+}*/
 
-.div1_inner_team_logo img{
-	width:100%;
+.team_logo img{
+	width:50px;
 	height:100%;
         max-width: 70px;
-        max-height: 70px;
+        max-height: 50px;
+	float:left;
+        clear:right;
 }
 
-.div1_inner_other_team{
-	width:100%;
-	height:60%;
+.my_team .team_logo img{
+	filter: hue-rotate(200deg);
+}
+
+.scoreboard_row.my_team .team_score {
+	background-color: #abd17d;
+	color: black;
+	font-weight: bold;
+}
+
+.scoreboard{
+	border:solid 1px #abd17d;
+	
+	width:99%;
+	height:200px;
 	overflow-x: hidden;
 	overflow-y:scroll;
 }
 
-.div1_inner_team_content{
-	width:60%;
-	height:70px;
+.scoreboard:hover{
+	height:700px;
+}
+
+
+.scoreboard:nth-child(even) {
+  background: #354b1b;
+}
+
+.team_score{
+/*	width:270px;
+	height:50px;
+	float:right;
+        clear:right;
+	line-height:10px;
+	margin:0px auto;*/
+	display: flex; 
+	justify-content: space-between;
+	
+}
+
+/*	display: flex; 
+	justify-content: space-between;*/
+
+.systems {
+	float:left;
+
+}
+
+/*.systems:nth-child(3n+3) {
 	float:right;
 }
 
-#div1 th, td{
+.systems:nth-child(3n+2) {
+	float:right;
+}*/
+
+
+/*div.team_score span {
+    display:table-cell;
+    text-align:center;
+}*/
+
+/*#div1 th, td{
 	border:inherit;
-} 
+} */
 /* -------------------------- */
-.div1_inner_team_content_subs{
+/*.div1_inner_team_content_subs{
 	width:100%;
 	height:25%;
-	line-height:25%;
+	line-height:10px;
 }
 
 .div1_inner_team_content_subs h3{
@@ -156,9 +202,9 @@ body{
 	line-height:80%;	
 	text-align:center;
 	padding:0px;
-}
+}*/
 
-.tg{
+/*.tg{
 	width:100%;
 	margin-top:-3%;
 }
@@ -168,7 +214,7 @@ body{
 	text-align:left;
 	font-size:15px;
 	padding-left:20%;
-}
+}*/
 /* -------------------------- */
 #main_logout{
 	width:100px;
@@ -192,9 +238,9 @@ body{
 }
 
 /* -------------------------- */
-#div2_inner_border{
-	width:100%;
-	height:100%;
+.team_logs{
+	width:99%;
+	height:100px;
 	border:1px solid #abd17d;
 	margin:0px auto;
 	overflow-y:scroll;
@@ -207,7 +253,7 @@ body{
 	padding-left:10px;
 }
 
-#div3_inner_chat_history > p{
+.chat_history > p{
 	padding-left:10px;
 }
 
@@ -227,8 +273,7 @@ body{
 #div4_heading{
 	width:100%;
 	height:10%;
-	line-height:20%;
-	border:solid 1px #ABD17D;
+	line-height:10px;
 	text-align:center;
 	color:#ABD17D;
 	font-size: x-large;
@@ -268,15 +313,15 @@ body{
 	text-align:center;
 }
 
-#div3_inner_chat_history{
-	width:100%;
-	height:85%;
+.chat_history{
+	width:99%;
+	height:100px;
 	border:1px solid #abd17d;
 	overflow-y:auto;
 	margin:0px auto;
 }
 
-#div3_inner_chat_input input{
+.chat_input input{
 	width:100%;
 	border: solid 1px #ABD17D;
 	margin:0px;
@@ -288,21 +333,21 @@ body{
         font-family: 'Orbitron', sans-serif;
 }
 
-#div3_inner_chat_input input:focus{
+.chat_input input:focus{
 	outline-width: 0;
 }
 
-#div3_inner_chat_history table {
+.chat_history table {
     border-collapse: collapse;
     width: 100%;
 }
 
-#div3_inner_chat_history td, th {
+.chat_history td, th {
     text-align: left;
     padding: 5px;
 }
 
-#div3_inner_chat_history tr:nth-child(even) {
+.chat_history tr:nth-child(even) {
     background-color: #354b1b;
 }
 
@@ -348,14 +393,14 @@ body{
 }
 /*---------------------------------- Left Info Panel   ----------------------------------*/
 #left_panel{
-	width:20%;
+	width:300px;
 	float:left;
 	border:solid 1px #abd17d;
 	border-radius:1em;
 }
 
 #left_panel_background{
-	width:20%;
+	width:300px;
 	height:18%;
 	float:left;
 	background-color: #000000;
@@ -424,11 +469,12 @@ body{
 }
 
 #left_panel_div_status #flag-status-p{
-	line-height:20%;
+	line-height:10px;
+        text-align:center;
 }
 /*---------------------------------- Right Info Panel   ----------------------------------*/
 #right_panel{
-	width:20%;
+	width:300px;
 	height:18%;
 	float:right;
 	border:solid 1px #abd17d;
@@ -440,7 +486,7 @@ body{
 }
 
 #right_panel_background{
-	width:20%;
+	width:300px;
 	height:18%;
 	float:right;
 	background-color: #000000;
@@ -454,7 +500,7 @@ body{
 	height:30%;
 	border-bottom:solid 1px #abd17d;
 	padding:0px;
-	line-height:20%;
+	line-height:10px;
 	font-size:large;
 	text-align:center;
 	float:left;
@@ -476,7 +522,7 @@ body{
 #right_panel_div_announce{
 	width:100%;
 	height:20%;
-	line-height:20%;
+	line-height:10px;
 	padding:0px;
 	float:left;
 	color:#abd17d;
@@ -579,13 +625,15 @@ body{
     border:solid 1px #ABD17D;
     border-radius:1em;
     font-family: 'Iceland', cursive;
-    color: #abd17d
+    color: #abd17d;
+    height: 40px;
+    line-height: 0px !important;
 }
 
 .dropdown {
     top:20px;
     margin:0 auto;
-    width:10%;
+    width:130px;
 }
 
 .dropdown-content {

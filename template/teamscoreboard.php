@@ -1,4 +1,4 @@
-<div class="div1_inner_other_team">
+<div class="scoreboard">
 	<?php
 	include 'connection.php';
 	$score_sql_1 = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
@@ -13,26 +13,22 @@
 			$ranks+=1;
 			
 			if($score_team_session_1 != $score_team_1){
+                        	$team_class="other_team";
+			} else {
+                        	$team_class="my_team";
+			}
+                        
 		?>
 		<!-- -->
-		<div class="div1_inner_team_logo">
-			<img src="images/red_flag.svg"/>
-		</div>
-		<div class="div1_inner_team_content">
-			<div class="div1_inner_team_content_subs">
-				<h3>#Rank <?php echo $ranks." ($score_teamname_1)"?> </h3>
-			</div>
-			<div class="div1_inner_team_content_subs">
-				<table class="tg">
-					  <tr>
-					    <th class="tg-yw4l">Points</th>
-					    <th class="tg-yw4l"><?php echo $score_score_1; ?></th>
-					  </tr>
-				</table>
+		<div class="scoreboard_row <?php echo $team_class; ?>">
+			<div class="team_score">
+				<span class="team_logo"><img class="team_logo" src="images/flag.svg"/></span>
+				<span><?php echo $score_teamname_1; ?></span>
+				<span>#<?php echo $ranks; ?></span>
+				<span><?php echo $score_score_1; ?></span>
 			</div>
 		</div>
 		<?php
-			}
 		}
 		?>
 		<!-- -->
