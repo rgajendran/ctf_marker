@@ -21,7 +21,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	<script>
 		var user = '<?php echo $_SESSION['USERNAME'];?>';
 		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
-		window.chatscroll();
 	</script>
 	<script src="js/dialog.js"></script>
 	<script src="js/divcheck.js"></script>
@@ -222,33 +221,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 			}
 		?>
 	</div>
-
-<!-- Center Menu
-<div id="center_panel">
-	<div id="center_panel_div">
-		<?php
-		include 'template/connection.php';
-		$center_panel_sql = "SELECT * FROM team";
-		$center_panel_result = mysqli_query($connection, $center_panel_sql);
-		while($center_row = mysqli_fetch_assoc($center_panel_result)){
-			$team = $center_row['TEAMNAME'];
-			$teamno = $center_row['TEAM'];
-			if(isset($_SESSION['TEAM'])){
-				$sess_team = $_SESSION['TEAM'];
-				if($teamno == $sess_team){
-					echo "<a href='main.php?team=$teamno' class='center_panel_count' style='background-color:#ABD17D;color:black;'>$team</a>";
-				}else{
-					echo "<a href='main.php?team=$teamno' class='center_panel_count'>$team</a>";
-				}
-			}else{
-				//dont show team list
-			}		
-		}
-		
-		?>
-	</div>
-</div>---->
-
 <!--Dialog Code -->
 <!-- Left Menu -->
 <div id="info_menu" onclick="openNav()">
@@ -265,24 +237,32 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		<div class="side_heading">
 			<h1>Score Board</h1>
 		</div>
-		<?php include 'template/userscoreboard.php'; ?>
-		<?php include 'template/teamscoreboard.php'; ?>
+		<span id="div1_inner_body_1"><?php include 'template/userscoreboard.php'; ?></span>
+		<span id="div1_inner_body_2"><?php include 'template/teamscoreboard.php'; ?></span>
 	</div>
 	<div class="logs side_item">
 		<div class="side_heading">
 			<h1>Team Activity</h1>
 		</div>
-		<div class="team_logs">
-			<?php include 'template/viewlog.php'; ?>
+		<div class="team_logs" id="team_logs_scroll">
+			<div id="div2_inner">
+				<div id="div2_inner_border">
+					<?php include 'template/viewlog.php'; ?>
+				</div>	
+			</div>
 		</div>
 	</div>
 	<div class="chat side_item">
 		<div class="side_heading">
 			<h1>Team Chat</h1>
 		</div>
-		<div class="chat_history">
-			<?php include 'template/viewchat.php'; ?>
-		</div>
+		<div class="chat_history" id="chat_history_scroll">
+			<div id="div3_inner">
+				<div id="div3_inner_chat_history">
+					<?php include 'template/viewchat.php'; ?>
+				</div>	
+			</div>
+		</div>	
 		<div class="chat_input">
 			<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
 		</div>

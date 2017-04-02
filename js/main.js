@@ -1,26 +1,18 @@
 setInterval(function () {
 	checkS();
 }, 1000);	
-//setInterval(function () {
-	//$("#div1_inner_body_1").load("./template/userscoreboard.php"),
-    //$("#div3_inner_chat_history").load("./template/viewchat.php").click(chatscroll()),
-    //$("#div2_inner_border").load("./template/viewlog.php").click(actiscroll());
-//}, 1000);
 
-//setInterval(function(){
-//	$("#div1_inner_body_2").load("./template/teamscoreboard.php");
-//},10000);
 function chatscroll() {
-  var a_chat    = $('#div3_inner_chat_history');		  
-  var cheight = a_chat[0].scrollHeight;
-  a_chat.scrollTop(cheight);
+	$("#chat_history_scroll").animate({ scrollTop: $("#chat_history_scroll")[0].scrollHeight}, 1000);
+
 }
 
 function actiscroll(){
-  var a_log = $('#div2_inner_border');
-  var aheight = a_log[0].scrollHeight;
-  a_log.scrollTop(aheight);
+  $("#team_logs_scroll").animate({ scrollTop: $("#team_logs_scroll")[0].scrollHeight}, 1000);
 }
+//onload scroll to bottom 
+chatscroll();
+actiscroll();
 
 $(document).ready(function(){
 	$('#flag-check').keypress(function(event){
