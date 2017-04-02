@@ -309,7 +309,18 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									    	<h1>Homepage Date</h1>
 										</th>
 									    <th>
-											<input type="datetime-local" name="homepage-date" />
+											<input type="datetime-local" name="homepage-date" id="home_date"/>
+											<h3>
+												Time Set : <b style="color:green;">
+												<?php
+												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='HOME_TIME'");
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													echo $val;
+												}
+												
+												?>
+												</b>
+											</h3>
 										</th> 
 									    <th>
 									    	<input type="submit" name="homepage-submit" value="Update" id="token-input-2"/>
@@ -325,6 +336,17 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 											<input type="datetime-local" name="ctf-date" />
+											<h3>
+												Time Set : <b style="color:green;">
+												<?php
+												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													echo $val;
+												}
+												
+												?>
+												</b>
+											</h3>
 										</th> 
 									    <th>
 									    	<input type="submit" name="ctf-submit" value="Update" id="token-input-2"/>
@@ -332,6 +354,33 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</tr>
 							</table>
 						</form>
+						<form method="post" action="admin.php?option=options">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+									    	<h1>Allow Users Login</h1>
+										</th>
+									    <th>
+											<h3>
+												<?php
+												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='LOGIN'");
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													if($val == "ALLOW"){
+														echo "<b style='color:green;'>$val</b>";
+													}else{
+														echo "<b style='color:red;'>$val</b>";
+													}
+												}
+												
+												?>
+											</h3>
+										</th> 
+									    <th>
+									    	<input type="submit" name="login-submit" value="Update" id="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+						</form>						
 						<form method="post" action="admin.php?option=options">
 							<table style="width:100%;">
 								<tr>
@@ -392,6 +441,25 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 		
 								}else{
 									echo "<p style='color:maroon;margin-left:10%;'>Time is empty</p>";
+								}
+						}
+						
+						if(isset($_POST['login-submit'])){
+								$sql = mysqli_query($connection, "SELECT value FROM options WHERE name='LOGIN'");
+								while($row = mysqli_fetch_assoc($sql)){
+									$val = $row['value'];
+									if($val == "ALLOW"){
+										$val = "DENY";
+										$up = mysqli_query($connection, "UPDATE options SET value='DENY' WHERE name='LOGIN'");
+									}else{
+										$val = "ALLOW";
+										$up = mysqli_query($connection, "UPDATE options SET value='ALLOW' WHERE name='LOGIN'");
+									}
+									if($up){
+										echo "<p style='color:green;margin-left:10%;'>Login Permission : $val</p>";	
+									}else{
+										echo "<p style='color:maroon;margin-left:10%;'>Failed to Updated</p>";
+									}
 								}
 						}
 						

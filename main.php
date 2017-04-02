@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include 'template/connection.php';
-if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE['TEAMCOOK'])){
+if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSION['TYPE'])){
 	header('location:index.php');
 }
 ?>

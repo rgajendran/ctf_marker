@@ -19,7 +19,7 @@
 			$.ajax({
 				method: "POST",
 				url: "template/gethint.php",
-				data: {cid: coun_id, team: tm1, vm: system},
+				data: {cid: coun_id, team: tm1, vm: system,user:user},
 				success: function(status){			
 					$('#moBody').empty();
 					$('#moBodyLocked').empty();
