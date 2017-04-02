@@ -34,7 +34,7 @@
 									if(str == ""){
 										document.getElementById("fsubmit").innerHTML = "No Further Hints";
 									}else{
-										var res = str.replace("HINT LOCKED","");
+										var res = str.replace("Hint Locked","");
 										document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
 									}
 

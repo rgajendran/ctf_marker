@@ -1,6 +1,9 @@
 <?php
 include 'connection.php';
-if(isset($_COOKIE['TEAMCOOK'])){
+if(!isset($_SESSION)){
+	session_start();
+}
+if(isset($_SESSION['TEAM'])){
 	$score_sql = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
 	$score_result = mysqli_query($connection, $score_sql);
 	$rank = 0;
@@ -9,7 +12,7 @@ if(isset($_COOKIE['TEAMCOOK'])){
 		$score_team = $score_row['TEAM'];
 		$score_score = $score_row['SCORE'];
 		$score_penalty = $score_row['PENALTY'];
-		$score_team_session = $_COOKIE['TEAMCOOK'];
+		$score_team_session = $_SESSION['TEAM'];
 		$rank+=1;
 		
 		if($score_team_session == $score_team){

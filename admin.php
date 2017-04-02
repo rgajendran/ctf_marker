@@ -241,7 +241,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									$token_teamd = $_POST['token_gen_team'];
 									if($token_counter > 0 && $token_counter < 10){
 										for($int = 0; $int <$token_counter; $int++){
-											$randomKey = randomPassword();
+											$randomKey = randomToken();
 											$h = md5($randomKey);
 											$insertToken = mysqli_query($connection, "INSERT INTO users (TEAM, TYPE, TOKEN, TOKEN_HASH, TOKEN_ACT) VALUES ('$token_teamd','N','$randomKey','$h',0)");
 											if($insertToken){
@@ -332,14 +332,57 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</tr>
 							</table>
 						</form>
-				
+						<form method="post" action="admin.php?option=options">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+									    	<h1>Add Admin User</h1>
+										</th>
+									    <th id="pass_chn">
+									    	<input type="text" name="username" placeholder="Username"/>
+											<input type="password" name="pass1" placeholder="Password"/>
+											<input type="password" name="pass2" placeholder="Re-Enter Password"/>
+										</th> 
+									    <th>
+									    	<input type="submit" name="admin-add-submit" value="Add" id="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+						</form>							
+						<form method="post" action="admin.php?option=options">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+									    	<h1>Admin Password Change</h1>
+										</th>
+									    <th id="pass_chn">
+									    	<select name="admin_username">
+												<?php
+												$token_team_list = mysqli_query($connection, "SELECT USERNAME FROM users WHERE TYPE='A'");
+												while($token_team_list_row = mysqli_fetch_assoc($token_team_list)){
+													$token_team = $token_team_list_row['USERNAME'];
+													echo "<option value='$token_team'>$token_team</option>";
+												}
+												?>
+											</select>
+											<input type="password" name="pass1" placeholder="Password"/>
+											<input type="password" name="pass2" placeholder="Re-Enter Password"/>
+										</th> 
+									    <th>
+									    	<input type="submit" name="admin-pass-submit" value="Update" id="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+						</form>									
 						</div>
 								
 				<?php 
 						if(isset($_POST['homepage-submit'])){
 								if(!empty($_POST['homepage-date'])){
 									$home_date = $_POST['homepage-date'];
-									$home_date_result = mysqli_query($connection, "UPDATE options SET value='$home_date' WHERE name='HOME_TIME'");
+									$timestamp = strtotime($home_date);
+									$new_date_format = date('Y-m-d H:i:s', $timestamp);		
+									$home_date_result = mysqli_query($connection, "UPDATE options SET value='$new_date_format' WHERE name='HOME_TIME'");
 									if($home_date_result){
 											echo "<p style='color:green;margin-left:10%;'>Home Time Successful</p>";
 
@@ -355,7 +398,9 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 						if(isset($_POST['ctf-submit'])){
 								if(!empty($_POST['ctf-date'])){
 									$ctf_date = $_POST['ctf-date'];
-									$ctf_date_result = mysqli_query($connection, "UPDATE options SET value='$ctf_date' WHERE name='END_TIME'");
+									$timestamp = strtotime($ctf_date);
+									$new_date_format = date('Y-m-d H:i:s', $timestamp);								
+									$ctf_date_result = mysqli_query($connection, "UPDATE options SET value='$new_date_format' WHERE name='END_TIME'");
 									if($ctf_date_result){
 										$ctf_date_updater = mysqli_query($connection, "UPDATE updater SET TIME='1'");
 										if($ctf_date_updater){
@@ -373,6 +418,60 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								}
 						}
 						
+						if(isset($_POST['admin-pass-submit'])){
+							$username = htmlspecialchars(htmlentities(trim(filter_var($_POST['admin_username'],FILTER_SANITIZE_STRING))));
+							$password = htmlspecialchars(htmlentities(trim(filter_var($_POST['pass1'],FILTER_SANITIZE_STRING))));
+							$password1 = htmlspecialchars(htmlentities(trim(filter_var($_POST['pass2'],FILTER_SANITIZE_STRING))));
+							if(strlen($username) >= 5 && strlen($username) <= 10){
+								if($password == $password1){
+									$sql = mysqli_num_rows(mysqli_query($connection, "SELECT * FROM users WHERE USERNAME='$username'"));
+									if($sql == 1){
+										$pass = md5($password1."CTF");
+										$update = mysqli_query($connection, "UPDATE users SET PASSWORD='$pass' WHERE USERNAME='$username'");
+										if($update){
+											echo "<p style='color:green;margin-left:10%;'>Password Updated Successfully</p>";
+										}else{
+											echo "<p style='color:maroon;margin-left:10%;'>Password Update Failed</p>";
+										}
+									}else{
+										echo "<p style='color:maroon;margin-left:10%;'>Username doesn't exist</p>";
+									}
+								}else{
+									echo "<p style='color:maroon;margin-left:10%;'>Password doesn't match</p>";
+								}
+							}else{
+								echo "<p style='color:maroon;margin-left:10%;'>Username should be between 5 to 10 characters</p>";
+							}
+							
+						}
+	
+						if(isset($_POST['admin-add-submit'])){
+							$username = htmlspecialchars(htmlentities(trim(filter_var($_POST['username'],FILTER_SANITIZE_STRING))));
+							$password = htmlspecialchars(htmlentities(trim(filter_var($_POST['pass1'],FILTER_SANITIZE_STRING))));
+							$password1 = htmlspecialchars(htmlentities(trim(filter_var($_POST['pass2'],FILTER_SANITIZE_STRING))));
+							if(strlen($username) >= 5 && strlen($username) <= 10){
+								if($password == $password1){
+									$sql = mysqli_num_rows(mysqli_query($connection, "SELECT * FROM users WHERE USERNAME='$username'"));
+									if($sql == 0){
+										$pass = md5($password1."CTF");
+										$update = mysqli_query($connection, "INSERT INTO users (USERNAME, PASSWORD, TEAM, TYPE, TOKEN, TOKEN_HASH, TOKEN_ACT) 
+										VALUES ('$username','$pass','0','A','A1B2C3D4','9cb4a9b49df14f3ee3c177f0f74ad443','1')");
+										if($update){
+											echo "<p style='color:green;margin-left:10%;'>Admin User Added Successfully</p>";
+										}else{
+											echo "<p style='color:maroon;margin-left:10%;'>Admin User Failed</p>";
+										}
+									}else{
+										echo "<p style='color:maroon;margin-left:10%;'>Username already exist</p>";
+									}
+								}else{
+									echo "<p style='color:maroon;margin-left:10%;'>Password doesn't match</p>";
+								}
+							}else{
+								echo "<p style='color:maroon;margin-left:10%;'>Username should be between 5 to 10 characters</p>";
+							}
+							
+						}						
 					break; 	
 					
 				case "import-secgen":
@@ -694,6 +793,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th> 
 							    <th>
 							    	<?php
+							    	//temporary solution
+							    	//ToDO: Need to find a better solution
 							    	 if(isset($_POST['create_map'])){
 										$filename = 'sql/secgen.sql';
 										include 'template/dbupdate.php';
@@ -724,7 +825,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										    $templine = '';
 										}
 										}
-										 echo "Tables imported successfully";
+										 echo "<h1 style='color:green;'>Success</h1>";
 									 }else{
 									 	echo "<h1>STATUS</h1>";
 									 }
@@ -898,7 +999,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 			
 			?>
 			<?php
-				function randomPassword() {
+				function randomToken() {
 				    $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 				    $password = array(); 
 				    $letterLength = strlen($letters) - 1; 

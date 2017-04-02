@@ -222,6 +222,8 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 			}
 		?>
 	</div>
+<<<<<<< master
+=======
 <!-- Center Menu
 <div id="center_panel">
 	<div id="center_panel_div">
@@ -248,6 +250,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	</div>
 </div>---->
 
+>>>>>>> master
 <!--Dialog Code -->
 <!-- Left Menu -->
 <div id="info_menu" onclick="openNav()">
@@ -260,6 +263,41 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
   	{
   	?>
     <a href="template/logout.php" id="main_logout">Logout</a>
+<<<<<<< master
+	<div id="div1">
+		<div id="div1_inner">
+			<div id="inner_heading">
+				<h1>Score Board</h1>
+			</div>
+			<div class="div1_inner_body">				
+				<span id="div1_inner_body_1"><?php include 'template/userscoreboard.php'; ?></span>
+				<span id="div1_inner_body_2"><?php include 'template/teamscoreboard.php'; ?></span>				
+			</div>
+		</div>	  
+	</div>
+	<div id="div2">
+	  <div id="div2_inner">
+			<div id="inner_heading">
+				<h1>Team Activity</h1>
+			</div>
+			<div id="div2_inner_border">
+				<?php include 'template/viewlog.php'; ?>
+			</div>
+	  </div>	
+	</div>
+	<div id="div3">
+	  <div id="div3_inner">
+			<div id="inner_heading">
+				<h1>Team Chat</h1>
+			</div>
+			<div id="div3_inner_chat_history">
+				<?php include 'template/viewchat.php'; ?>
+			</div>
+			<div id="div3_inner_chat_input">
+				<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
+			</div>
+	  </div>
+=======
 	<div class="scores side_item">
 		<div class="side_heading">
 			<h1>Score Board</h1>
@@ -285,12 +323,20 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 		<div class="chat_input">
 			<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
 		</div>
+>>>>>>> master
 	</div>
 	<?php
 	}
 	?>
 </div>
 
+<<<<<<< master
+
+<div id="left_panel_background">
+
+</div>
+=======
+>>>>>>> master
 
 <div id="left_panel_background">
 
@@ -310,7 +356,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
     </div>
     <div class="modal-body">
 		<div id="moBody">
-			
+			<h3 class="hintclose">Please wait...</h3>
 		</div>
 	   <div id="dialog_flag_button">
 	   		<button type="fsubmit" id="fsubmit">Get Hint</button>
@@ -330,10 +376,8 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	function alert(){
 	var modal = document.getElementById('myModal');
 	
-	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 	
-	// When the user clicks the button, open the modal 
 	this.menu = function(cid,vm,teams) {
 	    modal.style.display = "block";
 	    document.getElementById('dialog-title').innerHTML = vm;
@@ -344,67 +388,74 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 			url: "template/viewhint.php",
 			data: {cids: cid,team:teams,vms:vm},
 			success: function(status){
-				$('#moBody').empty();
-				$('#moBodyLocked').empty();
-				var OCSplit = status.split("#~#");
-				for(var i=0; i<OCSplit.length;i++){
-					var split = OCSplit[i].split("~#~");
-					var coun=0;
-					for(var e=0; e<split.length;e++){
-						if(i == OCSplit.length-1){						
-							if(e == 0){
-								var str = split[0];
-								if(str == ""){
-									document.getElementById("fsubmit").innerHTML = "No Further Hints";
-								}else{
-									var res = str.replace("HINT LOCKED","");
-									document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+					$('#moBody').empty();
+					$('#moBodyLocked').empty();
+					var OCSplit = status.split("#~#");
+					for(var i=0; i<OCSplit.length;i++){
+						var split = OCSplit[i].split("~#~");
+						var cn = 0;
+						for(var e=0; e<split.length;e++){
+							if(i == OCSplit.length-1){		
+								if(e == 0){
+									var str = split[0];
+									if(str == ""){
+										document.getElementById("fsubmit").innerHTML = "No Further Hints";
+									}else{
+										var res = str.replace("Hint Locked","");
+										document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+									}
+
 								}
-							}	
-							var addh3 = document.createElement("h3");
-							var text = document.createTextNode(split[e]);
-							addh3.appendChild(text);
-							addh3.setAttribute("class","hintclose");
-						
-							document.getElementById("moBodyLocked").appendChild(addh3);	
-						}else{
-							coun++;
-							var addh3 = document.createElement("h3");
-							if(split[e] == ""){
-								var text = document.createTextNode(split[e]);	
+								var addh3 = document.createElement("h3");
+								var text = document.createTextNode(split[e]);
+								addh3.appendChild(text);				
+								addh3.setAttribute("class","hintclose");
+								document.getElementById("moBodyLocked").appendChild(addh3);		
 							}else{
-								var text = document.createTextNode(cn+") "+split[e]);	
-							}
-							addh3.appendChild(text);
-							addh3.setAttribute("class","hintok");
-							document.getElementById("moBody").appendChild(addh3);	
-						}			
-							
-					}
-				}				
+								cn++;
+								var addh3 = document.createElement("h3");
+								if(split[e] == ""){
+									var text = document.createTextNode(split[e]);	
+								}else{
+									var text = document.createTextNode(cn+") "+split[e]);	
+								}
+								addh3.appendChild(text);
+								addh3.setAttribute("class","hintok");
+								document.getElementById("moBody").appendChild(addh3);	
+							}			
+								
+						}
+					}				
 			}	
 		});
 		
 	};
 	
-	// When the user clicks on <span> (x), close the modal
+
 	span.onclick = function() {
 	    modal.style.display = "none";
     	var text = document.getElementById('flag_hint').innerText;
+<<<<<<< master
+	    document.getElementById('flag_hint').innerHTML = "Status";
+=======
         //refresh();
 	    document.getElementById('flag_hint').innerHTML = " ";
 	    //$('#moBody').empty();
+>>>>>>> master
 	};
 	
-	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 	    if (event.target == modal) {
 	        modal.style.display = "none";
 	        var text = document.getElementById('flag_hint').innerText;
+<<<<<<< master
+	        document.getElementById('flag_hint').innerHTML = "Status";   
+=======
 	       // refresh();
 	        document.getElementById('flag_hint').innerHTML = " ";
 	        //$('#moBody').empty();
 	     
+>>>>>>> master
 	    }
 	};
 }
