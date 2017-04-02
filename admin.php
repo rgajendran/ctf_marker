@@ -118,8 +118,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 							<?php
 							if(isset($_POST['team-create-submit'])){
 								if(!empty($_POST['team-create'])){
-									$team_create = strtoupper($_POST['team-create']);
-									if(strlen($team_create) > 0  && strlen($team_create) <=6){
+									$team_create = $_POST['team-create'];
+									if(strlen($team_create) > 0  && strlen($team_create) <=15){
 											$team_create_count = mysqli_num_rows(mysqli_query($connection, "SELECT TEAM FROM team")) + 1;
 											$team_create_res = mysqli_query($connection, "INSERT INTO team (TEAM, TEAMNAME) VALUES ('$team_create_count','$team_create')");
 											if($team_create_res){
@@ -133,7 +133,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												echo "<p style='color:maroon;margin-left:10%;'>Failed to create team 2</p>";
 											}
 									}else{
-										echo "<p style='color:maroon;margin-left:10%;'>Team name should be between 0 -6 characters long</p>";
+										echo "<p style='color:maroon;margin-left:10%;'>Team name should be between 0 - 15 characters long</p>";
 									}
 								}else{
 									echo "<p style='color:maroon;margin-left:10%;'>Team name is empty</p>";
@@ -571,7 +571,70 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</tr>
 							</table>
 							</form>
-					  <?php
+							<form method="post" action="admin.php?option=import-secgen" enctype="multipart/form-data">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+											<h1>Same Flag For All Team</h1>
+										</th>
+									    <th id="browse">
+											<input type="file" name="imp_file" placeholder="Full File Path" id="token-input-1"/>
+										</th> 
+									    <th>
+									    	<input type="submit" name="vm_all_submit" value="Import" id="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+							</form>	
+					<?php
+					if(isset($_POST['vm_all_submit'])){
+						//no validation done yet
+						include 'template/connection.php';
+						echo "Importing..."."<br><br>";
+						$teamQuery = mysqli_query($connection, "SELECT TEAM FROM team");
+							while($row = mysqli_fetch_assoc($teamQuery)){
+								$team = $row['TEAM'];
+								echo "<h1 style='color:orange;'>Team : ".$team."</h1></br>";
+								if (isset($_FILES['imp_file']) && ($_FILES['imp_file']['error'] == UPLOAD_ERR_OK)) {
+										$xml = simplexml_load_file($_FILES['imp_file']['tmp_name']); 
+								
+										foreach($xml->system as $system){
+											$count = count($system->challenge);
+											$q = mysqli_query($connection, "SELECT C_ID FROM secgen WHERE C_NO='$count'");
+											$chall = 0;
+											foreach($system->challenge as $challenge){
+												$chall++;
+												$num = 0;		
+												foreach(mysqli_fetch_assoc($q) as $cid){
+													$secgenflag = mysqli_query($connection,"INSERT INTO secgenflag (TEAM, C_ID, STATUS, VM, IP, FLAG, FLAG_POINTS) VALUES('$team', '$cid', '0', '$system->system_name', 
+													'$system->platform', '$challenge->flag','100')");
+													if($secgenflag){
+														echo "[$system->system_name] Challenge No : $chall [SUCCESS]"."<br>";
+														foreach($challenge->hint as $hint){
+															$num++;
+															$randomKey = strtoupper(md5(bin2hex(openssl_random_pseudo_bytes(16)).time()));
+															$hint_update = mysqli_query($connection, "INSERT INTO hint (RANDOM, TEAM, SYSTEM_NAME, C_ID, CHALLENGE, HINT_STATUS, HINT_ID, HINT_TYPE, HINT_TEXT) VALUES 
+															('$randomKey','$team','$system->system_name','$cid','$chall','0','$hint->hint_id','$hint->hint_type','$hint->hint_text')");
+															if($hint_update){
+																echo "<i style='color:green;margin-left:15%;'>HINT Challenge No : ($chall) Hint No : ($num) [SUCCESS]"."</i><br>";
+															}else{
+																echo "<p style='color:maroon;margin-left:10%;'>Error ADMIN[101]</p>";
+															}			
+														}
+													}else{
+														echo "<p style='color:maroon;margin-left:10%;'>Error ADMIN[101]</p>";
+													}		
+								
+												}
+											}
+										}
+								}else{
+									echo "Error";
+								}
+								echo "</br></br>";
+							}
+					  }						
+
 					  if(isset($_POST['imp_submit'])){
 					  	//no validation done yet
 					  	include 'template/connection.php';
@@ -777,7 +840,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 													$insert = mysqli_query($connection, "INSERT INTO `options` (`ID`, `name`, `value`) VALUES
 																						(1, 'ANNOUNCE', 'Announcement'),
 																						(2, 'END_TIME', '2017-03-20T18:00'),
-																						(3, 'HOME_TIME', '2017-04-05T10:00');");
+																						(3, 'HOME_TIME', '2017-04-05T10:00'),
+																						(4, 'LOGIN', 'DENY');");
 													if($insert){
 														echo "<h1 style='color:green;'>Success</h1>";
 													}else{
@@ -824,7 +888,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										$sql_create_team = "CREATE TABLE `team` (
 																  `ID` int(2) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 																  `TEAM` int(2) NOT NULL,
-																  `TEAMNAME` varchar(8) NOT NULL,
+																  `TEAMNAME` varchar(15) NOT NULL,
 																  `LOGO` text NOT NULL
 																) ENGINE=InnoDB DEFAULT CHARSET=latin1;";	
 																
