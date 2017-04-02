@@ -19,7 +19,7 @@
 	float:left;
 	margin-right: 1%;
 	margin-top: 1%;
-	background: rgba(26, 38, 0, .75);
+	background: rgba(53,75,27,.5);
 }
 
 .grouper_heading{
@@ -50,8 +50,8 @@
 
 .grouper_map path{
 	margin-left:100px;
-	stroke:gray;
-	stroke-width:0.5px;
+	stroke:#abd17d;
+	stroke-width:1px;
 	transition: fill 0.3s;
 
 }

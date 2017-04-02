@@ -129,10 +129,9 @@ body{
 	overflow-y:scroll;
 }
 
-.scoreboard:hover{
+/*.scoreboard:hover{
 	height:700px;
-}
-
+}*/
 
 .scoreboard:nth-child(even) {
   background: #354b1b;
@@ -155,7 +154,8 @@ body{
 
 .systems {
 	float:left;
-
+	clear:left;
+	width:100% !important;
 }
 
 /*.systems:nth-child(3n+3) {
@@ -248,6 +248,23 @@ body{
 	overflow-x:hidden;
 }
 
+.team_logs, .chat_history, .scoreboard {
+	resize: vertical;
+}
+.team_logs::after, .chat_history::after, .scoreboard::after {
+    pointer-events: none;
+    content: "↓";
+    font-size: 14px;
+    position: absolute;
+    height: 22px;
+    width: 20px;
+    text-align: center;
+    bottom: 2px;
+    right: -2px;
+    background-color: #354b1b;
+    color: #777;
+}
+
 #div2_inner_border > p{
 	color:#ABD17D;
 	padding-left:10px;
@@ -319,10 +336,11 @@ body{
 	border:1px solid #abd17d;
 	overflow-y:auto;
 	margin:0px auto;
+	padding-bottom:30px;
 }
 
 .chat_input input{
-	width:100%;
+	width:99%;
 	border: solid 1px #ABD17D;
 	margin:0px;
 	background-color:inherit;
@@ -331,6 +349,7 @@ body{
 	border-bottom-right-radius: 1em;
         background-color: #354b1b;
         font-family: 'Orbitron', sans-serif;
+	height: 30px;
 }
 
 .chat_input input:focus{
@@ -392,14 +411,22 @@ body{
 	background-color:white;
 }
 /*---------------------------------- Left Info Panel   ----------------------------------*/
-#left_panel{
+.floating_panel {
 	width:300px;
-	float:left;
+	height:130px;
 	border:solid 1px #abd17d;
 	border-radius:1em;
 }
 
-#left_panel_background{
+.left_panel{
+	float:left;
+}
+
+.right_panel{
+	float:right;
+}
+
+/*#left_panel_background{
 	width:300px;
 	height:18%;
 	float:left;
@@ -408,24 +435,20 @@ body{
 	opacity:0.5;
 	top:20px;
 	margin-left:2%;
-}
+}*/
 
-#left_panel_div_heading{
+.floating_panel h1 {
 	width:100%;
-	height:30%;
-	border-bottom:solid 1px #abd17d;
+	height:40%;
 	padding:0px;
+	margin:0px;
 	text-align:center;
-	font-size:medium;
 	float:left;
 	color:#abd17d;
 }
 
-#left_panel_div_heading #fg_marker{
-		line-height:30%;
-}
 
-#left_panel_div_input{
+/*#left_panel_div_input{
 	width:100%;
 	height:50%;
 	border-bottom:solid 1px #abd17d;
@@ -433,32 +456,32 @@ body{
 	float:left;
 	color:#abd17d;
 	font-family: 'Orbitron', sans-serif;
-}
+}*/
 
-#left_panel_div_input input{
+.floating_panel input{
+	width:260px;
+	height:30%;
 	background:#354b1b;
-	border:solid 1px #ABD17D;
 	border-radius:1em;
-	color:white;
+	color:#abd17d;
 	font-family: 'Orbitron', sans-serif;
+	margin: -4px 20px 0px 19px;
+	border:solid 1px #abd17d;
 }
 
-#left_panel_div_input input:focus{
+.floating_panel input:focus{
 	outline-width: 0;
 }
 
-#left_panel_div_input_inner{
-	width:90%;
+.floating_panel .status{
+	height:30%;
+	width:90%
 	margin:auto;
+	color:#abd17d;
+	font-family: 'Orbitron', sans-serif;
 }
 
-#left_panel_div_input_container{
-	width:90%;
-	margin:auto;
-	display:inline-block;
-}
-
-#left_panel_div_status{
+/*#left_panel_div_status{
 	width:100%;
 	height:20%;
 	line-height:20%;
@@ -466,67 +489,32 @@ body{
 	padding:0px;
 	float:left;
 	color:#abd17d;
-}
+}*/
 
-#left_panel_div_status #flag-status-p{
+/*#left_panel_div_status #flag-status-p{
 	line-height:10px;
         text-align:center;
-}
+}*/
 /*---------------------------------- Right Info Panel   ----------------------------------*/
-#right_panel{
-	width:300px;
-	height:18%;
-	float:right;
-	border:solid 1px #abd17d;
-	border-radius:1em;
-	top:20px;
-	vertical-align:top;
-	color:#abd17d;
-	z-index: 1;
-}
 
-#right_panel_background{
-	width:300px;
-	height:18%;
-	float:right;
-	background-color: #000000;
-	border-radius:1em;
-	top:20px;
-	opacity:0.5;
-	margin-left:75%;
-}
-#right_panel_div_heading{
+#timer{
 	width:100%;
 	height:30%;
-	border-bottom:solid 1px #abd17d;
-	padding:0px;
-	line-height:10px;
-	font-size:large;
-	text-align:center;
+	font-size:xx-large;
 	float:left;
-	color:#abd17d;
-}
-#right_panel_div_timer{
-	width:100%;
-	height:50%;
-	border-bottom:solid 1px #abd17d;
-	padding:0px;
-	font-size:large;
-	float:left;
-	line-height:50%;
 	text-align:center;
 	color:#abd17d;
 	font-family: 'Orbitron', sans-serif;
 }
 
-#right_panel_div_announce{
+/*#right_panel_div_announce{
 	width:100%;
 	height:20%;
 	line-height:10px;
 	padding:0px;
 	float:left;
 	color:#abd17d;
-}
+}*/
 /* --------------------------- dialog css ------------------------------------ */
 .modal {
     display: none; /* Hidden by default */
