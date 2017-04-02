@@ -89,10 +89,10 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 		</div>
 		
 		<!-- Right Panel-->
-		<div class="floating_panel right_panel">
+		<div class="floating_panel right_panel" id="right_panel">
 			<?php include 'template/announce.php';?>
 		</div>
-
+		
 		<div class="dropdown">
 			<button class="dropbtn">View Teams</button>
 			<div class="dropdown-content">
