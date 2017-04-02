@@ -77,54 +77,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 </head>
 <body id="main" style="background:url('images/bgadmin.png');">
 
-<!--Dialog Code -->
-<!-- Left Menu -->
-<div id="info_menu" onclick="openNav()">
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-</div>
-<div id="mySidenav" class="sidenav">
-  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  	<?php
-  	if(isset($_SESSION['USERNAME']) && isset($_SESSION['TEAM']))
-  	{
-  	?>
-    <a href="template/logout.php" id="main_logout">Logout</a>
-	<div class="scores side_item">
-		<div class="side_heading">
-			<h1>Score Board</h1>
-		</div>
-		<?php include 'template/userscoreboard.php'; ?>
-		<?php include 'template/teamscoreboard.php'; ?>
-	</div>
-	<div class="logs side_item">
-		<div class="side_heading">
-			<h1>Team Activity</h1>
-		</div>
-		<div class="team_logs">
-			<?php include 'template/viewlog.php'; ?>
-		</div>
-	</div>
-	<div class="chat side_item">
-		<div class="side_heading">
-			<h1>Team Chat</h1>
-		</div>
-		<div class="chat_history">
-			<?php include 'template/viewchat.php'; ?>
-		</div>
-		<div class="chat_input">
-			<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
-		</div>
-	</div>
-	<?php
-	}
-	?>
-</div>
-
-
-<div id="left_panel_background">
-
-</div>
-
 
 		<div id="wrapper">
 		
@@ -296,7 +248,53 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_COOKIE
 	</div>
 </div>---->
 
+<!--Dialog Code -->
+<!-- Left Menu -->
+<div id="info_menu" onclick="openNav()">
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+</div>
+<div id="mySidenav" class="sidenav">
+  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  	<?php
+  	if(isset($_SESSION['USERNAME']) && isset($_SESSION['TEAM']))
+  	{
+  	?>
+    <a href="template/logout.php" id="main_logout">Logout</a>
+	<div class="scores side_item">
+		<div class="side_heading">
+			<h1>Score Board</h1>
+		</div>
+		<?php include 'template/userscoreboard.php'; ?>
+		<?php include 'template/teamscoreboard.php'; ?>
+	</div>
+	<div class="logs side_item">
+		<div class="side_heading">
+			<h1>Team Activity</h1>
+		</div>
+		<div class="team_logs">
+			<?php include 'template/viewlog.php'; ?>
+		</div>
+	</div>
+	<div class="chat side_item">
+		<div class="side_heading">
+			<h1>Team Chat</h1>
+		</div>
+		<div class="chat_history">
+			<?php include 'template/viewchat.php'; ?>
+		</div>
+		<div class="chat_input">
+			<input id="div3_chat_input" type="text" placeholder="Enter Message and Press Enter" />
+		</div>
+	</div>
+	<?php
+	}
+	?>
+</div>
 
+
+<div id="left_panel_background">
+
+</div>
 
 <div id="noooo"></div>
 
