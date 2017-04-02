@@ -18,22 +18,12 @@ if(isset($_SESSION['TEAM'])){
 		if($score_team_session == $score_team){
 			
 	?>
-	<div class="div1_inner_team">
-		<div class="div1_inner_team_logo">
-			<img src="images/blue_flag.svg"/>
-		</div>
-		<div class="div1_inner_team_content">
-			<div class="div1_inner_team_content_subs">
-				<h3>#Rank <?php echo $rank;?> ( <?php echo "My Team"; ?> )</h3>
-			</div>
-			<div class="div1_inner_team_content_subs">
-				<table class="tg">
-					  <tr>
-					    <th class="tg-yw4l">Points</th>
-					    <th class="tg-yw4l"><?php echo $score_score; ?></th>
-					  </tr>
-				</table>
-			</div>
+	<div class="my_score my_team">
+		<div class="team_score">
+			<span class="team_logo"><img src="images/flag.svg"/></span>
+			<span>Your team</span>
+			<span>#<?php echo $rank;?></span>
+			<span><?php echo $score_score; ?></span>
 		</div>
 	</div>
 	

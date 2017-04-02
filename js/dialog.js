@@ -7,12 +7,12 @@
 function openNav() {
 	var winH = window.innerHeight;
     document.getElementById("mySidenav").style.width = "25%";
-    document.getElementById("main").style.marginLeft = "25%";
+    document.getElementById("wrapper").style.width = "70%";
 }
 
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
+    document.getElementById("wrapper").style.width = "90%";
 }
 
 // Get the modal
