@@ -17,6 +17,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 		<link href="css/secgen.css" rel="stylesheet" type="text/css">
 		<link href="css/map.css" rel="stylesheet" type="text/css">
 	<script>
+		sessionStorage.clear();
 		var user = '<?php echo $_SESSION['USERNAME'];?>';
 		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
 	</script>
@@ -343,6 +344,8 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 						var str = split[0];
 						if(str == ""){
 							document.getElementById("fsubmit").innerHTML = "No Further Hints";
+						}else if(str == "No Further Hints"){
+										document.getElementById("fsubmit").innerHTML = "No Further Hints";
 						}else{
 							var res = str.replace("Hint Locked","");
 							document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;

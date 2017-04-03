@@ -634,7 +634,11 @@ button {
     font-family: 'Iceland', cursive;
     height: 40px;
     line-height: 0px !important;
+	width: 100%;
 }
+
+button:focus {outline:0;}
+
 button:hover {
     background-color: #33373d;
     color: white;

@@ -15,30 +15,31 @@ if(isset($_POST['cids']) && isset($_POST['team']) && isset($_POST['vms'])){
 		$HC = Array();
 		$hintClose = Array();
 		$sSelectHintCount = mysqli_num_rows($sSelectStatusResult);
-		$bighint = mysqli_num_rows($bigResult);
-		$normalhint = mysqli_num_rows($norResult);
-		$totalhint = ($bighint * 2)+$normalhint;
-		$singlePay = 200/$totalhint;
-		while($sSelectStatusRow = mysqli_fetch_assoc($sSelectStatusResult)){
-			$hintId = $sSelectStatusRow['HINT_ID'];
-			$hintStatus = $sSelectStatusRow['HINT_STATUS'];
-			$hintText = $sSelectStatusRow['HINT_TEXT'];
-			$hintType = $sSelectStatusRow['HINT_TYPE'];
-			if($hintType == "big_hint"){
-				$point = round($singlePay * 2,0,PHP_ROUND_HALF_DOWN);
-			}else if($hintType == "normal"){
-				$point = round($singlePay,0,PHP_ROUND_HALF_DOWN);
+		if($sSelectHintCount > 0){
+			$bighint = mysqli_num_rows($bigResult);
+			$normalhint = mysqli_num_rows($norResult);
+			$totalhint = ($bighint * 2)+$normalhint;
+			$singlePay = 200/$totalhint;
+			while($sSelectStatusRow = mysqli_fetch_assoc($sSelectStatusResult)){
+				$hintId = $sSelectStatusRow['HINT_ID'];
+				$hintStatus = $sSelectStatusRow['HINT_STATUS'];
+				$hintText = $sSelectStatusRow['HINT_TEXT'];
+				$hintType = $sSelectStatusRow['HINT_TYPE'];
+				if($hintType == "big_hint"){
+					$point = round($singlePay * 2,0,PHP_ROUND_HALF_DOWN);
+				}else if($hintType == "normal"){
+					$point = round($singlePay,0,PHP_ROUND_HALF_DOWN);
+				}
+				if($hintStatus == 0){
+					$hintClose[] = "Hint Locked (- $point)";
+				}else{
+					$hintOpen[] = preg_replace('/\s{2,}/', ' ',$hintText);
+				}
+			
 			}
-			if($hintStatus == 0){
-				$hintClose[] = "Hint Locked (- $point)";
-			}else{
-				$hintOpen[] = preg_replace('/\s{2,}/', ' ',$hintText);
-			}
-		
+			$HO = implode("~#~", $hintOpen);
+			$HC = implode("~#~", $hintClose);
+			echo print_r($HO."#~#".$HC,true);	
 		}
-		$HO = implode("~#~", $hintOpen);
-		$HC = implode("~#~", $hintClose);
-		echo print_r($HO."#~#".$HC,true);
-		
 }
 ?>
