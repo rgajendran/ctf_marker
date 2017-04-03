@@ -114,6 +114,11 @@ body{
 	filter: hue-rotate(200deg);
 }
 
+.view_team_list img.team_logo{
+	width:20px;
+        float:none;
+}
+
 .scoreboard_row.my_team .team_score {
 	background-color: #abd17d;
 	color: black;
@@ -618,6 +623,23 @@ body{
     line-height: 0px !important;
 }
 
+button {
+    background-color: inherit;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border:solid 1px #111111;
+    border-radius:1em;
+    font-family: 'Iceland', cursive;
+    height: 40px;
+    line-height: 0px !important;
+}
+button:hover {
+    background-color: #33373d;
+    color: white;
+}
+
 .dropdown {
     top:20px;
     margin:0 auto;
@@ -648,7 +670,7 @@ body{
     display: block;
 }
 
-.dropdown:hover .dropbtn {
+.dropdown:hover .dropbtn, button:hover {
     background-color: #ABD17D;
     color:#000000;
 }

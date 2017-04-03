@@ -21,7 +21,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
 	</script>
 	<script src="js/dialog.js"></script>
-	<script src="js/divcheck.js"></script>
 	<script src="js/jquery_form.js"></script>
 	<style>
 		.modal-content{
@@ -105,9 +104,9 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 			if(isset($_SESSION['TEAM'])){
 				$sess_team = $_SESSION['TEAM'];
 				if($teamno == $sess_team){
-					echo "<a href='main.php?team=$sess_team'>$team</a>";
+					echo "<a class='my_team view_team_list' href='main.php?team=$sess_team'><span class='team_logo'><img class='team_logo' src='images/flag.svg'/></span>$team</a>";
 				}else{
-					echo "<a href='main.php?team=$teamno'>$team</a>";
+					echo "<a class='other_team view_team_list' href='main.php?team=$teamno'><span class='team_logo'><img class='team_logo' src='images/flag.svg'/></span>$team</a>";
 				}
 			}else{
 				
