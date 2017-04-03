@@ -303,11 +303,15 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 	    document.getElementById('dialog-title').innerHTML = vm;
 	    document.getElementById('dialog-id').innerHTML = cid;
 	    //-------------------------------------------------------------------		
+	    if (sessionStorage.getItem(cid) == null){
+       	
+	    //cache storage start
 		$.ajax({
 			method: "POST",
 			url: "template/viewhint.php",
 			data: {cids: cid,team:teams,vms:vm},
 			success: function(status){
+					sessionStorage.setItem(cid,status);
 					$('#moBody').empty();
 					$('#moBodyLocked').empty();
 					var OCSplit = status.split("#~#");
@@ -349,8 +353,54 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 			}	
 		});
 		
+		//sessionstorage--end
+		}else{
+			//if session set
+					var status = sessionStorage.getItem(cid);
+					$('#moBody').empty();
+					$('#moBodyLocked').empty();
+					var OCSplit = status.split("#~#");
+					for(var i=0; i<OCSplit.length;i++){
+						var split = OCSplit[i].split("~#~");
+						var cn = 0;
+						for(var e=0; e<split.length;e++){
+							if(i == OCSplit.length-1){		
+								if(e == 0){
+									var str = split[0];
+									if(str == ""){
+										document.getElementById("fsubmit").innerHTML = "No Further Hints";
+									}else{
+										var res = str.replace("Hint Locked","");
+										document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
+									}
+
+								}
+								var addh3 = document.createElement("h3");
+								var text = document.createTextNode(split[e]);
+								addh3.appendChild(text);				
+								addh3.setAttribute("class","hintclose");
+								document.getElementById("moBodyLocked").appendChild(addh3);		
+							}else{
+								cn++;
+								var addh3 = document.createElement("h3");
+								if(split[e] == ""){
+									var text = document.createTextNode(split[e]);	
+								}else{
+									var text = document.createTextNode(cn+") "+split[e]);	
+								}
+								addh3.appendChild(text);
+								addh3.setAttribute("class","hintok");
+								document.getElementById("moBody").appendChild(addh3);	
+							}			
+								
+						}
+					}		
+				}
 	};
 	
+	function checkSessionStorage(){
+   		return window.sessionStorage;
+	}
 
 	span.onclick = function() {
 	    modal.style.display = "none";
