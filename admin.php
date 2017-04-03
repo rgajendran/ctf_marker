@@ -807,7 +807,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 							    	 	$sql_create_score = "CREATE TABLE `scoreboard` (
 															  `ID` int(2) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 															  `TEAM` int(2) NOT NULL,
-															  `TEAMNAME` varchar(8) NOT NULL,
+															  `TEAMNAME` varchar(15) NOT NULL,
 															  `SCORE` double NOT NULL,
 															  `PENALTY` double NOT NULL
 															) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
@@ -822,7 +822,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 																  `HINT` int(1) NOT NULL,
 																  `ANNOUNCE` int(1) NOT NULL,
 																  `FLAG` int(1) NOT NULL,
-																  `TIME` int(1) NOT NULL
+																  `TIME` int(1) NOT NULL,
+																  `HINT_UPDATE` varchar(30) NOT NULL
 																) ENGINE=InnoDB DEFAULT CHARSET=latin1;";	
 																
 										$sql_create_options = "CREATE TABLE `options` (
@@ -838,8 +839,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											if($create_updater){
 												if($create_options){
 													$insert = mysqli_query($connection, "INSERT INTO `options` (`ID`, `name`, `value`) VALUES
-																						(1, 'ANNOUNCE', 'Announcement'),
-																						(2, 'END_TIME', '2017-03-20T18:00'),
+																						(1, 'ANNOUNCE', '&ensp;'),
+																						(2, 'END_TIME', '2017-04-05T0:00'),
 																						(3, 'HOME_TIME', '2017-04-05T10:00'),
 																						(4, 'LOGIN', 'DENY');");
 													if($insert){

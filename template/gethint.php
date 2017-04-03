@@ -58,19 +58,25 @@ if (isset($_POST['cid']) && isset($_POST['team']) && isset($_POST['vm']) && isse
 								include 'time.php';
 								$log_sql = mysqli_query($connection, "INSERT INTO logger (DATE, TEAM, LOG) VALUES ('$fdate','$tem','[$user] Unlocked Hint [$vm] - [$hinttext] - [POINTS : -$points]')");
 								if ($log_sql) {
-									$hintOpen[] = "$hinttext";
+									$H_updater = mysqli_query($connection, "UPDATE updater SET HINT_UPDATE='$cid-$vm' WHERE TEAM='$tem'");
+									if($H_updater){
+										$hintOpen[] = "$hinttext";
+									}else{
+										echo "Hint : Error 205";
+									}
+									
 								} else {
-									echo "<h4>Hint : Error</h4>";
+									echo "Hint : Error 204";
 								}
 
 							} else {
-								echo "<h4>Hint : Error</h4>";
+								echo "Hint : Error 203";
 							}
 						} else {
-							echo "<h4>Hint : Error</h4>";
+							echo "Hint : Error 202";
 						}
 					} else {
-						echo "<h4>Hint : Error</h4>";
+						echo "Hint : Error 201";
 					}
 				}
 			} else {
