@@ -74,7 +74,7 @@ var checkS = function(){
 							  if(status == "Success"){
 								  $("#div2_inner_border").click(actiscroll());	
 								  $.notify("New Activity Update",{position:"bottom center", className:"info"});
-							  }else{
+							  }else if(status == "Failed"){
 								  $.notify("Report Admin [ERROR 002]",{position:"bottom center", className:"error"});
 							  }  
 						}	
@@ -148,8 +148,14 @@ var checkS = function(){
 						success: function(status){
 							if(status == "Success"){
 						  		$.notify("HINT Disclosed",{position:"bottom center", className:"success"});	
-						  	}else{
+						  	}else if(status == "Failed"){
 								  $.notify("Report Admin [ERROR 007]",{position:"bottom center", className:"error"});
+						    }else if(status == "all"){
+						    	$.notify("Bonus : Hints Unlocked",{position:"bottom center", className:"success"});
+						    	sessionStorage.clear();
+						    }else{
+						    	$.notify("HINT Disclosed",{position:"bottom center", className:"success"});	
+						    	sessionStorage.removeItem(status);
 						    }
 						}	
 					});

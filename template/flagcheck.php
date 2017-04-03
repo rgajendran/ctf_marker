@@ -72,7 +72,7 @@ if(isset($_POST['tm']) && isset($_POST['fg'])){
 														}
 													}
 												}
-												$act_update = mysqli_query($connection, "UPDATE updater SET ACTIVITY='1', FLAG='1' WHERE TEAM='$team'");
+												$act_update = mysqli_query($connection, "UPDATE updater SET ACTIVITY='1', FLAG='1',HINT='1',HINT_UPDATE='all' WHERE TEAM='$team'");
 												if($act_update){
 													$bonus_sql = mysqli_query($connection, "INSERT INTO logger (DATE, TEAM, LOG) VALUES ('$fdate','$team','[BONUS] Unlocked [$iN]Hints for other challenges')");
 													if($bonus_sql){
