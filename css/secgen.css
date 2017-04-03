@@ -17,8 +17,8 @@
 	height:40%;
 	margin:auto;
 	float:left;
-	margin-right: 1%;
-	margin-top: 1%;
+	margin-right: 3%;
+	margin-top: 3%;
 	background: rgba(53,75,27,.5);
 }
 
@@ -45,7 +45,8 @@
 .grouper_map svg {
 	float: none;
 	margin:0px auto;
-        max-height: 500px;
+        min-height: 350px;
+        max-height: 350px;
 }
 
 .grouper_map path{

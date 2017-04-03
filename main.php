@@ -21,7 +21,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 		var tm1 = '<?php echo $_SESSION['TEAM'];?>';
 	</script>
 	<script src="js/dialog.js"></script>
-	<script src="js/divcheck.js"></script>
 	<script src="js/jquery_form.js"></script>
 	<style>
 		.modal-content{
