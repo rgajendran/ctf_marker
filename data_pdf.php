@@ -53,7 +53,7 @@ if(isset($_POST['token_pdf']) && isset($_POST['token_gen_team'])){
 		$pdf->Ln(20);
 	}
 	ob_start();
-	$pdf->Output('',$teamName);
+	$pdf->Output('',$teamName.".pdf");
 	ob_flush();
 	
 }else{

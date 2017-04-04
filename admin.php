@@ -1181,8 +1181,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											
 											if(mysqli_num_rows($q4) == mysqli_num_rows($q44)){
 												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
-											}else{
-												$total = mysqli_num_rows($q4);												
+											}else{											
 												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
 											}
 								    		
