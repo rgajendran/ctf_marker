@@ -35,6 +35,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 			<a href="admin.php?option=announce"><span>ANNOUNCE</span></a>
 			<a href="admin.php?option=import-secgen"><span>IMPORT SECGEN</span></a>
 			<a href="admin.php?option=db-manage"><span>DATABASE MANAGEMENT</span></a>
+			<a href="admin.php?option=verify"><span>SYSTEM STATUS</span></a>
 			<a href="template/logout.php"><span>LOGOUT</span></a>
 		</div>
 		<div id="content">
@@ -275,7 +276,10 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											$team_mem_code = $team_members_row['TEAM'];
 											$team_members_list = mysqli_query($connection, "SELECT USERNAME,TOKEN,TOKEN_ACT FROM users WHERE TEAM='$team_mem_code' AND TYPE='N'");
 											$count_members = mysqli_num_rows($team_members_list);
-											echo "<td rowspan='$count_members'>$team_mem_code</td>";
+											$team_name_getter_new = mysqli_query($connection, "SELECT TEAMNAME FROM team WHERE TEAM='$team_mem_code'");
+											while($team_name_getter_row = mysqli_fetch_assoc($team_name_getter_new)){									
+												echo "<td rowspan='$count_members'>".$team_name_getter_row['TEAMNAME']."</td>";
+											}
 											while($team_members_list_row = mysqli_fetch_assoc($team_members_list)){
 												$username = $team_members_list_row['USERNAME'];
 												$token = $team_members_list_row['TOKEN'];
@@ -1122,6 +1126,181 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 							</div>
 
 						<?php
+						break;	
+					
+					case "verify":
+					?>
+							<div id="team1-div">
+								<h1>System Game Status</h1>
+								<table>
+									<tr class="table_heading">
+									    <th>Name</th>
+									    <th>Status</th> 
+								    </tr>
+								    <tr> 		
+								    	<td>Any Token Conflict</td>
+								    	
+								    		<?php
+								    		$q1 = mysqli_query($connection, "SELECT TOKEN FROM users group by TOKEN having count(*) >= 2");
+											$q1_result = mysqli_num_rows($q1);
+											if($q1_result == 0){
+												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+											}else{
+												while($row1 = mysqli_fetch_assoc($q1)){
+													$q1_b = $row1['TOKEN'];
+													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>$q1_b</td>";
+												}
+											}
+								    		
+								    		?>
+								    	
+								    </tr>
+								    <tr> 
+								    <td>Any Notification Conflict</td>
+								    	
+								    		<?php
+								    		$q2 = mysqli_query($connection, "SELECT USERNAME FROM users WHERE TOKEN_ACT='1' AND TYPE='N'");
+											$q22 = mysqli_query($connection, "SELECT USERNAME FROM updater");
+											$q2_result = mysqli_num_rows($q2);
+											$q22_result = mysqli_num_rows($q22);
+											if($q2_result == $q22_result){
+												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+											}else{												
+													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
+											}
+								    		
+								    		?>
+								    	
+								    </tr>
+								    <tr> 
+								    <td>Any Scoreboard & Team Conflict</td>
+								    	
+								    		<?php
+								    		$q4 = mysqli_query($connection, "SELECT TEAM,TEAMNAME FROM scoreboard");
+											$q44 = mysqli_query($connection, "SELECT TEAM,TEAMNAME FROM team");
+											
+											if(mysqli_num_rows($q4) == mysqli_num_rows($q44)){
+												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+											}else{
+												$total = mysqli_num_rows($q4);												
+												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
+											}
+								    		
+								    		?>
+								    	
+								    </tr>									    								    
+								    <tr> 		
+								    <td>Pending Registration</td>
+								    	
+								    		<?php
+								    		$q3 = mysqli_query($connection, "SELECT TOKEN_ACT FROM users WHERE TOKEN_ACT='0'");
+											$q3_result = mysqli_num_rows($q3);
+											if($q3_result == 0){
+												echo "<td style='background:#c3e29c;color:black;text-align:center;'>All Registered</td>";
+											}else{												
+													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>$q3_result </td>";
+											}
+								    		
+								    		?>
+								    	
+								    </tr>										    		    										
+								</table>
+								<h1>Table Status</h1>
+								<table>
+									<tr class="table_heading">
+									    <th>Chat</th>
+									    <th>Hint</th> 
+									    <th>Logger</th>
+									    <th>Options</th>
+									    <th>Report</th>
+									    <th>Scoreboard</th>
+									    <th>SecGen</th>
+									    <th>SecGenFlag</th>
+									    <th>Team</th>
+									    <th>Updater</th>
+									    <th>Users</th>
+								    </tr>
+								    <tr> 		
+								    	<?php
+								    	$tables = array("chat", "hint", "logger", "options","report","scoreboard","secgen","secgenflag","team","updater","users"); 
+								    	foreach($tables as $tab){
+								    		if(mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE '$tab'"))==0){
+								    			echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Failed</td>";
+								    		}else{
+								    			echo "<td style='background:#c3e29c;color:black;text-align:center;'>Success</td>";
+								    		}
+								    	}
+								    	?>									
+								    </tr>										    		    										
+								</table>
+							<h1>Challenges</h1>
+							<table>
+							  <tr class="table_heading">
+							    <th>Team</th>
+							    <th>VM</th> 
+							    <th>Challenges</th>
+							    <th>Hint</th>
+							  </tr>
+							<?php
+							$select = mysqli_query($connection, "SELECT * FROM team");
+							while($team_row = mysqli_fetch_assoc($select)){
+								$team = $team_row['TEAM'];
+								$teamName = $team_row['TEAMNAME'];//team
+								$vm = mysqli_query($connection, "SELECT DISTINCT VM FROM secgenflag WHERE TEAM='$team'");
+								$vm_query = mysqli_num_rows($vm);//vm
+								$challenges = mysqli_query($connection, "SELECT C_ID FROM secgenflag WHERE TEAM='$team'");
+								$challenges_count = mysqli_num_rows($challenges);//challenges	
+								$hint_q = mysqli_query($connection, "SELECT HINT_ID FROM hint WHERE TEAM='$team'");
+								$hint_count = mysqli_num_rows($hint_q);//hint
+									?>
+									  <tr>
+									    <td style='text-align:center;'><?php echo $teamName;?></td>
+									    <td style='text-align:center;'><?php echo $vm_query;?></td>
+									    <td style='text-align:center;'><?php echo $challenges_count;?></td>
+									    <td style='text-align:center;'><?php echo $hint_count;?></td>
+									  </tr>
+										
+										<?php						
+							}
+							?>
+							</table>
+							<h1>Error Monitor</h1>
+								<table>
+								  <tr class="table_heading">
+								    <th>S.No</th>
+								    <th>Date</th> 
+								    <th>Log</th>
+								  </tr>
+								<?php
+									$log = mysqli_query($connection, "SELECT * FROM report");
+									$count = mysqli_num_rows($log);
+									if($count > 0){									
+										while($repo = mysqli_fetch_assoc($log)){
+											$id = $repo['ID'];
+											$date = $repo['DATE'];
+											$logtext = $repo['LOG'];	
+											?>
+											  <tr>
+											    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $id;?></td>
+											    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $date;?></td>
+											    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $logtext;?></td>
+											  </tr>
+												
+											<?php						
+										}
+									}else{
+										?>
+											  <tr>
+											    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
+											    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
+											    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
+											  </tr>
+										<?php
+									}
+								?>
+								</table>
+							</div>
+							<?php
 						break;	
 							
 					default:
