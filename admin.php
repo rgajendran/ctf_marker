@@ -121,6 +121,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								if(!empty($_POST['team-create'])){
 									$team_create = $_POST['team-create'];
 									if(strlen($team_create) > 0  && strlen($team_create) <=15){
+										$check = mysqli_query($connection, "SELECT TEAM FROM team");
+										if($check){
 											$team_create_count = mysqli_num_rows(mysqli_query($connection, "SELECT TEAM FROM team")) + 1;
 											$team_create_res = mysqli_query($connection, "INSERT INTO team (TEAM, TEAMNAME) VALUES ('$team_create_count','$team_create')");
 											if($team_create_res){
@@ -128,16 +130,19 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												if($team_scoreboard_add){
 													echo "<p style='color:green;margin-left:10%;'>Team Creation Successful</p>";
 												}else{
-													echo "<p style='color:maroon;margin-left:10%;'>Failed to create team 3</p>";
+													echo "<p style='color:red;margin-left:10%;'>Failed to create team 3</p>";
 												}
 											}else{
-												echo "<p style='color:maroon;margin-left:10%;'>Failed to create team 2</p>";
-											}
+												echo "<p style='color:red;margin-left:10%;'>Failed to create team 2</p>";
+											}											
+										}else{
+											echo "<p style='color:red;margin-left:10%;'>Failed to Update</p>";
+										}
 									}else{
-										echo "<p style='color:maroon;margin-left:10%;'>Team name should be between 0 - 15 characters long</p>";
+										echo "<p style='color:red;margin-left:10%;'>Team name should be between 0 - 15 characters long</p>";
 									}
 								}else{
-									echo "<p style='color:maroon;margin-left:10%;'>Team name is empty</p>";
+									echo "<p style='color:red;margin-left:10%;'>Team name is empty</p>";
 								}
 							}
 						break;
@@ -174,6 +179,9 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 													
 												}
 											}
+										}else{
+											echo "<td>No Data Found</td>";
+											echo "<td>No Data Found</td>";											
 										}
 								    ?>
 										
@@ -315,11 +323,14 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									    <th>
 											<input type="datetime-local" name="homepage-date" id="home_date"/>
 											<h3>
-												Time Set : <b style="color:green;">
 												<?php
 												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='HOME_TIME'");
-												foreach(mysqli_fetch_assoc($q1) as $val){
-													echo $val;
+												if($q1){
+													foreach(mysqli_fetch_assoc($q1) as $val){
+														echo 'Time Set : <b style="color:green;">'.$val;
+													}
+												}else{
+													echo '<b style="color:red;">'."Table Not Initialised";
 												}
 												
 												?>
@@ -339,15 +350,17 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									    	<h1>CTF Game End Time</h1>
 										</th>
 									    <th>
-											<input type="datetime-local" name="ctf-date" />
+											<input type="datetime-local" name="ctf-date" id="pass_chn"/>
 											<h3>
-												Time Set : <b style="color:green;">
 												<?php
 												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
-												foreach(mysqli_fetch_assoc($q1) as $val){
-													echo $val;
-												}
-												
+												if($q1){												
+													foreach(mysqli_fetch_assoc($q1) as $val){
+														echo 'Time Set : <b style="color:green;">'.$val;
+													}
+												}else{
+													echo '<b style="color:red;">'."Table Not Initialised";
+												}												
 												?>
 												</b>
 											</h3>
@@ -368,14 +381,17 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<h3>
 												<?php
 												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='LOGIN'");
-												foreach(mysqli_fetch_assoc($q1) as $val){
-													if($val == "ALLOW"){
-														echo "<b style='color:green;'>$val</b>";
-													}else{
-														echo "<b style='color:red;'>$val</b>";
+												if($q1){												
+													foreach(mysqli_fetch_assoc($q1) as $val){
+														if($val == "ALLOW"){
+															echo "<b style='color:green;'>$val</b>";
+														}else{
+															echo "<b style='color:red;'>$val</b>";
+														}
 													}
-												}
-												
+												}else{
+													echo "<b style='color:red;'>Table Not Initialised</b>";
+												}												
 												?>
 											</h3>
 										</th> 
@@ -1142,16 +1158,23 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    	
 								    		<?php
 								    		$q1 = mysqli_query($connection, "SELECT TOKEN FROM users group by TOKEN having count(*) >= 2");
-											$q1_result = mysqli_num_rows($q1);
-											if($q1_result == 0){
-												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+											if($q1){
+												$q1_result = mysqli_num_rows($q1);
+												if($q1_result){
+													if($q1_result == 0){
+														echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+													}else{
+														while($row1 = mysqli_fetch_assoc($q1)){
+															$q1_b = $row1['TOKEN'];
+															echo "<td style='background:#f7b9b9;color:black;text-align:center;'>$q1_b</td>";
+														}
+													}
+												}else{
+													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";	
+												}												
 											}else{
-												while($row1 = mysqli_fetch_assoc($q1)){
-													$q1_b = $row1['TOKEN'];
-													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>$q1_b</td>";
-												}
+												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";												
 											}
-								    		
 								    		?>
 								    	
 								    </tr>
@@ -1161,12 +1184,16 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    		<?php
 								    		$q2 = mysqli_query($connection, "SELECT USERNAME FROM users WHERE TOKEN_ACT='1' AND TYPE='N'");
 											$q22 = mysqli_query($connection, "SELECT USERNAME FROM updater");
-											$q2_result = mysqli_num_rows($q2);
-											$q22_result = mysqli_num_rows($q22);
-											if($q2_result == $q22_result){
-												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
-											}else{												
-													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
+											if($q2 || $q22){
+												$q2_result = mysqli_num_rows($q2);
+												$q22_result = mysqli_num_rows($q22);
+												if($q2_result == $q22_result){
+													echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+												}else{												
+														echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
+												}
+											}else{
+												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";	
 											}
 								    		
 								    		?>
@@ -1179,12 +1206,15 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    		$q4 = mysqli_query($connection, "SELECT TEAM,TEAMNAME FROM scoreboard");
 											$q44 = mysqli_query($connection, "SELECT TEAM,TEAMNAME FROM team");
 											
-											if(mysqli_num_rows($q4) == mysqli_num_rows($q44)){
-												echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
-											}else{											
-												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
-											}
-								    		
+											if($q4 || $q44){
+												if(mysqli_num_rows($q4) == mysqli_num_rows($q44)){
+													echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
+												}else{											
+													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";
+												}
+											}else{
+												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";												
+											}							    		
 								    		?>
 								    	
 								    </tr>									    								    
@@ -1193,13 +1223,16 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    	
 								    		<?php
 								    		$q3 = mysqli_query($connection, "SELECT TOKEN_ACT FROM users WHERE TOKEN_ACT='0'");
-											$q3_result = mysqli_num_rows($q3);
-											if($q3_result == 0){
-												echo "<td style='background:#c3e29c;color:black;text-align:center;'>All Registered</td>";
-											}else{												
-													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>$q3_result </td>";
+											if($q3){
+												$q3_result = mysqli_num_rows($q3);
+												if($q3_result == 0){
+													echo "<td style='background:#c3e29c;color:black;text-align:center;'>All Registered</td>";
+												}else{												
+														echo "<td style='background:#f7b9b9;color:black;text-align:center;'>$q3_result </td>";
+												}												
+											}else{
+												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";												
 											}
-								    		
 								    		?>
 								    	
 								    </tr>										    		    										
@@ -1234,32 +1267,38 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</table>
 							<h1>Challenges</h1>
 							<table>
+							<?php
+							$select = mysqli_query($connection, "SELECT * FROM team");
+							if($select){
+								?>
 							  <tr class="table_heading">
 							    <th>Team</th>
 							    <th>VM</th> 
 							    <th>Challenges</th>
 							    <th>Hint</th>
 							  </tr>
-							<?php
-							$select = mysqli_query($connection, "SELECT * FROM team");
-							while($team_row = mysqli_fetch_assoc($select)){
-								$team = $team_row['TEAM'];
-								$teamName = $team_row['TEAMNAME'];//team
-								$vm = mysqli_query($connection, "SELECT DISTINCT VM FROM secgenflag WHERE TEAM='$team'");
-								$vm_query = mysqli_num_rows($vm);//vm
-								$challenges = mysqli_query($connection, "SELECT C_ID FROM secgenflag WHERE TEAM='$team'");
-								$challenges_count = mysqli_num_rows($challenges);//challenges	
-								$hint_q = mysqli_query($connection, "SELECT HINT_ID FROM hint WHERE TEAM='$team'");
-								$hint_count = mysqli_num_rows($hint_q);//hint
-									?>
-									  <tr>
-									    <td style='text-align:center;'><?php echo $teamName;?></td>
-									    <td style='text-align:center;'><?php echo $vm_query;?></td>
-									    <td style='text-align:center;'><?php echo $challenges_count;?></td>
-									    <td style='text-align:center;'><?php echo $hint_count;?></td>
-									  </tr>
-										
-										<?php						
+								<?php
+								while($team_row = mysqli_fetch_assoc($select)){
+									$team = $team_row['TEAM'];
+									$teamName = $team_row['TEAMNAME'];//team
+									$vm = mysqli_query($connection, "SELECT DISTINCT VM FROM secgenflag WHERE TEAM='$team'");
+									$vm_query = mysqli_num_rows($vm);//vm
+									$challenges = mysqli_query($connection, "SELECT C_ID FROM secgenflag WHERE TEAM='$team'");
+									$challenges_count = mysqli_num_rows($challenges);//challenges	
+									$hint_q = mysqli_query($connection, "SELECT HINT_ID FROM hint WHERE TEAM='$team'");
+									$hint_count = mysqli_num_rows($hint_q);//hint
+										?>
+										  <tr>
+										    <td style='text-align:center;'><?php echo $teamName;?></td>
+										    <td style='text-align:center;'><?php echo $vm_query;?></td>
+										    <td style='text-align:center;'><?php echo $challenges_count;?></td>
+										    <td style='text-align:center;'><?php echo $hint_count;?></td>
+										  </tr>
+											
+											<?php						
+								}
+							}else{
+								echo "<td style='background:#f7b9b9;color:black;text-align:center;'>No Challanges Found</td>";								
 							}
 							?>
 							</table>
@@ -1272,28 +1311,38 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								  </tr>
 								<?php
 									$log = mysqli_query($connection, "SELECT * FROM report");
-									$count = mysqli_num_rows($log);
-									if($count > 0){									
-										while($repo = mysqli_fetch_assoc($log)){
-											$id = $repo['ID'];
-											$date = $repo['DATE'];
-											$logtext = $repo['LOG'];	
-											?>
-											  <tr>
-											    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $id;?></td>
-											    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $date;?></td>
-											    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $logtext;?></td>
-											  </tr>
-												
-											<?php						
-										}
+									if($log){
+											$count = mysqli_num_rows($log);
+											if($count > 0){									
+												while($repo = mysqli_fetch_assoc($log)){
+													$id = $repo['ID'];
+													$date = $repo['DATE'];
+													$logtext = $repo['LOG'];	
+													?>
+													  <tr>
+													    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $id;?></td>
+													    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $date;?></td>
+													    <td style='text-align:left;color:black;background:#f7b9b9;'><?php echo $logtext;?></td>
+													  </tr>
+														
+													<?php						
+												}
+											}else{
+												?>
+													  <tr>
+													    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
+													    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
+													    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
+													  </tr>
+												<?php
+											}
 									}else{
 										?>
-											  <tr>
-											    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
-											    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
-											    <td style='background:#c3e29c;color:black;text-align:center;'>STATUS_OK</td>
-											  </tr>
+													  <tr>
+													    <td style='text-align:left;color:black;background:#f7b9b9;'>Table Not Found</td>
+													    <td style='text-align:left;color:black;background:#f7b9b9;'>Table Not Found</td>
+													    <td style='text-align:left;color:black;background:#f7b9b9;'>Table Not Found</td>
+													  </tr>
 										<?php
 									}
 								?>
