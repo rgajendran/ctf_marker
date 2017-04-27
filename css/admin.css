@@ -227,3 +227,25 @@ select option{
 	padding-left:10px;
 	box-sizing: border-box;
 }
+
+.input > input{
+	width:95%;
+	height:30px;	
+	border:solid 1px #ABD17D;
+	background:inherit;
+	color:#ABD17D;
+	font-size:large;
+	padding:5px 5px;
+}
+
+.danger{
+	text-align:left;
+	color:black;
+	background:#f7b9b9;
+}
+
+.success{
+	background:#c3e29c;
+	color:black;
+	text-align:center;
+}​

@@ -7,7 +7,7 @@ if (isset($_POST['uname']) && isset($_POST['psw'])) {
 
 	include 'connection.php';
 	if (strlen($username) >= 5 && strlen($username) <= 10) {
-		if (strlen($password) >= 5 && strlen($password) <= 10) {
+		if (strlen($password) >= 4 && strlen($password) <= 20) {
 			$hash = md5($password . "CTF");
 			$result = mysqli_query($connection, "SELECT * FROM users WHERE USERNAME='$username' AND PASSWORD='$hash'");
 			if ($result) {

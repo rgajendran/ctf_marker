@@ -1,9 +1,12 @@
 <?php
   
+require '../class/Validator.php';
+  
   if(isset($_POST['team']) && isset($_POST['chat']) && isset($_POST['user'])){
-	 $team = $_POST['team'];
-	 $chat = $_POST['chat'];	
-	 $user = $_POST['user'];
+     $creditional = new Creditional();
+	 $team = $creditional->getTeam();
+	 $user = $creditional->getUsername();  
+	 $chat = Validator::filterString($_POST['chat']);
 	 include 'connection.php';
 	 if(!empty($chat) && strlen($chat) > 1){
 	 	 $date = new DateTime('now', new DateTimeZone('Europe/London'));

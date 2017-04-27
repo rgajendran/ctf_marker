@@ -16,7 +16,7 @@ if(isset($_POST['usr']) && isset($_POST['ps1']) && isset($_POST['ps2']) && isset
 		if(strlen($usr) >= 5 && strlen($usr) <= 10){
 			if(ctype_alpha($usr)){
 				if($ps1 == $ps2){
-					if(strlen($ps2) >= 5 && strlen($ps2) <=10){
+					if(strlen($ps2) >= 4 && strlen($ps2) <=20){
 						if(mysqli_num_rows(mysqli_query($connection, "SELECT USERNAME FROM users WHERE USERNAME='$usr'")) == 0){
 							if(strlen($tkn) == 8){
 								$h = md5($tkn);
@@ -57,7 +57,7 @@ if(isset($_POST['usr']) && isset($_POST['ps1']) && isset($_POST['ps2']) && isset
 						}
 	
 					}else{
-						$error = "Password should be between 5-10 characters";
+						$error = "Password should be between 4-20 characters";
 					}
 				}else{
 					$error = "Your password doesn't match";

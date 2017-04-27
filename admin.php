@@ -10,6 +10,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 	header('location:index.php');
 } 
 
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,7 +23,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link href="https://fonts.googleapis.com/css?family=Iceland|Orbitron" rel="stylesheet"> 
 		<link href="css/admin.css" type="text/css" rel="stylesheet" />
-</head>
+	</head>
 <body style="background:url('images/bgadmin.png');">
 	
 	<div id="wrapper">	
@@ -317,10 +319,10 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 						<form method="post" action="admin.php?option=options">
 							<table style="width:100%;">
 								<tr>
-									    <th>
+									    <th style="width:25%;">
 									    	<h1>Homepage Date</h1>
 										</th>
-									    <th>
+									    <th style="width:50%;">
 											<input type="datetime-local" name="homepage-date" id="home_date"/>
 											<h3>
 												<?php
@@ -337,7 +339,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												</b>
 											</h3>
 										</th> 
-									    <th>
+									    <th style="width:25%;">
 									    	<input type="submit" name="homepage-submit" value="Update" id="token-input-2"/>
 									    </th> 
 								</tr>
@@ -345,12 +347,12 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 						</form>
 						<form method="post" action="admin.php?option=options">
 							<table style="width:100%;">
-								<tr>
-									    <th>
+								<tr class="equalTable">
+									    <th style="width:25%;">
 									    	<h1>CTF Game End Time</h1>
 										</th>
-									    <th>
-											<input type="datetime-local" name="ctf-date" id="pass_chn"/>
+									    <th style="width:50%;">
+											<input type="datetime-local" name="ctf-date" id="date_type" style="width:100%;"/>
 											<h3>
 												<?php
 												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
@@ -365,15 +367,18 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												</b>
 											</h3>
 										</th> 
-									    <th>
+									    <th style="width:25%;">
 									    	<input type="submit" name="ctf-submit" value="Update" id="token-input-2"/>
 									    </th> 
 								</tr>
 							</table>
 						</form>
+						<br>
+						<h1>Other Options</h1>
+						<br>						
 						<form method="post" action="admin.php?option=options">
 							<table style="width:100%;">
-								<tr>
+								<tr class="equalTable">
 									    <th>
 									    	<h1>Allow Users Login</h1>
 										</th>
@@ -946,39 +951,15 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th> 
 							    <th>
 							    	<?php
-							    	//temporary solution
-							    	//ToDO: Need to find a better solution
 							    	 if(isset($_POST['create_map'])){
 										$filename = 'sql/secgen.sql';
-										include 'template/dbupdate.php';
-										$stat = "STATUS";
-										mysql_connect($mysql_host, $mysql_username, $mysql_password) or die('Error connecting to MySQL server: ' . mysql_error());
-										mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
-										mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
-
-										// Temporary variable, used to store current query
-										$templine = '';
-										// Read in entire file
-										$lines = file($filename);
-										// Loop through each line
-										foreach ($lines as $line)
-										{
-										// Skip it if it's a comment
-										if (substr($line, 0, 2) == '--' || $line == '')
-										    continue;
-										
-										// Add this line to the current segment
-										$templine .= $line;
-										// If it has a semicolon at the end, it's the end of the query
-										if (substr(trim($line), -1, 1) == ';')
-										{
-										    // Perform the query
-										    mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
-										    // Reset temp variable to empty
-										    $templine = '';
+										$sqlSource = file_get_contents('sql/secgen.sql');
+										$result = mysqli_multi_query($connection,$sqlSource);
+										if($result){
+										 echo "<h1 style='color:green;'>Success</h1>";											
+										}else{
+										 echo "<h1 style='color:red;'>Failed</h1>";											
 										}
-										}
-										 echo "<h1 style='color:green;'>Success</h1>";
 									 }else{
 									 	echo "<h1>STATUS</h1>";
 									 }
@@ -1157,10 +1138,11 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    	<td>Any Token Conflict</td>
 								    	
 								    		<?php
-								    		$q1 = mysqli_query($connection, "SELECT TOKEN FROM users group by TOKEN having count(*) >= 2");
-											if($q1){
+								    		$qc1 = mysqli_query($connection, "SELECT * FROM users");
+											if($qc1){
+												$q1 = mysqli_query($connection, "SELECT TOKEN FROM users group by TOKEN having count(*) >= 2");
 												$q1_result = mysqli_num_rows($q1);
-												if($q1_result){
+												if($q1){
 													if($q1_result == 0){
 														echo "<td style='background:#c3e29c;color:black;text-align:center;'>No Conflict</td>";
 													}else{
@@ -1170,7 +1152,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 														}
 													}
 												}else{
-													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";	
+													echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Conflict</td>";	
 												}												
 											}else{
 												echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Table Not Initialised</td>";												
@@ -1238,7 +1220,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    </tr>										    		    										
 								</table>
 								<h1>Table Status</h1>
-								<table>
+								<table style="width:80%;">
 									<tr class="table_heading">
 									    <th>Chat</th>
 									    <th>Hint</th> 
@@ -1349,7 +1331,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</table>
 							</div>
 							<?php
-						break;	
+						break;		
 							
 					default:
 						header('location:admin.php?option=team');
