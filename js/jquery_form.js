@@ -77,7 +77,7 @@
 						method: "POST",
 						url: "template/chat.php",
 						async:false,
-						data: {team: tm1, chat: chat, user: user},
+						data: {chat: chat, item:"chat"},
 						success: function(status){
 							$('#div3_chat_input').val('');
 						}

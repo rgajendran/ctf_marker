@@ -64,7 +64,7 @@ span:hover{
 	color:#000000;
 }
 
-input, select{
+input, select, button{
 	font-family: 'Iceland', cursive;
 	outline: none;
 }
@@ -131,7 +131,7 @@ th, td {
 	margin:0px auto;
 }
 
-#token-div-add{
+.token-div-add{
 	width:80%;
 	margin:0px auto 2% auto;;
 }
@@ -154,7 +154,7 @@ select option{
 	background:#111;
 }
 
-#token-div-add input{
+.token-div-add input{
 	width:100%;
 	height:10%;
 	padding-top:3%;
@@ -165,17 +165,17 @@ select option{
 	border:solid 1px #ABD17D;
 }
 
-#token-input-1{
+.token-input-1{
 	padding-left:1%;
 	text-align:center;
 }
 
-#token-input-2{
+.token-input-2{
 	border-radius: 1em;
 	cursor: pointer;
 }
 
-#token-input-2:hover{
+.token-input-2:hover{
 	background:#ABD17D;
 	color:#000000;
 }
@@ -248,4 +248,22 @@ select option{
 	background:#c3e29c;
 	color:black;
 	text-align:center;
+}
+
+button{
+	width:100%;
+	border:solid 1px #ABD17D;
+	font-family: 'Iceland', cursive;
+	background:inherit;
+	color:#ABD17D;
+	font-size:large;
+	padding-top:3%;
+	padding-bottom:3%;
+	border-radius: 1em;
+	cursor: pointer;
+}	
+
+button:hover{
+	background:#ABD17D;
+	color:#000000;
 }​

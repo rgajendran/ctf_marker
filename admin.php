@@ -101,7 +101,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 							}
 							}
 							echo "</table>";?>
-							<div id="token-div-add">
+							<div class="token-div-add">
 							<form method="post" action="admin.php?option=team">
 								<table style="width:100%;">
 									<tr>
@@ -195,7 +195,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 					case "token":
 						?>	
 						<h1>Generate Token</h1>
-						<div id="token-div-add">
+						<div class="token-div-add">
 							<form method="post" action="admin.php?option=token">
 							<table style="width:100%;">
 								<tr>
@@ -213,10 +213,10 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											</select>
 										</th>
 									    <th>
-											<input type="number" name="token_gen_num" placeholder="Number of Token" id="token-input-1" maxlength="2"/>
+											<input type="number" name="token_gen_num" placeholder="Number of Token" class="token-input-1" maxlength="2"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="token_gen_submit" value="Generate" id="token-input-2"/>
+									    	<input type="submit" name="token_gen_submit" value="Generate" class="token-input-2"/>
 									    </th> 
 								</tr>
 							</table>
@@ -240,7 +240,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												</select>
 											</th> 
 										    <th>
-										    	<input type="submit" name="token_pdf" value="Generate Token" id="token-input-2"/>
+										    	<input type="submit" name="token_pdf" value="Export Tokens" class="token-input-2"/>
 										    </th> 
 									</tr>
 								</table>
@@ -254,9 +254,9 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										for($int = 0; $int <$token_counter; $int++){
 											$randomKey = randomToken();
 											$h = md5($randomKey);
-											$insertToken = mysqli_query($connection, "INSERT INTO users (TEAM, TYPE, TOKEN, TOKEN_HASH, TOKEN_ACT) VALUES ('$token_teamd','N','$randomKey','$h',0)");
+											$insertToken = mysqli_query($connection, "INSERT INTO users (TEAM, TYPE, T_TYPE, TOKEN, TOKEN_HASH, TOKEN_ACT) VALUES ('$token_teamd','N','T','$randomKey','$h',0)");
 											if($insertToken){
-
+												
 											}else{
 												echo "<p style='color:maroon;'>Failed to Insert</p>";
 											}
@@ -270,6 +270,100 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 						
 							?>
 						</div>
+						<!---Generate Logins---->
+						<h1>Generate Logins</h1>
+						<div class="token-div-add">
+							<form method="post" action="admin.php?option=token">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+									    	<input type="hidden" value="login" name="option" />
+											<select name="login_gen_team">
+												<?php
+												$token_team_list = mysqli_query($connection, "SELECT TEAM, TEAMNAME FROM team");
+												while($token_team_list_row = mysqli_fetch_assoc($token_team_list)){
+													$token_team = $token_team_list_row['TEAM'];
+													$token_team_name = $token_team_list_row['TEAMNAME'];
+													echo "<option value='$token_team'>$token_team_name</option>";
+												}
+												?>
+											</select>
+										</th>
+									    <th>
+											<input type="number" style="text-align:center;" name="login_gen_num" placeholder="Number of Logins" id="login-input-1" maxlength="2"/>
+										</th> 
+									    <th>
+									    	<input type="submit" name="login_gen_submit" value="Generate" class="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+							</form>
+							<form method="post" action="data_pdf.php">
+								<table style="width:100%;">
+									<tr>
+										    <th>
+										    	<h1>Export Login PDF</h1>
+											</th>
+										    <th>
+												<select name="login_gen_team">
+													<?php
+													$token_team_list = mysqli_query($connection, "SELECT TEAM, TEAMNAME FROM team");
+													while($token_team_list_row = mysqli_fetch_assoc($token_team_list)){
+														$token_team = $token_team_list_row['TEAM'];
+														$token_team_name = $token_team_list_row['TEAMNAME'];
+														echo "<option value='$token_team'>$token_team_name</option>";
+													}
+													?>
+												</select>
+											</th> 
+										    <th>
+										    	<input type="submit" name="login_pdf" value="Export Logins" class="token-input-2"/>
+										    </th> 
+									</tr>
+								</table>
+							</form>
+							<?php
+							if(isset($_POST['login_gen_submit'])){
+								if(isset($_POST['option']) && isset($_POST['login_gen_team']) && isset($_POST['login_gen_num'])){
+									$login_counter = $_POST['login_gen_num'];
+									$login_teamd = $_POST['login_gen_team'];
+									if($login_counter > 0 && $login_counter < 10){									
+										$ucount = 0;			
+										foreach(file('support/usernames.txt') as $un){
+											$usrname = trim($un);
+											if($ucount == $login_counter){
+												break;
+											}else{
+												$chkusr = mysqli_num_rows(mysqli_query($connection, "SELECT USERNAME FROM users WHERE USERNAME='$usrname'"));
+												if($chkusr == 0){
+													$randomKey = randomToken();
+													$keyHash = md5($randomKey);
+													$hash = md5($randomKey . "CTF");
+													$insertToken = mysqli_query($connection, "INSERT INTO users (USERNAME, PASSWORD, TEAM, TYPE, T_TYPE, TOKEN, TOKEN_HASH, TOKEN_ACT) VALUES ('$usrname','$hash','$login_teamd','N','L','$randomKey','$keyHash','1')");
+													if($insertToken){
+														$updater = mysqli_query($connection, "INSERT INTO updater (TEAM, USERNAME) VALUES ('$login_teamd','$usrname')");
+														if($updater){
+															
+														}else{
+															echo "<p style='color:maroon;'>Failed to Insert</p>";															
+														}	
+													}else{
+														echo "<p style='color:maroon;'>Failed to Insert</p>";
+													}	
+													$ucount++;
+												}	
+											}
+										}	
+									}else{
+										echo "<p style='color:maroon;'>Team should be between 1-10</p>";
+									}
+								}
+								
+							}	
+						
+							?>
+						</div>
+						<!--Generate Login End--->						
 						<h1>Available & Registered Token</h1>
 						<div id="token-div">
 								<table>
@@ -315,97 +409,91 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 				case "options":
 				?>
 						<h1>Event Options</h1>
-						<div id="token-div-add">
-						<form method="post" action="admin.php?option=options">
-							<table style="width:100%;">
-								<tr>
-									    <th style="width:25%;">
-									    	<h1>Homepage Date</h1>
-										</th>
-									    <th style="width:50%;">
-											<input type="datetime-local" name="homepage-date" id="home_date"/>
-											<h3>
-												<?php
-												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='HOME_TIME'");
-												if($q1){
-													foreach(mysqli_fetch_assoc($q1) as $val){
-														echo 'Time Set : <b style="color:green;">'.$val;
-													}
-												}else{
-													echo '<b style="color:red;">'."Table Not Initialised";
+						<div class="token-div-add">
+						<table style="width:100%;">
+							<tr>
+								    <th style="width:25%;">
+								    	<h1>Homepage Date</h1>
+									</th>
+								    <th style="width:50%;">
+										<input type="datetime-local" name="homepage-date" id="home_date"/>
+										<h3 id="home_status">
+											<?php
+											$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='HOME_TIME'");
+											if($q1){
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													echo 'Time Set : <b style="color:green;">'.$val;
 												}
-												
-												?>
-												</b>
-											</h3>
-										</th> 
-									    <th style="width:25%;">
-									    	<input type="submit" name="homepage-submit" value="Update" id="token-input-2"/>
-									    </th> 
-								</tr>
-							</table>
-						</form>
-						<form method="post" action="admin.php?option=options">
-							<table style="width:100%;">
-								<tr class="equalTable">
-									    <th style="width:25%;">
-									    	<h1>CTF Game End Time</h1>
-										</th>
-									    <th style="width:50%;">
-											<input type="datetime-local" name="ctf-date" id="date_type" style="width:100%;"/>
-											<h3>
-												<?php
-												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
-												if($q1){												
-													foreach(mysqli_fetch_assoc($q1) as $val){
-														echo 'Time Set : <b style="color:green;">'.$val;
-													}
-												}else{
-													echo '<b style="color:red;">'."Table Not Initialised";
-												}												
-												?>
-												</b>
-											</h3>
-										</th> 
-									    <th style="width:25%;">
-									    	<input type="submit" name="ctf-submit" value="Update" id="token-input-2"/>
-									    </th> 
-								</tr>
-							</table>
-						</form>
+											}else{
+												echo '<b style="color:red;">'."Table Not Initialised";
+											}
+											
+											?>
+											</b>
+										</h3>
+									</th> 
+								    <th style="width:25%;">
+								    	<button id="home_date_submit" onclick="Update.homedate();">Update</button>
+								    </th> 
+							</tr>
+						</table>
+						<table style="width:100%;">
+							<tr class="equalTable">
+								    <th style="width:25%;">
+								    	<h1>CTF Game End Time</h1>
+									</th>
+								    <th style="width:50%;">
+										<input type="datetime-local" name="ctf-date" id="ctf_date" style="width:100%;"/>
+										<h3 id="ctf_status">
+											<?php
+											$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
+											if($q1){												
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													echo 'Time Set : <b style="color:green;">'.$val;
+												}
+											}else{
+												echo '<b style="color:red;">'."Table Not Initialised";
+											}												
+											?>
+											</b>
+										</h3>
+									</th> 
+								    <th style="width:25%;">
+								    	<button onclick="Update.ctf();">Update</button>
+								    </th> 
+							</tr>
+						</table>
 						<br>
 						<h1>Other Options</h1>
 						<br>						
-						<form method="post" action="admin.php?option=options">
-							<table style="width:100%;">
-								<tr class="equalTable">
-									    <th>
-									    	<h1>Allow Users Login</h1>
-										</th>
-									    <th>
-											<h3>
-												<?php
-												$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='LOGIN'");
-												if($q1){												
-													foreach(mysqli_fetch_assoc($q1) as $val){
-														if($val == "ALLOW"){
-															echo "<b style='color:green;'>$val</b>";
-														}else{
-															echo "<b style='color:red;'>$val</b>";
-														}
+						<table style="width:100%;">
+							<tr class="equalTable">
+								    <th>
+								    	<h1>Allow Users Login</h1>
+									</th>
+								    <th>
+										<h3 id="allow_status">
+											<?php
+											$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='LOGIN'");
+											if($q1){												
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													if($val == "ALLOW"){
+														echo "<b style='color:green;' id='lstat'>$val</b>";
+													}else{
+														echo "<b style='color:red;' id='lstat'>$val</b>";
 													}
-												}else{
-													echo "<b style='color:red;'>Table Not Initialised</b>";
-												}												
-												?>
-											</h3>
-										</th> 
-									    <th>
-									    	<input type="submit" name="login-submit" value="Update" id="token-input-2"/>
-									    </th> 
-								</tr>
-							</table>
-						</form>						
+												}
+											}else{
+												echo "<b style='color:red;'>Table Not Initialised</b>";
+											}												
+											?>
+										</h3>
+									</th> 
+								    <th>
+								    	<button onclick="Update.login();">Update</button>
+								    </th> 
+							</tr>
+						</table>					
 						<form method="post" action="admin.php?option=options">
 							<table style="width:100%;">
 								<tr>
@@ -418,7 +506,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="password" name="pass2" placeholder="Re-Enter Password"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="admin-add-submit" value="Add" id="token-input-2"/>
+									    	<input type="submit" name="admin-add-submit" value="Add" class="token-input-2"/>
 									    </th> 
 								</tr>
 							</table>
@@ -443,74 +531,14 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="password" name="pass2" placeholder="Re-Enter Password"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="admin-pass-submit" value="Update" id="token-input-2"/>
+									    	<input type="submit" name="admin-pass-submit" value="Update" class="token-input-2"/>
 									    </th> 
 								</tr>
 							</table>
 						</form>									
 						</div>
 								
-				<?php 
-						if(isset($_POST['homepage-submit'])){
-								if(!empty($_POST['homepage-date'])){
-									$home_date = $_POST['homepage-date'];
-									$timestamp = strtotime($home_date);
-									$new_date_format = date('Y-m-d H:i:s', $timestamp);		
-									$home_date_result = mysqli_query($connection, "UPDATE options SET value='$new_date_format' WHERE name='HOME_TIME'");
-									if($home_date_result){
-											echo "<p style='color:green;margin-left:10%;'>Home Time Successful</p>";
-
-									}else{
-										echo "<p style='color:maroon;margin-left:10%;'>Failed to update hometime</p>";
-									}
-		
-								}else{
-									echo "<p style='color:maroon;margin-left:10%;'>Time is empty</p>";
-								}
-						}
-						
-						if(isset($_POST['login-submit'])){
-								$sql = mysqli_query($connection, "SELECT value FROM options WHERE name='LOGIN'");
-								while($row = mysqli_fetch_assoc($sql)){
-									$val = $row['value'];
-									if($val == "ALLOW"){
-										$val = "DENY";
-										$up = mysqli_query($connection, "UPDATE options SET value='DENY' WHERE name='LOGIN'");
-									}else{
-										$val = "ALLOW";
-										$up = mysqli_query($connection, "UPDATE options SET value='ALLOW' WHERE name='LOGIN'");
-									}
-									if($up){
-										echo "<p style='color:green;margin-left:10%;'>Login Permission : $val</p>";	
-									}else{
-										echo "<p style='color:maroon;margin-left:10%;'>Failed to Updated</p>";
-									}
-								}
-						}
-						
-						if(isset($_POST['ctf-submit'])){
-								if(!empty($_POST['ctf-date'])){
-									$ctf_date = $_POST['ctf-date'];
-									$timestamp = strtotime($ctf_date);
-									$new_date_format = date('Y-m-d H:i:s', $timestamp);								
-									$ctf_date_result = mysqli_query($connection, "UPDATE options SET value='$new_date_format' WHERE name='END_TIME'");
-									if($ctf_date_result){
-										$ctf_date_updater = mysqli_query($connection, "UPDATE updater SET TIME='1'");
-										if($ctf_date_updater){
-											echo "<p style='color:green;margin-left:10%;'>CTF Time Successful</p>";
-										}else{
-											echo "<p style='color:maroon;margin-left:10%;'>Failed to update CTF time updater</p>";
-										}
-
-									}else{
-										echo "<p style='color:maroon;margin-left:10%;'>Failed to update CTF time</p>";
-									}
-		
-								}else{
-									echo "<p style='color:maroon;margin-left:10%;'>Time is empty</p>";
-								}
-						}
-						
+				<?php 											
 						if(isset($_POST['admin-pass-submit'])){
 							$username = htmlspecialchars(htmlentities(trim(filter_var($_POST['admin_username'],FILTER_SANITIZE_STRING))));
 							$password = htmlspecialchars(htmlentities(trim(filter_var($_POST['pass1'],FILTER_SANITIZE_STRING))));
@@ -570,7 +598,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 				case "import-secgen":
 					?>
 						<h1>SecGen Flag Import</h1>
-						<div id="token-div-add">
+						<div class="token-div-add">
 							<form method="post" action="admin.php?option=import-secgen" enctype="multipart/form-data">
 							<table style="width:100%;">
 								<tr>
@@ -588,10 +616,10 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											</select>
 										</th>
 									    <th id="browse">
-											<input type="file" name="imp_file" placeholder="Full File Path" id="token-input-1"/>
+											<input type="file" name="imp_file" placeholder="Full File Path" class="token-input-1"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="imp_submit" value="Import" id="token-input-2"/>
+									    	<input type="submit" name="imp_submit" value="Import" class="token-input-2"/>
 									    </th> 
 								</tr>
 							</table>
@@ -603,10 +631,10 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<h1>Same Flag For All Team</h1>
 										</th>
 									    <th id="browse">
-											<input type="file" name="imp_file" placeholder="Full File Path" id="token-input-1"/>
+											<input type="file" name="imp_file" placeholder="Full File Path" class="token-input-1"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="vm_all_submit" value="Import" id="token-input-2"/>
+									    	<input type="submit" name="vm_all_submit" value="Import" class="token-input-2"/>
 									    </th> 
 								</tr>
 							</table>
@@ -707,7 +735,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 					case "db-manage":
 						?>
 						<h1>Database Managemnt</h1>
-						<div id="token-div-add">
+						<div class="token-div-add">
 								<h1>Create Table</h1>
 								<table style="width:100%;">							
 								<tr>
@@ -716,7 +744,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="create_hint" value="CREATE" id="token-input-2"/>
+											<input type="submit" name="create_hint" value="CREATE" class="token-input-2"/>
 										</form>
 									</th> 
 								    <th>
@@ -769,7 +797,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_chat" value="CREATE" id="token-input-2"/>
+										<input type="submit" name="create_chat" value="CREATE" class="token-input-2"/>
 									</form>
 								</th> 
 							    <th>
@@ -823,7 +851,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_score" value="CREATE" id="token-input-2"/>
+										<input type="submit" name="create_score" value="CREATE" class="token-input-2"/>
 									</form>
 								</th> 
 							    <th>
@@ -865,8 +893,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												if($create_options){
 													$insert = mysqli_query($connection, "INSERT INTO `options` (`ID`, `name`, `value`) VALUES
 																						(1, 'ANNOUNCE', '&ensp;'),
-																						(2, 'END_TIME', '2017-04-05T0:00'),
-																						(3, 'HOME_TIME', '2017-04-05T10:00'),
+																						(2, 'END_TIME', '2017-04-05 10:00:00'),
+																						(3, 'HOME_TIME', '2017-04-05 10:00:00'),
 																						(4, 'LOGIN', 'DENY');");
 													if($insert){
 														echo "<h1 style='color:green;'>Success</h1>";
@@ -894,7 +922,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_user" value="CREATE" id="token-input-2"/>
+										<input type="submit" name="create_user" value="CREATE" class="token-input-2"/>
 									</form>
 								</th> 
 							    <th>
@@ -906,6 +934,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 																  `PASSWORD` varchar(32) NOT NULL,
 																  `TEAM` int(2) NOT NULL,
 																  `TYPE` varchar(1) NOT NULL,
+																  `T_TYPE` varchar(1) NOT NULL, 
 																  `TOKEN` varchar(8) NOT NULL,
 																  `TOKEN_HASH` varchar(32) NOT NULL,
 																  `TOKEN_ACT` int(1) NOT NULL
@@ -946,7 +975,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_map" value="CREATE" id="token-input-2"/>
+										<input type="submit" name="create_map" value="CREATE" class="token-input-2"/>
 									</form>
 								</th> 
 							    <th>
@@ -975,7 +1004,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_hint" value="DROP" id="token-input-2"/>
+												<input type="submit" name="drop_hint" value="DROP" class="token-input-2"/>
 											</form>
 										</th> 
 									    <th>
@@ -1004,7 +1033,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_chat" value="DROP" id="token-input-2"/>
+												<input type="submit" name="drop_chat" value="DROP" class="token-input-2"/>
 											</form>
 										</th> 
 									    <th>
@@ -1038,7 +1067,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_score" value="DROP" id="token-input-2"/>
+												<input type="submit" name="drop_score" value="DROP" class="token-input-2"/>
 											</form>
 										</th> 
 									    <th>
@@ -1072,7 +1101,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_user" value="DROP" id="token-input-2"/>
+												<input type="submit" name="drop_user" value="DROP" class="token-input-2"/>
 											</form>
 										</th> 
 									    <th>
@@ -1101,7 +1130,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_map" value="DROP" id="token-input-2"/>
+												<input type="submit" name="drop_map" value="DROP" class="token-input-2"/>
 											</form>
 										</th> 
 									    <th>
@@ -1334,7 +1363,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 						break;		
 							
 					default:
-						header('location:admin.php?option=team');
+						//header('location:admin.php?option=team');
 						break;	
 				}			
 			}
@@ -1355,5 +1384,51 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 			?>
 		</div>
 	</div>
+	<script>	
+	function update(){
+		this.homedate = function() {
+			var fg = $('#home_date').val();
+			$.ajax({
+				method: "POST",
+				url: "template/adminform.php",
+				data: {"home_date": fg },
+				success: function(status){
+					$('#home_status').html(status);										
+				}	
+			});
+		}
+
+		this.ctf = function() {
+			var fg = $('#ctf_date').val();
+			$.ajax({
+				method: "POST",
+				url: "template/adminform.php",
+				data: {"ctf_date": fg },
+				success: function(status){
+					$('#ctf_status').html(status);										
+				}	
+			});
+		}	
+		
+		this.login = function() {
+			var fg = $('#lstat').text();
+			var stat;
+			if(fg == "ALLOW"){
+				stat = "DENY";
+			}else{
+				stat = "ALLOW";
+			}
+			$.ajax({
+				method: "POST",
+				url: "template/adminform.php",
+				data: {"ctf_login": fg },
+				success: function(status){
+					$('#lstat').html(status);										
+				}	
+			});
+		}
+	}
+	var Update = new update();
+	</script>
 </body>
 </html>

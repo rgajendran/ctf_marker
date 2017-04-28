@@ -345,7 +345,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 						if(str == ""){
 							document.getElementById("fsubmit").innerHTML = "No Further Hints";
 						}else if(str == "No Further Hints"){
-										document.getElementById("fsubmit").innerHTML = "No Further Hints";
+							document.getElementById("fsubmit").innerHTML = "No Further Hints";
 						}else{
 							var res = str.replace("Hint Locked","");
 							document.getElementById("fsubmit").innerHTML = "Unlock Hint "+res;
