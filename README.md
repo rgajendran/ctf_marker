@@ -22,11 +22,11 @@ git clone https://github.com/rgajendran/ctf_marker.git
 ```
 <p>Open the project folder, navigate to <b>template/connection.php</b> file and update with your server/database login credentials.</p>
 
-<h3>Step 4</h3>
+<h3>Step 3</h3>
 
 Transfer the entire project folder to your server domain `eg.www/`
 
-<h3>Step 3</h3>
+<h3>Step 4</h3>
 
 Navigate to Admin Account `http://DOMAIN_NAME/admin.php`
 
