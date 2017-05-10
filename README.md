@@ -53,7 +53,7 @@ git clone https://github.com/rgajendran/ctf_marker.git
     $connection = mysqli_connect('HOSTNAME','DB_USERNAME','DB_PASSWORD','DATABASE_NAME');
 ?>
 ```
-<p>Open the project folder, navigate to <b>template/connection.php</b> file and update with your server/database login credentials.</p>
+<p>Open the project folder, navigate to <b><a href="https://github.com/rgajendran/ctf_marker/blob/master/template/connection.php">template/connection.php</a></b> file and update with your server/database login credentials.</p>
 
 <h3>Step 4</h3>
 
@@ -132,3 +132,12 @@ Password : admin
 * <h3>Step 7</h3>
 
     * <b>Start your Game</b>
+    
+
+<h2>Contributing</h2>
+
+ 1. **Fork** the repository on GitHub
+ 2. **Clone** the project to your own machine ```git clone https://github.com/rgajendran/ctf_marker.git```
+ 3. **Commit** changes to your own branch
+ 4. **Push** your work to your fork
+ 5. Submit your **Pull request** for review
