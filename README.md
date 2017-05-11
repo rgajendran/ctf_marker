@@ -71,7 +71,7 @@ You don't need any username or password to access `admin.php` page for the first
 
 <h3>Step 6</h3><h5>Create Database</h5>
 
-Flawed Fortress front end has the capability to auto generate all required tables automatically in a button of a click. 
+Flawed Fortress front end has the capability to auto generate all required tables automatically in a click of a button. 
 
 ```php
 Open   > admin.php page
@@ -89,7 +89,7 @@ Click  > Create (SecGen Map Table)
 <img align="center" src="https://cloud.githubusercontent.com/assets/12548071/25874940/c6e073b0-350c-11e7-919d-9e92ab4a6959.png">
 </p>
 
-Once you create all the tables, Select <b>SYSTEM STATUS</b> tab in the admin account to check if there is any table errors.
+Once you create all the tables, Select <b>SYSTEM STATUS</b> tab in the admin account to check if there are any table errors.
 
 <h3>Step 8</h3>
 

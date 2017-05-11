@@ -37,13 +37,14 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 			<a href="admin.php?option=announce"><span>ANNOUNCE</span></a>
 			<a href="admin.php?option=import-secgen"><span>IMPORT SECGEN</span></a>
 			<a href="admin.php?option=db-manage"><span>DATABASE MANAGEMENT</span></a>
+			<a href="admin.php?option=lockpicking"><span>LOCK PICKING</span></a>
 			<a href="admin.php?option=verify"><span>SYSTEM STATUS</span></a>
 			<a href="template/logout.php"><span>LOGOUT</span></a>
 		</div>
 		<div id="content">
 			<!-- <h1>Manage Flags and Options</h1> -->
 			<?php
-			
+			require 'class/Validator.php';
 			
 			if(isset($_GET['option'])){
 				$command = $_GET['option'];
@@ -1361,9 +1362,77 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 							</div>
 							<?php
 						break;		
+					
+					case "lockpicking":
+						?>
+						<div class="token-div-add">
+							<h1>Create Lockpicking Sendouts</h1>
+							<form method="post" action="admin.php?option=lockpicking">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+											<input type="text" name="lock_name" placeholder="Name of the flag" class="token-input-1"/>
+										</th>
+									    <th id="browse">
+											<input type="text" name="lock_flag" placeholder="Enter the Flag Here" class="token-input-1"/>
+										</th> 
+									    <th>
+									    	<input type="submit" name="lock_submit" value="Create" class="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+							</form>	
+							<h1>Send Unlocked Flags</h1>
+							<form method="post" action="admin.php?option=lockpicking">
+							<table style="width:100%;">
+								<tr>
+									    <th>
+											<select name="lock_send_team">
+												<?php
+												$token_team_list = mysqli_query($connection, "SELECT TEAM, TEAMNAME FROM team");
+												while($token_team_list_row = mysqli_fetch_assoc($token_team_list)){
+													$token_team = $token_team_list_row['TEAM'];
+													$token_team_name = $token_team_list_row['TEAMNAME'];
+													echo "<option value='$token_team'>$token_team_name</option>";
+												}
+												?>
+											</select>
+										</th>
+									    <th>
+											<select name="lock_send_flag">
+												<?php
+												$token_team_list = mysqli_query($connection, "SELECT NAME, FLAG FROM lockpick");
+												while($token_team_list_row = mysqli_fetch_assoc($token_team_list)){
+													$lock_name = $token_team_list_row['NAME'];
+													$lock_flag = $token_team_list_row['FLAG'];
+													echo "<option value='$lock_flag'>$lock_name</option>";
+												}
+												?>
+											</select>
+										</th> 
+									    <th>
+									    	<input type="submit" name="lock_send_submit" value="Send" class="token-input-2"/>
+									    </th> 
+								</tr>
+							</table>
+							</form>							
+						<?php
+						if(isset($_POST['lock_submit'])){
+							if(Validator::BooleanEmptyCheck($_POST['lock_name']) && Validator::BooleanEmptyCheck($_POST['lock_flag'])){
+								echo "<h3 style='background:#c3e29c;color:black;text-align:center;'>".DB::lockpickAdd($_POST['lock_name'], $_POST['lock_flag'])."</h3>";
+							}else{
+								echo "<h3 style='background:#f7b9b9;color:black;text-align:center;'>Failed to Insert</h3>";	
+							}
+						}else if(isset($_POST['lock_send_submit'])){
+							DB::sendFlagsToTeamActivity($_POST['lock_send_team'], $_POST['lock_send_flag'], $flagValue);
+						}
+						?>
+						</div>
+						<?php
+						break; 
 							
 					default:
-						//header('location:admin.php?option=team');
+						header('location:admin.php?option=team');
 						break;	
 				}			
 			}
