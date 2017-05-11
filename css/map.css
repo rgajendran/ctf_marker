@@ -584,7 +584,11 @@ body{
     color: white;
 }
 
-.modal-body {padding: 2px 16px 30px 16px;}
+.modal-body {
+	padding: 2px 16px 30px 16px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	}
 
 .modal-footer {
     padding: 2px 16px;

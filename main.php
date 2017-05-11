@@ -157,7 +157,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 						$sChooseMapCountSql = "SELECT FLAG_POINTS FROM secgenflag WHERE VM='$vm' AND TEAM='$initTeam'";
 						$sChooseMapCountResult = mysqli_query($connection, $sChooseMapCountSql);
 						$sChooseMapCount = mysqli_num_rows($sChooseMapCountResult);
-						if($sChooseMapCount < 10){
+						if($sChooseMapCount <= 12){
 							$sSelectMapDistinct = "SELECT DISTINCT W, H FROM secgen WHERE C_NO='$sChooseMapCount'";
 							$sSelectMapDistinctResult = mysqli_query($connection, $sSelectMapDistinct);
 							while($sSelectMRow = mysqli_fetch_assoc($sSelectMapDistinctResult)){
@@ -200,7 +200,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 								mysqli_close($connection);	 																
 																
 						}else{
-							echo "<p class='map_init' id='tssst'>Map Not Initialised</p>";
+							echo "<p class='map_init' id='tssst'>Map Not Initialised (Exceeded Map Limit - Contact Admin)</p>";
 						}
 					?>	
 				</div>
@@ -262,7 +262,6 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 </div>
 
 <div id="noooo"></div>
-
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
@@ -353,7 +352,7 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 
 					}
 					var addh3 = document.createElement("h3");
-					var text = document.createTextNode(split[e]);
+					var text =  document.createTextNode(split[e]);
 					addh3.appendChild(text);				
 					addh3.setAttribute("class","hintclose");
 					document.getElementById("moBodyLocked").appendChild(addh3);		

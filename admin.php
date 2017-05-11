@@ -666,16 +666,17 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 														foreach($challenge->hint as $hint){
 															$num++;
 															$randomKey = strtoupper(md5(bin2hex(openssl_random_pseudo_bytes(16)).time()));
+															$hintText = addslashes($hint->hint_text);
 															$hint_update = mysqli_query($connection, "INSERT INTO hint (RANDOM, TEAM, SYSTEM_NAME, C_ID, CHALLENGE, HINT_STATUS, HINT_ID, HINT_TYPE, HINT_TEXT) VALUES 
-															('$randomKey','$team','$system->system_name','$cid','$chall','0','$hint->hint_id','$hint->hint_type','$hint->hint_text')");
+															('$randomKey','$team','$system->system_name','$cid','$chall','0','$hint->hint_id','$hint->hint_type','$hintText')");
 															if($hint_update){
 																echo "<i style='color:green;margin-left:15%;'>HINT Challenge No : ($chall) Hint No : ($num) [SUCCESS]"."</i><br>";
 															}else{
-																echo "<p style='color:maroon;margin-left:10%;'>Error ADMIN[101]</p>";
+																echo "<p style='color:maroon;margin-left:10%;'>".mysqli_error($connection)."</p>";
 															}			
 														}
 													}else{
-														echo "<p style='color:maroon;margin-left:10%;'>Error ADMIN[101]</p>";
+														echo "<p style='color:maroon;margin-left:10%;'>".mysqli_error($connection)."/p>";
 													}		
 								
 												}
@@ -711,8 +712,9 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												foreach($challenge->hint as $hint){
 													$num++;
 													$randomKey = strtoupper(md5(bin2hex(openssl_random_pseudo_bytes(16)).time()));
+													$hintText = addslashes($hint->hint_text);
 													$hint_update = mysqli_query($connection, "INSERT INTO hint (RANDOM, TEAM, SYSTEM_NAME, C_ID, CHALLENGE, HINT_STATUS, HINT_ID, HINT_TYPE, HINT_TEXT) VALUES 
-													('$randomKey','$team','$system->system_name','$cid','$chall','0','$hint->hint_id','$hint->hint_type','$hint->hint_text')");
+													('$randomKey','$team','$system->system_name','$cid','$chall','0','$hint->hint_id','$hint->hint_type','$hintText')");
 													if($hint_update){
 														echo "<i style='color:green;margin-left:15%;'>HINT Challenge No : ($chall) Hint No : ($num) [SUCCESS]"."</i><br>";
 													}else{
@@ -1028,125 +1030,125 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									    </th> 
 								</tr>
 								<tr>
-									    <th>
-									    	<h1>DROP <br>Chat, Logger & Report</h1>
-										</th>
-									    <th>
-									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_chat" value="DROP" class="token-input-2"/>
-											</form>
-										</th> 
-									    <th>
-									    	<?php
-									    	 if(isset($_POST['drop_chat'])){
-									    	 	$drop_chat = mysqli_query($connection, "DROP TABLE IF EXISTS chat");
-												$drop_logger = mysqli_query($connection, "DROP TABLE IF EXISTS logger");
-												$drop_report = mysqli_query($connection, "DROP TABLE IF EXISTS report");
-												if($drop_chat){
-													if($drop_logger){
-														if($drop_report){
-															echo "<h1 style='color:green;'>Success</h1>";
-														}else{
-															echo "<h1 style='color:maroon;'>[F] Failed</h1>";
-														}		
+								    <th>
+								    	<h1>DROP <br>Chat, Logger & Report</h1>
+									</th>
+								    <th>
+								    	<form method="post" action="admin.php?option=db-manage">
+											<input type="submit" name="drop_chat" value="DROP" class="token-input-2"/>
+										</form>
+									</th> 
+								    <th>
+								    	<?php
+								    	 if(isset($_POST['drop_chat'])){
+								    	 	$drop_chat = mysqli_query($connection, "DROP TABLE IF EXISTS chat");
+											$drop_logger = mysqli_query($connection, "DROP TABLE IF EXISTS logger");
+											$drop_report = mysqli_query($connection, "DROP TABLE IF EXISTS report");
+											if($drop_chat){
+												if($drop_logger){
+													if($drop_report){
+														echo "<h1 style='color:green;'>Success</h1>";
 													}else{
 														echo "<h1 style='color:maroon;'>[F] Failed</h1>";
 													}		
 												}else{
-													echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-												}
-									    	 }else{
-									    	 	echo "<h1>STATUS</h1>";
-									    	 }
-									    	?>
-									    </th> 
+													echo "<h1 style='color:maroon;'>[F] Failed</h1>";
+												}		
+											}else{
+												echo "<h1 style='color:maroon;'>[H] Failed</h1>";
+											}
+								    	 }else{
+								    	 	echo "<h1>STATUS</h1>";
+								    	 }
+								    	?>
+								    </th> 
 								</tr>
 								<tr>
-									    <th>
-									    	<h1>DROP <br>Scoreboard & Updater & Options</h1>
-										</th>
-									    <th>
-									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_score" value="DROP" class="token-input-2"/>
-											</form>
-										</th> 
-									    <th>
-									    	<?php
-									    	 if(isset($_POST['drop_score'])){
-									    	 	$drop_score = mysqli_query($connection, "DROP TABLE IF EXISTS scoreboard");
-												$drop_updater = mysqli_query($connection, "DROP TABLE IF EXISTS updater");
-												$drop_option = mysqli_query($connection, "DROP TABLE IF EXISTS options");
-												if($drop_score){
-													if($drop_updater){
-														if($drop_option){
-															echo "<h1 style='color:green;'>Success</h1>";															
-														}else{
-															echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-														}
+								    <th>
+								    	<h1>DROP <br>Scoreboard & Updater & Options</h1>
+									</th>
+								    <th>
+								    	<form method="post" action="admin.php?option=db-manage">
+											<input type="submit" name="drop_score" value="DROP" class="token-input-2"/>
+										</form>
+									</th> 
+								    <th>
+								    	<?php
+								    	 if(isset($_POST['drop_score'])){
+								    	 	$drop_score = mysqli_query($connection, "DROP TABLE IF EXISTS scoreboard");
+											$drop_updater = mysqli_query($connection, "DROP TABLE IF EXISTS updater");
+											$drop_option = mysqli_query($connection, "DROP TABLE IF EXISTS options");
+											if($drop_score){
+												if($drop_updater){
+													if($drop_option){
+														echo "<h1 style='color:green;'>Success</h1>";															
 													}else{
 														echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-													}	
+													}
 												}else{
 													echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-												}
-									    	 }else{
-									    	 	echo "<h1>STATUS</h1>";
-									    	 }
-									    	?>
-									    </th> 
+												}	
+											}else{
+												echo "<h1 style='color:maroon;'>[H] Failed</h1>";
+											}
+								    	 }else{
+								    	 	echo "<h1>STATUS</h1>";
+								    	 }
+								    	?>
+								    </th> 
 								</tr>
 								<tr>
-									    <th>
-									    	<h1>DROP <br>Users & Team Table</h1>
-										</th>
-									    <th>
-									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_user" value="DROP" class="token-input-2"/>
-											</form>
-										</th> 
-									    <th>
-									    	<?php
-									    	 if(isset($_POST['drop_user'])){
-									    	 	$drop_user = mysqli_query($connection, "DROP TABLE IF EXISTS users");
-												$drop_team = mysqli_query($connection, "DROP TABLE IF EXISTS team");
-												if($drop_user){
-													if($drop_team){
-														echo "<h1 style='color:green;'>Success</h1>";
-													}else{
-														echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-													}		
+								    <th>
+								    	<h1>DROP <br>Users & Team Table</h1>
+									</th>
+								    <th>
+								    	<form method="post" action="admin.php?option=db-manage">
+											<input type="submit" name="drop_user" value="DROP" class="token-input-2"/>
+										</form>
+									</th> 
+								    <th>
+								    	<?php
+								    	 if(isset($_POST['drop_user'])){
+								    	 	$drop_user = mysqli_query($connection, "DROP TABLE IF EXISTS users");
+											$drop_team = mysqli_query($connection, "DROP TABLE IF EXISTS team");
+											if($drop_user){
+												if($drop_team){
+													echo "<h1 style='color:green;'>Success</h1>";
 												}else{
 													echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-												}
-									    	 }else{
-									    	 	echo "<h1>STATUS</h1>";
-									    	 }
-									    	?>
-									    </th> 
+												}		
+											}else{
+												echo "<h1 style='color:maroon;'>[H] Failed</h1>";
+											}
+								    	 }else{
+								    	 	echo "<h1>STATUS</h1>";
+								    	 }
+								    	?>
+								    </th> 
 								</tr>
 								<tr>
-									    <th>
-									    	<h1>DROP <br>SecGen Map</h1>
-										</th>
-									    <th>
-									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_map" value="DROP" class="token-input-2"/>
-											</form>
-										</th> 
-									    <th>
-									    	<?php
-									    	 if(isset($_POST['drop_map'])){
-									    	 	$drop_map = mysqli_query($connection, "DROP TABLE IF EXISTS secgen");
-												if($drop_map){
-														echo "<h1 style='color:green;'>Success</h1>";	
-												}else{
-													echo "<h1 style='color:maroon;'>[H] Failed</h1>";
-												}
-									    	 }else{
-									    	 	echo "<h1>STATUS</h1>";
-									    	 }
-									    	?>
-									    </th> 
+								    <th>
+								    	<h1>DROP <br>SecGen Map</h1>
+									</th>
+								    <th>
+								    	<form method="post" action="admin.php?option=db-manage">
+											<input type="submit" name="drop_map" value="DROP" class="token-input-2"/>
+										</form>
+									</th> 
+								    <th>
+								    	<?php
+								    	 if(isset($_POST['drop_map'])){
+								    	 	$drop_map = mysqli_query($connection, "DROP TABLE IF EXISTS secgen");
+											if($drop_map){
+													echo "<h1 style='color:green;'>Success</h1>";	
+											}else{
+												echo "<h1 style='color:maroon;'>[H] Failed</h1>";
+											}
+								    	 }else{
+								    	 	echo "<h1>STATUS</h1>";
+								    	 }
+								    	?>
+								    </th> 
 								</tr>																		
 								</table>
 							</div>
@@ -1293,20 +1295,23 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									$team = $team_row['TEAM'];
 									$teamName = $team_row['TEAMNAME'];//team
 									$vm = mysqli_query($connection, "SELECT DISTINCT VM FROM secgenflag WHERE TEAM='$team'");
-									$vm_query = mysqli_num_rows($vm);//vm
-									$challenges = mysqli_query($connection, "SELECT C_ID FROM secgenflag WHERE TEAM='$team'");
-									$challenges_count = mysqli_num_rows($challenges);//challenges	
-									$hint_q = mysqli_query($connection, "SELECT HINT_ID FROM hint WHERE TEAM='$team'");
-									$hint_count = mysqli_num_rows($hint_q);//hint
-										?>
-										  <tr>
-										    <td style='text-align:center;'><?php echo $teamName;?></td>
-										    <td style='text-align:center;'><?php echo $vm_query;?></td>
-										    <td style='text-align:center;'><?php echo $challenges_count;?></td>
-										    <td style='text-align:center;'><?php echo $hint_count;?></td>
-										  </tr>
-											
-											<?php						
+									if($vm){
+										$vm_query = mysqli_num_rows($vm);//vm	
+										$challenges = mysqli_query($connection, "SELECT C_ID FROM secgenflag WHERE TEAM='$team'");
+										$challenges_count = mysqli_num_rows($challenges);//challenges	
+										$hint_q = mysqli_query($connection, "SELECT HINT_ID FROM hint WHERE TEAM='$team'");
+										$hint_count = mysqli_num_rows($hint_q);//hint
+											?>
+											  <tr>
+											    <td style='text-align:center;'><?php echo $teamName;?></td>
+											    <td style='text-align:center;'><?php echo $vm_query;?></td>
+											    <td style='text-align:center;'><?php echo $challenges_count;?></td>
+											    <td style='text-align:center;'><?php echo $hint_count;?></td>
+											  </tr>		
+											 <?php							
+									}else{
+
+									}					
 								}
 							}else{
 								echo "<td style='background:#f7b9b9;color:black;text-align:center;'>No Challanges Found</td>";								

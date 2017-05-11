@@ -62,21 +62,21 @@ if (isset($_POST['cid']) && isset($_POST['team']) && isset($_POST['vm']) && isse
 									if($H_updater){
 										$hintOpen[] = "$hinttext";
 									}else{
-										echo "Hint : Error 205";
+										echo "Hint : Error 205 (Refresh Page)";
 									}
 									
 								} else {
-									echo "Hint : Error 204";
+									echo "Hint : Error 204 (Refresh Page)";
 								}
 
 							} else {
-								echo "Hint : Error 203";
+								echo "Hint : Error 203 (Refresh Page)";
 							}
 						} else {
-							echo "Hint : Error 202";
+							echo "Hint : Error 202 (Refresh Page)";
 						}
 					} else {
-						echo "Hint : Error 201";
+						echo "Hint : Error 201 (Refresh Page)";
 					}
 				}
 			} else {
