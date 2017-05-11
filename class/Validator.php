@@ -1,5 +1,4 @@
 <?php
-
 class Validator{
 	
 	public static function filterString($input){
@@ -22,6 +21,15 @@ class Validator{
 	public static function getCurrentTime(){
 		$date = new DateTime('now', new DateTimeZone('Europe/London'));
 		return $date->format('Y-m-d H:i:s');
+	}
+	
+	public static function printSuccess($string){
+		return "<h5 style='background:#c3e29c;color:black;text-align:center;width:100%;'>$string</h5>";
+	}	
+	
+	
+	public static function printFailure($string){
+		return "<h5 style='background:#f7b9b9;color:black;text-align:center;width:100%;'>$string</h5>";
 	}
 	
 }
@@ -58,17 +66,27 @@ class DB{
 	}
 	
 	public static function sendFlagsToTeamActivity($teamNumber, $flagName, $flagValue){
-		include './template/connection.php';
-		$stmt = $connection->prepare("INSERT INTO logger (DATE, TEAM, LOG) VALUES (?, ?, ?)");
-		$flag = "[LOCKPICKING] - $flagName Unlocked. Your flag is = $flagValue";
-		$stmt->bind_param("sss",$date, $team, $flag);
-		$date = Validator::getCurrentTime();
-		$team = $teamNumber;
-		$flag = $flagName;
-		$stmt->execute();
-		return "Flag Sent Successfull";
-		$stmt->close();
-		$conn->close();
+		try{
+			include './template/connection.php';
+			$stmt = $connection->prepare("INSERT INTO logger (DATE, TEAM, LOG) VALUES (?, ?, ?)");
+			$flags = "[LOCKPICKING] - $flagName Unlocked. Your flag is = $flagValue";
+			$stmt->bind_param("sss",$date, $team, $flag);
+			$date = Validator::getCurrentTime();
+			$team = $teamNumber;
+			$flag = $flags;
+			$stmt->execute();
+			
+			$updater = mysqli_query($connection, "UPDATE updater SET ACTIVITY=1  WHERE TEAM=$teamNumber");
+			if($updater){
+				return Validator::printSuccess("Flag Sent Successfull");
+			}else{
+				return Validator::printFailure("Update Failed");
+			}
+			$stmt->close();
+			$conn->close();			
+		}catch(Exception $e){
+			return $e->getMessage();
+		}
 	}
 }
 ?>

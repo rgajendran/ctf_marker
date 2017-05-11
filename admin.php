@@ -45,7 +45,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 			<!-- <h1>Manage Flags and Options</h1> -->
 			<?php
 			require 'class/Validator.php';
-			
+			require 'class/createtables.php';
 			if(isset($_GET['option'])){
 				$command = $_GET['option'];
 				include 'template/connection.php';
@@ -736,6 +736,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 					break;	
 					
 					case "db-manage":
+						$table = new Tables();
 						?>
 						<h1>Database Managemnt</h1>
 						<div class="token-div-add">
@@ -997,7 +998,26 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									 }
 							    	?>
 							    </th>
-							</tr>																
+							</tr>	
+							<tr>
+							    <th>
+							    	<h1>CREATE <br>Lockpick</h1>
+								</th>
+							    <th>
+							    	<form method="post" action="admin.php?option=db-manage">
+										<input type="submit" name="create_lock" value="CREATE" class="token-input-2"/>
+									</form>
+								</th> 
+							    <th>
+							    	<?php
+							    	 if(isset($_POST['create_lock'])){
+										echo $table->createTable(Constants::LOCKPICK);
+									 }else{
+									 	echo "<h1>STATUS</h1>";
+									 }
+							    	?>
+							    </th>
+							</tr>																						
 							</table>
 							<h1>DROP Table</h1>
 							<table style="width:100%;">
@@ -1150,7 +1170,26 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    	 }
 								    	?>
 								    </th> 
-								</tr>																		
+								</tr>
+								<tr>
+								    <th>
+								    	<h1>DROP <br>Lockpick</h1>
+									</th>
+								    <th>
+								    	<form method="post" action="admin.php?option=db-manage">
+											<input type="submit" name="drop_lock" value="DROP" class="token-input-2"/>
+										</form>
+									</th> 
+								    <th>
+								    	<?php
+								    	 if(isset($_POST['drop_lock'])){
+								    	 	echo $table->dropTable(Constants::LOCKPICK);
+								    	 }else{
+								    	 	echo "<h1>STATUS</h1>";
+								    	 }
+								    	?>
+								    </th> 
+								</tr>																										
 								</table>
 							</div>
 
@@ -1418,20 +1457,20 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									    <th>
 									    	<input type="submit" name="lock_send_submit" value="Send" class="token-input-2"/>
 									    </th> 
-								</tr>
+								</tr>							
 							</table>
-							</form>							
-						<?php
-						if(isset($_POST['lock_submit'])){
-							if(Validator::BooleanEmptyCheck($_POST['lock_name']) && Validator::BooleanEmptyCheck($_POST['lock_flag'])){
-								echo "<h3 style='background:#c3e29c;color:black;text-align:center;'>".DB::lockpickAdd($_POST['lock_name'], $_POST['lock_flag'])."</h3>";
-							}else{
-								echo "<h3 style='background:#f7b9b9;color:black;text-align:center;'>Failed to Insert</h3>";	
+							</form>	
+							<?php
+							if(isset($_POST['lock_submit'])){
+								if(Validator::BooleanEmptyCheck($_POST['lock_name']) && Validator::BooleanEmptyCheck($_POST['lock_flag'])){
+									echo Validator::printSuccess(DB::lockpickAdd($_POST['lock_name'], $_POST['lock_flag']));
+								}else{
+									echo Validator::printFailure("Failed to Insert");	
+								}
+							}else if(isset($_POST['lock_send_submit'])){
+								echo DB::sendFlagsToTeamActivity($_POST['lock_send_team'], $lock_name, $_POST['lock_send_flag']);
 							}
-						}else if(isset($_POST['lock_send_submit'])){
-							DB::sendFlagsToTeamActivity($_POST['lock_send_team'], $_POST['lock_send_flag'], $flagValue);
-						}
-						?>
+							?>														
 						</div>
 						<?php
 						break; 
