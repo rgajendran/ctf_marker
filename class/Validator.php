@@ -32,6 +32,26 @@ class Validator{
 		return "<h5 style='background:#f7b9b9;color:black;text-align:center;width:100%;'>$string</h5>";
 	}
 	
+	public static function AdminEditPermission(){
+		include './template/connection.php';
+		$query = mysqli_query($connection, "SELECT value FROM options WHERE name='ADMINEDIT'");
+		if($query){
+			while($row = mysqli_fetch_assoc($query)){
+				if($row['value'] == "ALLOW"){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}else{
+			return false;
+		}		
+	}
+	
+	public static function DisabledCSS(){
+		return "style='background:#f7b9b9;color:black;'";
+	}
+	
 }
 
 class Creditional{

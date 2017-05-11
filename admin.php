@@ -55,12 +55,12 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 							<h1>Announce</h1>
 							<form method="post" action="admin.php?option=announce">
 								<textarea rows="10" placeholder="Enter your message for announcement" name="team_announce"></textarea>
-								<input id="ann_submit" type="submit" value="Send" name="a_send"/>
+								<input id="ann_submit" type="submit" value="Send" name="a_send" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 							</form>
 							<?php
 							if(isset($_POST['a_send'])){
 								if(!empty($_POST['team_announce'])){
-									$ann_post = $_POST['team_announce'];
+									$ann_post = Validator::filterString($_POST['team_announce']);
 									$announce_insert = mysqli_query($connection, "UPDATE options SET value='$ann_post' WHERE name='ANNOUNCE'");
 									if($announce_insert){
 										$ann_updater = mysqli_query($connection, "UPDATE updater SET ANNOUNCE='1'");
@@ -113,7 +113,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 												<input type="text" name="team-create" placeholder="Team Name"/>
 											</th> 
 										    <th id="team-submit-btn">
-										    	<input type="submit" name="team-create-submit" value="Create"/>
+										    	<input type="submit" name="team-create-submit" value="Create" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										    </th> 
 									</tr>
 								</table>
@@ -217,7 +217,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="number" name="token_gen_num" placeholder="Number of Token" class="token-input-1" maxlength="2"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="token_gen_submit" value="Generate" class="token-input-2"/>
+									    	<input type="submit" name="token_gen_submit" value="Generate" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -294,7 +294,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="number" style="text-align:center;" name="login_gen_num" placeholder="Number of Logins" id="login-input-1" maxlength="2"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="login_gen_submit" value="Generate" class="token-input-2"/>
+									    	<input type="submit" name="login_gen_submit" value="Generate" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -434,7 +434,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</h3>
 									</th> 
 								    <th style="width:25%;">
-								    	<button id="home_date_submit" onclick="Update.homedate();">Update</button>
+								    	<button id="home_date_submit" onclick="Update.homedate();" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>>Update</button>
 								    </th> 
 							</tr>
 						</table>
@@ -460,13 +460,41 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</h3>
 									</th> 
 								    <th style="width:25%;">
-								    	<button onclick="Update.ctf();">Update</button>
+								    	<button onclick="Update.ctf();" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>>Update</button>
 								    </th> 
 							</tr>
 						</table>
 						<br>
 						<h1>Other Options</h1>
-						<br>						
+						<br>	
+						<table style="width:100%;">
+							<tr class="equalTable">
+								    <th>
+								    	<h1>Allow Edits</h1>
+									</th>
+								    <th>
+										<h3 id="allow_status">
+											<?php
+											$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='ADMINEDIT'");
+											if($q1){												
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													if($val == "ALLOW"){
+														echo "<b style='color:green;' id='adminedit'>$val</b>";
+													}else{
+														echo "<b style='color:red;' id='adminedit'>$val</b>";
+													}
+												}
+											}else{
+												echo "<b style='color:red;'>Table Not Initialised</b>";
+											}												
+											?>
+										</h3>
+									</th> 
+								    <th>
+								    	<button onclick="Update.edits();">Update</button>
+								    </th> 
+							</tr>
+						</table>												
 						<table style="width:100%;">
 							<tr class="equalTable">
 								    <th>
@@ -491,7 +519,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</h3>
 									</th> 
 								    <th>
-								    	<button onclick="Update.login();">Update</button>
+								    	<button onclick="Update.login();" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>>Update</button>
 								    </th> 
 							</tr>
 						</table>					
@@ -507,7 +535,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="password" name="pass2" placeholder="Re-Enter Password"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="admin-add-submit" value="Add" class="token-input-2"/>
+									    	<input type="submit" name="admin-add-submit" value="Add" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -532,7 +560,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="password" name="pass2" placeholder="Re-Enter Password"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="admin-pass-submit" value="Update" class="token-input-2"/>
+									    	<input type="submit" name="admin-pass-submit" value="Update" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -620,7 +648,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="file" name="imp_file" placeholder="Full File Path" class="token-input-1"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="imp_submit" value="Import" class="token-input-2"/>
+									    	<input type="submit" name="imp_submit" value="Import" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -635,7 +663,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="file" name="imp_file" placeholder="Full File Path" class="token-input-1"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="vm_all_submit" value="Import" class="token-input-2"/>
+									    	<input type="submit" name="vm_all_submit" value="Import" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -748,7 +776,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="create_hint" value="CREATE" class="token-input-2"/>
+											<input type="submit" name="create_hint" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -801,7 +829,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_chat" value="CREATE" class="token-input-2"/>
+										<input type="submit" name="create_chat" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -855,7 +883,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_score" value="CREATE" class="token-input-2"/>
+										<input type="submit" name="create_score" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -926,7 +954,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_user" value="CREATE" class="token-input-2"/>
+										<input type="submit" name="create_user" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -979,7 +1007,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_map" value="CREATE" class="token-input-2"/>
+										<input type="submit" name="create_map" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -1005,7 +1033,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_lock" value="CREATE" class="token-input-2"/>
+										<input type="submit" name="create_lock" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -1027,7 +1055,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_hint" value="DROP" class="token-input-2"/>
+												<input type="submit" name="drop_hint" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 											</form>
 										</th> 
 									    <th>
@@ -1056,7 +1084,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_chat" value="DROP" class="token-input-2"/>
+											<input type="submit" name="drop_chat" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1090,7 +1118,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_score" value="DROP" class="token-input-2"/>
+											<input type="submit" name="drop_score" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1124,7 +1152,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_user" value="DROP" class="token-input-2"/>
+											<input type="submit" name="drop_user" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1153,7 +1181,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_map" value="DROP" class="token-input-2"/>
+											<input type="submit" name="drop_map" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1177,7 +1205,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_lock" value="DROP" class="token-input-2"/>
+											<input type="submit" name="drop_lock" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1421,7 +1449,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											<input type="text" name="lock_flag" placeholder="Enter the Flag Here" class="token-input-1"/>
 										</th> 
 									    <th>
-									    	<input type="submit" name="lock_submit" value="Create" class="token-input-2"/>
+									    	<input type="submit" name="lock_submit" value="Create" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									    </th> 
 								</tr>
 							</table>
@@ -1525,12 +1553,6 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 		
 		this.login = function() {
 			var fg = $('#lstat').text();
-			var stat;
-			if(fg == "ALLOW"){
-				stat = "DENY";
-			}else{
-				stat = "ALLOW";
-			}
 			$.ajax({
 				method: "POST",
 				url: "template/adminform.php",
@@ -1540,6 +1562,19 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 				}	
 			});
 		}
+		
+		this.edits = function() {
+			var fg = $('#adminedit').text();
+			$.ajax({
+				method: "POST",
+				url: "template/adminform.php",
+				data: {"adminedit": fg },
+				success: function(status){
+					$('#adminedit').html(status);	
+					location.reload();									
+				}	
+			});
+		}		
 	}
 	var Update = new update();
 	</script>
