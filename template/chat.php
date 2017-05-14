@@ -9,7 +9,7 @@ require '../class/Validator.php';
 		 $user = $creditional->getUsername();  
 		 $chat = Validator::filterString($_POST['chat']);
 		 include 'connection.php';
-		 if(!empty($chat) && strlen($chat) > 1){
+		 if(!empty($chat) && strlen($chat) > 1 && strlen($chat) < 250){
 		 	 $date = new DateTime('now', new DateTimeZone('Europe/London'));
 			 $fdate = $date->format('Y-m-d H:i:s');
 			 $log_sql = "INSERT INTO chat (DATE, USERNAME, TEAM, CHAT) VALUES ('$fdate','$user','$team','$chat')";
@@ -19,7 +19,7 @@ require '../class/Validator.php';
 			 }else{
 			 	echo 0;
 			 }	
-		 }	
+		 }			 	
   	 }
   }	 
 	 

@@ -6,7 +6,7 @@ if(isset($_POST['tm']) && isset($_POST['fg']) && isset($_POST['username'])){
 	 $user = $_POST['username'];
 	
 	 include 'connection.php';	
-	 if(!empty($flag)){
+	 if(!empty($flag) && strlen($flag) <= 70){
 	 	//time check
 		 	$state = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
 			foreach(mysqli_fetch_assoc($state) as $time){
@@ -79,11 +79,11 @@ if(isset($_POST['tm']) && isset($_POST['fg']) && isset($_POST['username'])){
 													if($bonus_sql){
 														echo "<p style='color:#d4ff00;'>Your key is Correct</p>"; 
 													
-														$flag_log_query = mysqli_query($connection, $log_sql);
+														/*$flag_log_query = mysqli_query($connection, $log_sql);
 														if(!$flag_log_query){
 															$log_sql_failed = "INSERT INTO report (DATE,LOG) VALUES ('$fdate','Flag check logger failed to log for team $team')";
 															$flag_log_query_failed = mysqli_query($connection, $log_sql_failed);
-														}
+														}*/
 														mysqli_close($connection);
 													}else{
 														echo "<p style='color:orange;'>Technical Error [2002]</p>";
@@ -122,7 +122,7 @@ if(isset($_POST['tm']) && isset($_POST['fg']) && isset($_POST['username'])){
 			echo "<p style='color:orange;'>Game Paused</p>";
 		}	
 	 }else{
-	 	echo "<p style='color:orange;'>Your string is empty</p>";
+	 	echo "<p style='color:orange;'>Incorrect Flag</p>";
 	 }
 	
 }

@@ -6,8 +6,8 @@ if (isset($_POST['uname']) && isset($_POST['psw'])) {
 	$password = stripslashes(htmlspecialchars(htmlentities(trim(filter_var(($_POST['psw']), FILTER_SANITIZE_STRING)))));
 
 	include 'connection.php';
-	if (strlen($username) >= 4 && strlen($username) <= 20) {
-		if (strlen($password) >= 4 && strlen($password) <= 20) {
+	if (strlen($username) >= 3 && strlen($username) <= 20) {
+		if (strlen($password) >= 3 && strlen($password) <= 20) {
 			$hash = md5($password . "CTF");
 			$result = mysqli_query($connection, "SELECT USERNAME,PASSWORD,TYPE,TEAM FROM users WHERE USERNAME='$username' AND PASSWORD='$hash'");
 			if ($result) {

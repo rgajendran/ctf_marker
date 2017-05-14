@@ -108,5 +108,14 @@ class DB{
 			return $e->getMessage();
 		}
 	}
+	
+	public static function checkOptionTablesExists(){
+		include './template/connection.php';
+		if(mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'options'"))==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }
 ?>

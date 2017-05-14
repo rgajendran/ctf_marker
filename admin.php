@@ -776,7 +776,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="create_hint" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+											<input type="submit" name="create_hint" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -829,7 +829,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_chat" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+										<input type="submit" name="create_chat" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -883,7 +883,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_score" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+										<input type="submit" name="create_score" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -927,7 +927,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 																						(1, 'ANNOUNCE', '&ensp;'),
 																						(2, 'END_TIME', '2017-04-05 10:00:00'),
 																						(3, 'HOME_TIME', '2017-04-05 10:00:00'),
-																						(4, 'LOGIN', 'DENY');");
+																						(4, 'LOGIN', 'DENY'),
+																						(5, 'ADMINEDIT', 'ALLOW');");
 													if($insert){
 														echo "<h1 style='color:green;'>Success</h1>";
 													}else{
@@ -954,7 +955,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_user" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+										<input type="submit" name="create_user" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -1007,7 +1008,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_map" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+										<input type="submit" name="create_map" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -1033,7 +1034,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								</th>
 							    <th>
 							    	<form method="post" action="admin.php?option=db-manage">
-										<input type="submit" name="create_lock" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+										<input type="submit" name="create_lock" value="CREATE" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 									</form>
 								</th> 
 							    <th>
@@ -1055,7 +1056,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 										</th>
 									    <th>
 									    	<form method="post" action="admin.php?option=db-manage">
-												<input type="submit" name="drop_hint" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+												<input type="submit" name="drop_hint" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 											</form>
 										</th> 
 									    <th>
@@ -1084,7 +1085,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_chat" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+											<input type="submit" name="drop_chat" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1118,7 +1119,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_score" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+											<input type="submit" name="drop_score" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1152,7 +1153,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_user" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+											<input type="submit" name="drop_user" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1181,7 +1182,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_map" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+											<input type="submit" name="drop_map" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1205,7 +1206,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									</th>
 								    <th>
 								    	<form method="post" action="admin.php?option=db-manage">
-											<input type="submit" name="drop_lock" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
+											<input type="submit" name="drop_lock" value="DROP" class="token-input-2" <?php if(!Validator::AdminEditPermission() && DB::checkOptionTablesExists()){echo "disabled "; echo Validator::DisabledCSS();}?>/>
 										</form>
 									</th> 
 								    <th>
@@ -1332,10 +1333,11 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									    <th>Team</th>
 									    <th>Updater</th>
 									    <th>Users</th>
+									    <th>LockPick</th>
 								    </tr>
 								    <tr> 		
 								    	<?php
-								    	$tables = array("chat", "hint", "logger", "options","report","scoreboard","secgen","secgenflag","team","updater","users"); 
+								    	$tables = array("chat", "hint", "logger", "options","report","scoreboard","secgen","secgenflag","team","updater","users","lockpick"); 
 								    	foreach($tables as $tab){
 								    		if(mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE '$tab'"))==0){
 								    			echo "<td style='background:#f7b9b9;color:black;text-align:center;'>Failed</td>";
@@ -1436,6 +1438,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 						break;		
 					
 					case "lockpicking":
+						$lock_name = "NULL";
 						?>
 						<div class="token-div-add">
 							<h1>Create Lockpicking Sendouts</h1>
@@ -1471,7 +1474,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											</select>
 										</th>
 									    <th>
-											<select name="lock_send_flag">
+											<select name="lock_send_flag" onchange="document.getElementById('changeinput').value=this.options[this.selectedIndex].text">
 												<?php
 												$token_team_list = mysqli_query($connection, "SELECT NAME, FLAG FROM lockpick");
 												while($token_team_list_row = mysqli_fetch_assoc($token_team_list)){
@@ -1483,6 +1486,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 											</select>
 										</th> 
 									    <th>
+									    	<input type="hidden" name="lname" id="changeinput" value="" />
 									    	<input type="submit" name="lock_send_submit" value="Send" class="token-input-2"/>
 									    </th> 
 								</tr>							
@@ -1496,6 +1500,7 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 									echo Validator::printFailure("Failed to Insert");	
 								}
 							}else if(isset($_POST['lock_send_submit'])){
+								$lock_name = $_POST['lname'];
 								echo DB::sendFlagsToTeamActivity($_POST['lock_send_team'], $lock_name, $_POST['lock_send_flag']);
 							}
 							?>														
