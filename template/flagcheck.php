@@ -6,7 +6,7 @@ if(isset($_POST['tm']) && isset($_POST['fg']) && isset($_POST['username'])){
 	 $user = $_POST['username'];
 	
 	 include 'connection.php';	
-	 if(!empty($flag) && strlen($flag) <= 70){
+	 if(!empty($flag) && strlen($flag) <= 100){
 	 	//time check
 		 	$state = mysqli_query($connection, "SELECT value FROM options WHERE name='END_TIME'");
 			foreach(mysqli_fetch_assoc($state) as $time){
@@ -42,6 +42,7 @@ if(isset($_POST['tm']) && isset($_POST['fg']) && isset($_POST['username'])){
 									$bighint = mysqli_num_rows($bigResult);
 									$normalhint = mysqli_num_rows($norResult);
 									$totalhint = ($bighint * 2)+$normalhint;
+									if($totalhint == 0){$totalhint = 1;}
 									$singlePay = 200 / $totalhint;
 									
 									$calPoints = mysqli_query($connection, "SELECT HINT_TYPE FROM hint WHERE C_ID='$cid' AND SYSTEM_NAME='$vm' AND TEAM='$team' AND HINT_STATUS='1'");
