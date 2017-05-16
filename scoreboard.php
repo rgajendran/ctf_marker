@@ -41,12 +41,12 @@ if(!Validator::ScoreBDPermission()){
 			}
 			
 			.my_team{
-				padding:10px;	
-				background:#ABD17D;			
+				padding:20px;	
+				background:#ABD17D;		
 			}
 			.other_team{
 				color:#ABD17D;
-				padding:10px;
+				padding:20px;
 			}
 			a{
 				padding:10px 20px 10px 20px;
@@ -55,6 +55,11 @@ if(!Validator::ScoreBDPermission()){
 				border-radius: 0.5em;
 				color:#ABD17D;
 				text-decoration:none;
+			}
+			
+			a:hover, tr:hover{
+				background:#ABD17D;
+				color:#000000;
 			}
 			.sc_equal{
 				width:100px;
@@ -69,6 +74,11 @@ if(!Validator::ScoreBDPermission()){
 				margin:0px;
 				padding:0px;
 			}
+			
+			#main > #right_panel{
+				margin-left:70%;
+				position:absolute;
+			}
 		</style>
 		<script>
 			setInterval(function () {
@@ -82,13 +92,17 @@ if(!Validator::ScoreBDPermission()){
 		</script>
 	</head>
 <body id="main" style="background:url('images/bgadmin.png');">
-<a href="index.php">Back</a>
-<div id="middle">
-	<h1>Scoreboard</h1>
-</div>
-<div id="content">
-	<?php include 'template/publicscoreboard.php'; ?>
-</div>
+		<!-- Right Panel-->
+	<div class="floating_panel right_panel" id="right_panel">
+		<?php include 'template/announce.php';?>
+	</div>
+	<a href="index.php">Back</a>
+	<div id="middle">
+		<h1>Scoreboard</h1>
+	</div>
+	<div id="content">
+		<?php include 'template/publicscoreboard.php'; ?>
+	</div>
 <script src="noti/notify.js"></script>
 <script src="noti/notify.min.js"></script>
 </body>

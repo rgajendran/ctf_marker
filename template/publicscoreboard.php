@@ -1,6 +1,6 @@
 <?php
 include 'connection.php';
-echo "<table>";
+echo "<table cellspacing='0' cellpadding='0'>";
 $score_sql_1 = "SELECT * FROM scoreboard ORDER BY SCORE DESC";
 	$score_result_1 = mysqli_query($connection, $score_sql_1);
 	$ranks = 0;
