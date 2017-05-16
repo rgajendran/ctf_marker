@@ -522,7 +522,35 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 								    	<button onclick="Update.login();" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>>Update</button>
 								    </th> 
 							</tr>
-						</table>					
+						</table>
+						<table style="width:100%;">
+							<tr class="equalTable">
+								    <th>
+								    	<h1>View Homepage Scoreboard</h1>
+									</th>
+								    <th>
+										<h3 id="allow_status">
+											<?php
+											$q1 = mysqli_query($connection, "SELECT value FROM options WHERE name='SCOREBOARD'");
+											if($q1){												
+												foreach(mysqli_fetch_assoc($q1) as $val){
+													if($val == "ALLOW"){
+														echo "<b style='color:green;' id='hscore'>$val</b>";
+													}else{
+														echo "<b style='color:red;' id='hscore'>$val</b>";
+													}
+												}
+											}else{
+												echo "<b style='color:red;'>Table Not Initialised</b>";
+											}												
+											?>
+										</h3>
+									</th> 
+								    <th>
+								    	<button onclick="Update.homeScore();" <?php if(!Validator::AdminEditPermission()){echo "disabled "; echo Validator::DisabledCSS();}?>>Update</button>
+								    </th> 
+							</tr>
+						</table>											
 						<form method="post" action="admin.php?option=options">
 							<table style="width:100%;">
 								<tr>
@@ -928,7 +956,8 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 																						(2, 'END_TIME', '2017-04-05 10:00:00'),
 																						(3, 'HOME_TIME', '2017-04-05 10:00:00'),
 																						(4, 'LOGIN', 'DENY'),
-																						(5, 'ADMINEDIT', 'ALLOW');");
+																						(5, 'ADMINEDIT', 'ALLOW'),
+																						(6, 'SCOREBOARD', 'DENY');");
 													if($insert){
 														echo "<h1 style='color:green;'>Success</h1>";
 													}else{
@@ -1579,7 +1608,20 @@ if((mysqli_num_rows(mysqli_query($connection, "SHOW TABLES LIKE 'users'"))==0) |
 					location.reload();									
 				}	
 			});
-		}		
+		}
+		
+		this.homeScore = function() {
+			var fg = $('#hscore').text();
+			$.ajax({
+				method: "POST",
+				url: "template/adminform.php",
+				data: {"hscore": fg },
+				success: function(status){
+					$('#hscore').html(status);	
+					location.reload();									
+				}	
+			});
+		}				
 	}
 	var Update = new update();
 	</script>

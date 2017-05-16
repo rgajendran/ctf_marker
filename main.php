@@ -157,14 +157,16 @@ if(!isset($_SESSION['USERNAME']) || !isset($_SESSION['TEAM']) || !isset($_SESSIO
 						$sChooseMapCountSql = "SELECT FLAG_POINTS FROM secgenflag WHERE VM='$vm' AND TEAM='$initTeam'";
 						$sChooseMapCountResult = mysqli_query($connection, $sChooseMapCountSql);
 						$sChooseMapCount = mysqli_num_rows($sChooseMapCountResult);
-						if($sChooseMapCount <= 12){
-							$sSelectMapDistinct = "SELECT DISTINCT W, H FROM secgen WHERE C_NO='$sChooseMapCount'";
+						if($sChooseMapCount <= 16){
+							$sSelectMapDistinct = "SELECT DISTINCT W, H, X, Y FROM secgen WHERE C_NO='$sChooseMapCount'";
 							$sSelectMapDistinctResult = mysqli_query($connection, $sSelectMapDistinct);
 							while($sSelectMRow = mysqli_fetch_assoc($sSelectMapDistinctResult)){
+								$x = $sSelectMRow['X'];
+								$y = $sSelectMRow['Y'];
 								$w = $sSelectMRow['W'];
 								$h = $sSelectMRow['H'];
 								?>
-						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" viewBox="0 0 <?php echo $w." ".$h?>">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" viewBox="<?php echo $x." ".$y." ".$w." ".$h?>">
 							<g>
 								<?php
 	

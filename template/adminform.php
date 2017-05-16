@@ -79,6 +79,27 @@ if(isset($_POST['home_date'])){
 			echo "<b style='color:red;'>Failed to Updated</b>";
 			}
 		}
+}else if(isset($_POST['hscore'])){
+	$sql = mysqli_query($connection, "SELECT value FROM options WHERE name='SCOREBOARD'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$val = $row['value'];
+		if($val == "ALLOW"){
+			$val = "DENY";
+			$up = mysqli_query($connection, "UPDATE options SET value='DENY' WHERE name='SCOREBOARD'");
+		}else{
+			$val = "ALLOW";
+			$up = mysqli_query($connection, "UPDATE options SET value='ALLOW' WHERE name='SCOREBOARD'");
+		}
+		if($up){
+			if($val == "ALLOW"){
+				echo "<b style='color:green;'>$val</b>";
+			}else{
+				echo "<b style='color:red;'>$val</b>";
+			}
+		}else{
+			echo "<b style='color:red;'>Failed to Updated</b>";
+			}
+		}
 }else{
 	echo "Invalid";
 }

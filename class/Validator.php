@@ -52,6 +52,22 @@ class Validator{
 		return "style='background:#f7b9b9;color:black;'";
 	}
 	
+	public static function ScoreBDPermission(){
+		include './template/connection.php';
+		$query = mysqli_query($connection, "SELECT value FROM options WHERE name='SCOREBOARD'");
+		if($query){
+			while($row = mysqli_fetch_assoc($query)){
+				if($row['value'] == "ALLOW"){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}else{
+			return false;
+		}		
+	}
+	
 }
 
 class Creditional{

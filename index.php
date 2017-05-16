@@ -86,8 +86,16 @@
 				</div>
 			</div>
 			<div class="index-option-div">
-				<div class="index-option-div-inner" id="index-option-div-inner-remove">
-					
+				<div class="index-option-div-inner"
+				<?php 
+				require 'class/Validator.php'; 
+				if(Validator::ScoreBDPermission())
+				{
+					echo "id='scoreclick'><span style='text-decoration:none;color:#ABD17D;'>Scoreboard</span>";
+				}else{
+					echo 'id="index-option-div-inner-remove" style="border:none;">';
+				}?>
+			
 				</div>
 			</div>
 			<div class="index-option-div">
@@ -109,5 +117,10 @@
 	}
 	?>
 	<script src="js/hometimer.js"></script>
+	<script>
+		$('#scoreclick').click(function(){
+			$(location).attr('href','scoreboard.php');
+		});
+	</script>
 </body>
 </html>
