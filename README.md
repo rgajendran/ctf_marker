@@ -3,6 +3,11 @@
 <p align="center">
 <img align="center" src="https://cloud.githubusercontent.com/assets/12548071/25828874/ad225488-344a-11e7-84f1-2add49df6818.gif">
 </p>
+
+[![Rawsec's CyberSecurity Inventory](https://inventory.rawsec.ml/img/badges/Rawsec-inventoried-FF5050_flat.svg)](https://inventory.rawsec.ml/ctf_platforms.html#ctf_marker)
+[![GitHub stars](https://img.shields.io/github/stars/rgajendran/ctf_marker.svg)](https://github.com/rgajendran/ctf_marker/stargazers)
+[![GitHub license](https://img.shields.io/github/license/rgajendran/ctf_marker.svg)](https://github.com/rgajendran/ctf_marker)
+
 <h2>Summary</h2>
 <p>Flawed Fortress is a front end platform for hosting Capture the Flag Event (CTF), it is programmed with PHP, JQuery, JavaScript and phpMyAdmin. Currently, It is designed to import <a href="https://github.com/cliffe/SecGen">SecGen</a> CTF challenges using <b>`marker.xml`</b> file (which is generated in the project folder when creating a CTF Challenge)</p>
 
