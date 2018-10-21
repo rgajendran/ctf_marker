@@ -3,12 +3,15 @@
 <p align="center">
 <img align="center" src="https://cloud.githubusercontent.com/assets/12548071/25828874/ad225488-344a-11e7-84f1-2add49df6818.gif">
 </p>
-<h2>Summary</h2>
-<p>Flawed Fortress is a front end platform for hosting Capture the Flag Event (CTF), it is programmed with PHP, JQuery, JavaScript and phpMyAdmin. Currently, It is designed to import <a href="https://github.com/cliffe/SecGen">SecGen</a> CTF challenges using <b>`marker.xml`</b> file (which is generated in the project folder when creating a CTF Challenge)</p>
 
-<h2>Features</h2>
 
-<h4>Admin Account</h4>
+## Summary
+
+Flawed Fortress is a front end platform for hosting Capture the Flag Event (CTF), it is programmed with PHP, JQuery, JavaScript and phpMyAdmin. Currently, It is designed to import [SecGen](https://github.com/cliffe/SecGen) CTF challenges using **`marker.xml`** file (which is generated in the project folder when creating a CTF Challenge)
+
+## Features
+
+#### Admin Account
 
 * <i>Create Teams</i>
 * <i>Generate Tokens (Allow players to register with their preferred logins) </i>
@@ -23,43 +26,45 @@
 * <i>Export Team Tokens as PDF file</i>
 * <i>Export Username & Password as PDF file</i>
 
-<h4>User Account</h4>
+#### User Account
 
-* <i>Team Scoreboard</i>
-* <i>Team Activity</i>
-* <i>Team Chat</i>
-* <i>View Other Team Progress</i>
-* <i>Challenges are represented as country map</i>
-* <i>Live Timer</i>
-* <i>Live Notification Update (For Scoreboard, Team, Chat, Flag, Announcement, Timer and Hints)</i>
+* _Team Scoreboard_
+* _Team Activity_
+* _Team Chat_
+* _View Other Team Progress_
+* _Challenges are represented as country map_
+* _Live Timer_
+* _Live Notification Update (For Scoreboard, Team, Chat, Flag, Announcement, Timer and Hints)_
 
-<h2>Installation</h2>
+## Installation
 
-<h3>Step 1</h3>
+### Step 1
 
 ```sql
 Create database in `phpMyAdmin` with secure db_username and db_password
 ```
 
-<h3>Step 2</h3>
+### Step 2
 
 ```
 git clone https://github.com/rgajendran/ctf_marker.git
 ```
-<h3>Step 3</h3>
+
+### Step 3
 
 ```php
 <?php
     $connection = mysqli_connect('HOSTNAME','DB_USERNAME','DB_PASSWORD','DATABASE_NAME');
 ?>
 ```
-<p>Open the project folder, navigate to <b><a href="https://github.com/rgajendran/ctf_marker/blob/master/template/connection.php">template/connection.php</a></b> file and update with your server/database login credentials.</p>
 
-<h3>Step 4</h3>
+Open the project folder, navigate to **[template/connection.php](https://github.com/rgajendran/ctf_marker/blob/master/template/connection.php)** file and update with your server/database login credentials.
+
+### Step 4
 
 Transfer the entire project folder to your server domain `eg.www/`
 
-<h3>Step 5</h3>
+### Step 5
 
 Navigate to Admin Account `http://DOMAIN_NAME/admin.php`
 
@@ -69,7 +74,9 @@ Navigate to Admin Account `http://DOMAIN_NAME/admin.php`
 
 You don't need any username or password to access `admin.php` page for the first time. 
 
-<h3>Step 6</h3><h5>Create Database</h5>
+### Step 6
+
+##### Create Database
 
 Flawed Fortress front end has the capability to auto generate all required tables automatically in a click of a button. 
 
@@ -83,7 +90,8 @@ Click  > Create (Scoreboard, Updater & Options Table)
 Click  > Create (Users & Teams Table)
 Click  > Create (SecGen Map Table)
 ```
-<h3>Step 7</h3>
+
+### Step 7
 
 <p align="center">
 <img align="center" src="https://cloud.githubusercontent.com/assets/12548071/25874940/c6e073b0-350c-11e7-919d-9e92ab4a6959.png">
@@ -91,11 +99,11 @@ Click  > Create (SecGen Map Table)
 
 Once you create all the tables, Select <b>SYSTEM STATUS</b> tab in the admin account to check if there are any table errors.
 
-<h3>Step 8</h3>
+### Step 8
 
 After creating `Users & Team Table`, the page will automatically redirect you to <b>index.php</b> (To secure the admin account). Direct access using `http://DOMAIN_NAME/admin.php` will be restricted. You would need default login details to get admin access. You can change the password after logging in.
 
-<h4>Default Admin Login Details</h4>
+#### Default Admin Login Details
 
 ```
 Username : admin
@@ -103,38 +111,18 @@ Username : admin
 Password : admin
 ```
 
-<h2>Usage</h2>
+## Usage
 
-* <h3>Step 1</h3>
-
-    * Login to admin account and create teams.
-
-* <h3>Step 2</h3>
-
-    * Choose registration method (Generate `Tokens` or `Username and Password`).
-    
-* <h3>Step 3</h3>
-    
-    * Export login credential as PDF and distribute with team players.
-    
-* <h3>Step 4</h3>    
-
-    * Import SecGen challenges (Import same challenges for all the registered teams or Import seperate challenges for every single team)
-    
-* <h3>Step 5</h3>    
-
-    * Set Game End Timer
-    
-* <h3>Step 6</h3>
-
-    * Allow Users Login
-    
-* <h3>Step 7</h3>
-
-    * <b>Start your Game</b>
+1. Login to admin account and create teams.
+2. Choose registration method (Generate `Tokens` or `Username and Password`).
+3. Export login credential as PDF and distribute with team players.
+4. Import SecGen challenges (Import same challenges for all the registered teams or Import seperate challenges for every single team)
+5. Set Game End Timer
+6. Allow Users Login
+7. **Start your Game**
     
 
-<h2>Contributing</h2>
+## Contributing
 
  1. **Fork** the repository on GitHub
  2. **Clone** the project to your own machine ```git clone https://github.com/rgajendran/ctf_marker.git```
